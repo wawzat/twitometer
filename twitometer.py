@@ -160,7 +160,7 @@ class MyStreamListener(tweepy.StreamListener):
                         #tweet_score = 0
                 self.dict_tweet_rate[tag] = round(self.dict_num_tweets[tag] / elapsed_time.seconds * 60)
                 self.dict_sentiment_rate[tag] = int(self.dict_sentiment[tag] / elapsed_time.seconds * 60)
-                self.current_position = move_stepper(self.dict_sentiment_rate[tag], self.current_position)
+                #self.current_position = move_stepper(self.dict_sentiment_rate[tag], self.current_position)
             for tag in self.tags:
                 if self.dict_num_tweets[tag] != 0:
                     sentiment_pct = round(self.dict_sentiment[tag] / self.dict_num_tweets[tag], 2)
