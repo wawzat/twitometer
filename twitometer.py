@@ -78,7 +78,7 @@ def get_arguments():
     return(args)
 
 
-def move_stepper(sentiment):
+def move_stepper(sentiment, current_position):
     if sentiment >= 500:
         sentiment = 500
     desired_position = sentiment * 1
@@ -161,7 +161,7 @@ class MyStreamListener(tweepy.StreamListener):
                         #tweet_score = 0
                 self.dict_tweet_rate[tag] = round(self.dict_num_tweets[tag] / elapsed_time.seconds * 60)
                 self.dict_sentiment_rate[tag] = round(self.dict_sentiment[tag] / elapsed_time.seconds * 60)
-                move_stepper(self.dict_sentiment_rate)
+                current_position = move_stepper(self.dict_sentiment_rate, current_position)
             for tag in self.tags:
                 if self.dict_num_tweets[tag] != 0:
                     sentiment_pct = round(self.dict_sentiment[tag] / self.dict_num_tweets[tag], 2)
