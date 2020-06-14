@@ -44,8 +44,6 @@ auth = tweepy.OAuthHandler(API_KEY, API_SECRET)
 auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
 api = tweepy.API(auth)
 
-current_position = 0
-
 
 def get_arguments():
     parser = argparse.ArgumentParser(
@@ -103,6 +101,7 @@ class MyStreamListener(tweepy.StreamListener):
         self.dict_tweet_rate = { i : 0 for i in self.tags}
         self.dict_sentiment = { i : 0 for i in self.tags}
         self.dict_sentiment_rate = { i : 0 for i in self.tags}
+        self.current_position = 0
 
     def on_status(self, status):
         #print(status.text)
