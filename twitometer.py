@@ -143,7 +143,7 @@ class MyStreamListener(tweepy.StreamListener):
                             tweet_score -= 1
                             break
                     if self.dict_sentiment[tag] < 0:
-                        self.dict_pos_tweets = self.dict_num_tweets - self.dict_sentiment
+                        self.dict_pos_tweets[tag] = self.dict_num_tweets[tag] - self.dict_sentiment[tag]
                     #csv_output = csv.writer(f_output)
                     #row.append(tag)
                     #if tweet_score > 0:
