@@ -172,7 +172,7 @@ class MyStreamListener(tweepy.StreamListener):
                 message = (
                     message + tag + ": " + str(self.dict_num_tweets[tag])
                     + " / " + str(sentiment_pct)
-                    + " / " + str(self.dict_sentiment_rate[tag])
+                    + " / " + str(self.dict_pos_tweet_rate[tag])
                     + " / " + str(self.dict_tweet_rate[tag])
                     + " | "
                    )
