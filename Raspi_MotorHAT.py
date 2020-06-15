@@ -51,16 +51,22 @@ class Raspi_StepperMotor:
                 pass
                 # we're at an odd step, weird
                 if (dir == Raspi_MotorHAT.FORWARD):
-                    self.currentstep += self.MICROSTEPS//2
+                    #self.currentstep += self.MICROSTEPS//2
+                    self.currentstep += 1
                 else:
-                    self.currentstep -= self.MICROSTEPS//2
+                    #self.currentstep -= self.MICROSTEPS//2
+                    self.currentstep -= 1
             else:
                 # go to next even step
                 if (dir == Raspi_MotorHAT.FORWARD):
-                    self.currentstep += self.MICROSTEPS
+                    #self.currentstep += self.MICROSTEPS
+                    self.currentstep += 1
                 else:
-                    self.currentstep -= self.MICROSTEPS
+                    #self.currentstep -= self.MICROSTEPS
+                    self.currentstep -= 1
         if (style == Raspi_MotorHAT.DOUBLE):
+                    #self.currentstep -= self.MICROSTEPS
+                    self.currentstep -= self.MICROSTEPS
             if not (self.currentstep//(self.MICROSTEPS//2) % 2):
                 # we're at an even step, weird
                 if (dir == Raspi_MotorHAT.FORWARD):
@@ -148,8 +154,8 @@ class Raspi_StepperMotor:
                 [1, 1, 1, 0],
                 [1, 0, 0, 0]]
             print(str(self.currentstep) + " / " + str((self.MICROSTEPS // 2)) + " = " + str(int(self.currentstep // (self.MICROSTEPS // 2))))
-            coils = step2coils[int(self.currentstep // (self.MICROSTEPS // 2))]
-
+            #coils = step2coils[int(self.currentstep // (self.MICROSTEPS // 2))]
+            coils = step2coils[self.currentstep]
         #print("coils state = " + str(coils))
         self.MC.setPin(self.AIN2, coils[0])
         self.MC.setPin(self.BIN1, coils[1])
