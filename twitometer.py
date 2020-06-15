@@ -166,8 +166,9 @@ class MyStreamListener(tweepy.StreamListener):
                 if tag == "trump":
                     gauge_elapsed_time = self.last_gauge_time - datetime.datetime.now() 
                     if gauge_elapsed_time.seconds > 5:
-                        self.current_position = move_stepper(self.dict_pos_tweet_rate[tag], self.current_position)
+                        print(gauge_elapsed_time.seconds)
                         self.last_gauge_time = datetime.datetime.now()
+                        self.current_position = move_stepper(self.dict_pos_tweet_rate[tag], self.current_position)
             for tag in self.tags:
                 if self.dict_num_tweets[tag] != 0:
                     sentiment_pct = round(self.dict_sentiment[tag] / self.dict_num_tweets[tag], 2)
