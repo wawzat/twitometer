@@ -11,7 +11,7 @@ import datetime
 from operator import itemgetter
 import argparse
 #import csv
-from Raspi_MotorHAT import  Raspi_MotorHAT, Raspi_StepperMotor
+from Raspi_X27_Stepper import  Raspi_MotorHAT, Raspi_StepperMotor
 import atexit
 
 # create a default  stepper motor object, no changes to I2C address or frequency
