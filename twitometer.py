@@ -77,9 +77,9 @@ def get_arguments():
 
 
 def move_stepper(sentiment, current_position):
-    if sentiment >= 500:
-        sentiment = 500
-    desired_position = int(sentiment * .5)
+    if sentiment >= 2400:
+        sentiment = 2400
+    desired_position = int(sentiment * .25)
     if desired_position > current_position:
         steps = desired_position - current_position
         myStepper.step(steps, Raspi_MotorHAT.FORWARD, Raspi_MotorHAT.DOUBLE)
