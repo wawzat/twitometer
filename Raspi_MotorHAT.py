@@ -46,24 +46,24 @@ class Raspi_StepperMotor:
         pwm_a = pwm_b = 255
 
         # first determine what sort of stepping procedure we're up to
-        if (style == Raspi_MotorHAT.SINGLE):
-            if ((self.currentstep//(self.MICROSTEPS//2)) % 2): 
-                pass
+        #if (style == Raspi_MotorHAT.SINGLE):
+            #if ((self.currentstep//(self.MICROSTEPS//2)) % 2): 
+                #pass
                 # we're at an odd step, weird
-                if (dir == Raspi_MotorHAT.FORWARD):
+                #if (dir == Raspi_MotorHAT.FORWARD):
                     #self.currentstep += self.MICROSTEPS//2
-                    self.currentstep += 1
-                else:
+                    #self.currentstep += 1
+                #else:
                     #self.currentstep -= self.MICROSTEPS//2
-                    self.currentstep -= 1
-            else:
+                    #self.currentstep -= 1
+            #else:
                 # go to next even step
-                if (dir == Raspi_MotorHAT.FORWARD):
+                #if (dir == Raspi_MotorHAT.FORWARD):
                     #self.currentstep += self.MICROSTEPS
-                    self.currentstep += 1
-                else:
+                    #self.currentstep += 1
+                #else:
                     #self.currentstep -= self.MICROSTEPS
-                    self.currentstep -= 1
+                    #self.currentstep -= 1
         if (style == Raspi_MotorHAT.DOUBLE):
             #self.currentstep -= self.MICROSTEPS
             self.currentstep -= self.MICROSTEPS
@@ -146,8 +146,8 @@ class Raspi_StepperMotor:
                 #[0, 0, 1, 1],
                 #[0, 0, 0, 1],
                 #[1, 0, 0, 1] ]
-            step2coils = [
-                [1, 0, 0, 1], 
+        step2coils = [
+            [1, 0, 0, 1], 
                 [0, 0, 0, 1],
                 [0, 1, 1, 1],
                 [0, 1, 1, 0],
