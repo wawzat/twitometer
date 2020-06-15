@@ -121,7 +121,7 @@ class Raspi_StepperMotor:
             else:
                 self.currentstep += 1
         else:
-             if self.currentstep == 0:
+            if self.currentstep == 0:
                 self.currentstep = 5
             else:
                 self.currentstep -= 1
