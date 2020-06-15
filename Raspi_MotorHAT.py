@@ -166,7 +166,6 @@ class Raspi_StepperMotor:
                 [0, 1, 1, 1],
                 [0, 0, 0, 1],
                 [1, 0, 0, 1]]
-            print(str(self.currentstep) + " / " + str((self.MICROSTEPS // 2)) + " = " + str(int(self.currentstep // (self.MICROSTEPS // 2))))
             #coils = step2coils[int(self.currentstep // (self.MICROSTEPS // 2))]
             coils = step2coils[self.currentstep]
         #print("coils state = " + str(coils))
