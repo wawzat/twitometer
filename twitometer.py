@@ -177,6 +177,7 @@ class MyStreamListener(tweepy.StreamListener):
                     + " | "
                    )
             #stdout.write("\r | " + message + "                       ")
+            print(" ")
             stdout.write(" | " + message + "                       ")
 
     def on_error(self, status_code):
