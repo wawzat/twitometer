@@ -4,7 +4,7 @@ from Raspi_PWM_Servo_Driver import PWM
 import time
 
 class Raspi_StepperMotor:
-    MICROSTEPS = 6
+    MICROSTEPS = 8
     MICROSTEP_CURVE = [0, 50, 98, 142, 180, 212, 236, 250, 255]
 
     #MICROSTEPS = 16
@@ -125,22 +125,22 @@ class Raspi_StepperMotor:
             elif (self.currentstep >= self.MICROSTEPS*3) and (self.currentstep < self.MICROSTEPS*4):
                 coils = [1, 0, 0, 1]
         else:
-             #step2coils = [  
-                #[1, 0, 0, 0], 
-                #[1, 1, 0, 0],
-                #[0, 1, 0, 0],
-                #[0, 1, 1, 0],
-                #[0, 0, 1, 0],
-                #[0, 0, 1, 1],
-                #[0, 0, 0, 1],
-                #[1, 0, 0, 1] ]
-            step2coils = [
-                [1, 0, 0, 1], 
-                [0, 0, 0, 1],
-                [0, 1, 1, 1],
+            step2coils = [  
+                [1, 0, 0, 0], 
+                [1, 1, 0, 0],
+                [0, 1, 0, 0],
                 [0, 1, 1, 0],
-                [1, 1, 1, 0],
-                [1, 0, 0, 0]]
+                [0, 0, 1, 0],
+                [0, 0, 1, 1],
+                [0, 0, 0, 1],
+                [1, 0, 0, 1] ]
+            #step2coils = [
+                #[1, 0, 0, 1], 
+                #[0, 0, 0, 1],
+                #[0, 1, 1, 1],
+                #[0, 1, 1, 0],
+                #[1, 1, 1, 0],
+                #[1, 0, 0, 0]]
             print(str(self.currentstep) + " / " + str((self.MICROSTEPS // 2)) + " = " + str(int(self.currentstep // (self.MICROSTEPS // 2))))
             coils = step2coils[int(self.currentstep // (self.MICROSTEPS // 2))]
 
