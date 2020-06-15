@@ -176,7 +176,8 @@ class MyStreamListener(tweepy.StreamListener):
                     + " / " + str(self.dict_tweet_rate[tag])
                     + " | "
                    )
-            stdout.write("\r | " + message + "                       ")
+            #stdout.write("\r | " + message + "                       ")
+            stdout.write(" | " + message + "                       ")
 
     def on_error(self, status_code):
         # Status code 420 is too many connections in time period. 10 second rate limit increases exponentially for each 420 error
