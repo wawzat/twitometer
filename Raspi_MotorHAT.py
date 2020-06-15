@@ -105,8 +105,8 @@ class Raspi_StepperMotor:
 
 
         # go to next 'step' and wrap around
-        self.currentstep += self.MICROSTEPS * 2
-        self.currentstep %= self.MICROSTEPS * 2
+        self.currentstep += self.MICROSTEPS * 1
+        self.currentstep %= self.MICROSTEPS * 1
 
         # only really used for microstepping, otherwise always on!
         self.MC._pwm.setPWM(self.PWMA, 0, pwm_a*16)
