@@ -65,8 +65,8 @@ class Raspi_StepperMotor:
                     #self.currentstep -= self.MICROSTEPS
                     self.currentstep -= 1
         if (style == Raspi_MotorHAT.DOUBLE):
-                    #self.currentstep -= self.MICROSTEPS
-                    self.currentstep -= self.MICROSTEPS
+            #self.currentstep -= self.MICROSTEPS
+            self.currentstep -= self.MICROSTEPS
             if not (self.currentstep//(self.MICROSTEPS//2) % 2):
                 # we're at an even step, weird
                 if (dir == Raspi_MotorHAT.FORWARD):
