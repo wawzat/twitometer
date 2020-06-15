@@ -27,7 +27,7 @@ def turnOffMotors():
 atexit.register(turnOffMotors)
 
 myStepper = mh.getStepper(600, 1)  	# 600 steps/rev, motor port #1 (M1 + M2)
-myStepper.setSpeed(120)  		# 120 RPM
+myStepper.setSpeed(90)  		# 120 RPM
 
 #print("Double coil steps")
 #myStepper.step(100, Raspi_MotorHAT.FORWARD,  Raspi_MotorHAT.DOUBLE)
