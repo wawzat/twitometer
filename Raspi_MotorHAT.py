@@ -4,7 +4,7 @@ from Raspi_PWM_Servo_Driver import PWM
 import time
 
 class Raspi_StepperMotor:
-    MICROSTEPS = 8
+    MICROSTEPS = 6
     MICROSTEP_CURVE = [0, 50, 98, 142, 180, 212, 236, 250, 255]
 
     #MICROSTEPS = 16
@@ -47,13 +47,13 @@ class Raspi_StepperMotor:
 
         # first determine what sort of stepping procedure we're up to
         if (style == Raspi_MotorHAT.SINGLE):
-            if ((self.currentstep/(self.MICROSTEPS/2)) % 2): 
+            if ((self.currentstep//(self.MICROSTEPS//2)) % 2): 
                 pass
                 # we're at an odd step, weird
                 if (dir == Raspi_MotorHAT.FORWARD):
-                    self.currentstep += self.MICROSTEPS/2
+                    self.currentstep += self.MICROSTEPS//2
                 else:
-                    self.currentstep -= self.MICROSTEPS/2
+                    self.currentstep -= self.MICROSTEPS//2
             else:
                 # go to next even step
                 if (dir == Raspi_MotorHAT.FORWARD):
@@ -61,12 +61,12 @@ class Raspi_StepperMotor:
                 else:
                     self.currentstep -= self.MICROSTEPS
         if (style == Raspi_MotorHAT.DOUBLE):
-            if not (self.currentstep/(self.MICROSTEPS/2) % 2):
+            if not (self.currentstep//(self.MICROSTEPS//2) % 2):
                 # we're at an even step, weird
                 if (dir == Raspi_MotorHAT.FORWARD):
-                    self.currentstep += self.MICROSTEPS/2
+                    self.currentstep += self.MICROSTEPS//2
                 else:
-                    self.currentstep -= self.MICROSTEPS/2
+                    self.currentstep -= self.MICROSTEPS//2
             else:
                 # go to next odd step
                 if (dir == Raspi_MotorHAT.FORWARD):
