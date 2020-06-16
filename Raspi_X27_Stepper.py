@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 
+from Raspi_PWM_Servo_Driver import PWM
 import time
 
 class Raspi_StepperMotor:
@@ -21,13 +22,17 @@ class Raspi_StepperMotor:
         num -= 1
 
         if (num == 0):
+            self.PWMA = 8
             self.AIN2 = 9
             self.AIN1 = 10
+            self.PWMB = 13
             self.BIN2 = 12
             self.BIN1 = 11
         elif (num == 1):
+            self.PWMA = 2
             self.AIN2 = 3
             self.AIN1 = 4
+            self.PWMB = 7
             self.BIN2 = 6
             self.BIN1 = 5
         else:
@@ -38,6 +43,7 @@ class Raspi_StepperMotor:
         self.steppingcounter = 0
 
     def oneStep(self, dir, style):
+        pwm_a = pwm_b = 255
         # go to next 'step' and wrap around
         #self.currentstep += self.MICROSTEPS * 4
         #self.currentstep %= self.MICROSTEPS * 4
@@ -54,6 +60,10 @@ class Raspi_StepperMotor:
             else:
                 self.currentstep -= 1
 
+        # only really used for microstepping, otherwise always on!
+        self.MC._pwm.setPWM(self.PWMA, 0, pwm_a*16)
+        self.MC._pwm.setPWM(self.PWMB, 0, pwm_b*16)
+
         # set up coil energizing!
         coils = [0, 0, 0, 0]
 
@@ -65,7 +75,7 @@ class Raspi_StepperMotor:
             [0, 0, 0, 1],
             [1, 0, 0, 1]]
         coils = step2coils[self.currentstep]
-        print("coils state = " + str(coils))
+        #print("coils state = " + str(coils))
         self.MC.setPin(self.AIN2, coils[0])
         self.MC.setPin(self.BIN1, coils[1])
         self.MC.setPin(self.AIN1, coils[2])
@@ -93,17 +103,24 @@ class Raspi_MotorHAT:
     SINGLE = 1
     DOUBLE = 2
     INTERLEAVE = 3
+    INTERLEAVE = 3
 
     def __init__(self, addr = 0x60, freq = 1600):
         self._i2caddr = addr            # default addr on HAT
         self._frequency = freq      # default @1600Hz PWM freq
         self.steppers = [ Raspi_StepperMotor(self, 1), Raspi_StepperMotor(self, 2) ]
+        self._pwm =  PWM(addr, debug=False)
+        self._pwm.setPWMFreq(self._frequency)
 
     def setPin(self, pin, value):
         if (pin < 0) or (pin > 15):
             raise NameError('PWM pin must be between 0 and 15 inclusive')
         if (value != 0) and (value != 1):
             raise NameError('Pin value must be 0 or 1!')
+        if (value == 0):
+            self._pwm.setPWM(pin, 0, 4096)
+        if (value == 1):
+            self._pwm.setPWM(pin, 4096, 0)
 
     def getStepper(self, steps, num):
         if (num < 1) or (num > 2):
