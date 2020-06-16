@@ -87,7 +87,7 @@ class Raspi_StepperMotor:
         s_per_s = self.sec_per_step
         lateststep = 0
         
-        #print(s_per_s, " sec per step")
+        print(s_per_s, " sec per step")
 
         for s in range(steps):
             lateststep = self.oneStep(direction, stepstyle)
