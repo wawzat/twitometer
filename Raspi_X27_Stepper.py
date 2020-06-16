@@ -130,4 +130,4 @@ class Raspi_MotorHAT:
     def getMotor(self, num):
         if (num < 1) or (num > 4):
             raise NameError('MotorHAT Motor must be between 1 and 4 inclusive')
-    return self.motors[num-1]
+        return self.motors[num-1]
