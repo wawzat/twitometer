@@ -11,27 +11,13 @@ import datetime
 from operator import itemgetter
 import argparse
 #import csv
-from Raspi_X27_Stepper import  Raspi_MotorHAT, Raspi_StepperMotor
-import atexit
+from Raspi_X27_Stepper import Raspi_MotorHAT, Raspi_StepperMotor
 
 # create a default  stepper motor object, no changes to I2C address or frequency
 mh = Raspi_MotorHAT(0x6F)
 
-# recommended for auto-disabling motors on shutdown!
-def turnOffMotors():
-	mh.getMotor(1).run(Raspi_MotorHAT.RELEASE)
-	mh.getMotor(2).run(Raspi_MotorHAT.RELEASE)
-	mh.getMotor(3).run(Raspi_MotorHAT.RELEASE)
-	mh.getMotor(4).run(Raspi_MotorHAT.RELEASE)
-
-atexit.register(turnOffMotors)
-
 myStepper = mh.getStepper(600, 1)  	# 600 steps/rev, motor port #1 (M1 + M2)
 myStepper.setSpeed(50)  		# 120 RPM
-
-#print("Double coil steps")
-#myStepper.step(100, Raspi_MotorHAT.FORWARD,  Raspi_MotorHAT.DOUBLE)
-#myStepper.step(100, Raspi_MotorHAT.BACKWARD, Raspi_MotorHAT.DOUBLE)
 
 # twitter API keys:
 API_KEY = config.API_KEY 
