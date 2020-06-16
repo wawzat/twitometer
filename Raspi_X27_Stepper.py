@@ -92,7 +92,55 @@ class Raspi_StepperMotor:
         for s in range(steps):
             lateststep = self.oneStep(direction, stepstyle)
             time.sleep(s_per_s)
-        
+
+
+class Raspi_DCMotor:
+    def __init__(self, controller, num):
+        self.MC = controller
+        self.motornum = num
+        pwm = in1 = in2 = 0
+
+        if (num == 0):
+             pwm = 8
+             in2 = 9
+             in1 = 10
+        elif (num == 1):
+             pwm = 13
+             in2 = 12
+             in1 = 11
+        elif (num == 2):
+             pwm = 2
+             in2 = 3
+             in1 = 4
+        elif (num == 3):
+             pwm = 7
+             in2 = 6
+             in1 = 5
+        else:
+            raise NameError('MotorHAT Motor must be between 1 and 4 inclusive')
+        self.PWMpin = pwm
+        self.IN1pin = in1
+        self.IN2pin = in2
+
+    def run(self, command):
+        if not self.MC:
+            return
+        if (command == Raspi_MotorHAT.FORWARD):
+            self.MC.setPin(self.IN2pin, 0)
+            self.MC.setPin(self.IN1pin, 1)
+        if (command == Raspi_MotorHAT.BACKWARD):
+            self.MC.setPin(self.IN1pin, 0)
+            self.MC.setPin(self.IN2pin, 1)
+        if (command == Raspi_MotorHAT.RELEASE):
+            self.MC.setPin(self.IN1pin, 0)
+            self.MC.setPin(self.IN2pin, 0)
+    def setSpeed(self, speed):
+        if (speed < 0):
+            speed = 0
+        if (speed > 255):
+            speed = 255
+        self.MC._pwm.setPWM(self.PWMpin, 0, speed*16)
+
 
 class Raspi_MotorHAT:
     FORWARD = 1
