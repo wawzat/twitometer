@@ -12,7 +12,7 @@ from operator import itemgetter
 import argparse
 #import csv
 #from Raspi_X27_Stepper import Raspi_MotorHAT, Raspi_StepperMotor
-from Raspi_MotorHAT import Raspi_MotorHAT, Raspi_StepperMotor
+from Raspi_X27_Stepper import Raspi_MotorHAT, Raspi_StepperMotor
 
 # create a default  stepper motor object, no changes to I2C address or frequency
 mh = Raspi_MotorHAT(0x6F)
