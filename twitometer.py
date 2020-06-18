@@ -87,14 +87,14 @@ def move_stepper(sentiment, current_position):
     desired_position = int(sentiment * .25)
     if desired_position > current_position:
         steps = desired_position - current_position
-        for i in range(sentiment):
+        for i in range(desired_position):
             kit.stepper1.onestep(direction=stepper.FORWARD, style=stepper.DOUBLE)
             sleep(delay)
         #myStepper.step(steps, Raspi_MotorHAT.FORWARD, Raspi_MotorHAT.SINGLE)
         current_position = current_position + steps
     elif current_position > desired_position:
         steps = current_position - desired_position
-        for i in range(sentiment):
+        for i in range(desired_position):
             kit.stepper1.onestep(direction=stepper.BACKWARD, style=stepper.DOUBLE)
             sleep(delay)
         #myStepper.step(steps, Raspi_MotorHAT.BACKWARD, Raspi_MotorHAT.SINGLE)
