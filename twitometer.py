@@ -1,24 +1,42 @@
 # Retrives top 50 trends from twitter and tweets / tweets per minute for given keywords.
 # Performs rudimentary sentiment scoring
 # Stepper motor gauge
-# Store Twitter API Keys and Tokens in a file named config.py
+# Uses Adafruit DC & Stepper Motor Bonnet for Raspberry Pi Product ID: 4280
+# Uses X27.128 Automotive Instrument Stepper Motor
+# Include your Twitter API Keys and Tokens in a file named config.py
 # To do: for - in searches are matching partial words (i.e., lie in believe)
-# James S. Lucas - 20200614
+# James S. Lucas - 20200617
 import config
 import tweepy
 from sys import stdout, argv
 import datetime
 from operator import itemgetter
 import argparse
+from adafruit_motor import stepper
+from adafruit_motorkit import MotorKit
+import atexit
+from time import sleep
+
+kit = MotorKit()
+
+kit.stepper1.release()
+sleep(2)
+
+def turnOffMotors():
+    kit.stepper.release()
+
+atexit.register(turnOffMotors)
+
+delay = .01
 #import csv
 #from Raspi_X27_Stepper import Raspi_MotorHAT, Raspi_StepperMotor
-from Raspi_X27_Stepper import Raspi_MotorHAT, Raspi_StepperMotor
+#from Raspi_X27_Stepper import Raspi_MotorHAT, Raspi_StepperMotor
 
 # create a default  stepper motor object, no changes to I2C address or frequency
-mh = Raspi_MotorHAT(0x6F)
+#mh = Raspi_MotorHAT(0x6F)
 
-myStepper = mh.getStepper(600, 1)  	# 600 steps/rev, motor port #1 (M1 + M2)
-myStepper.setSpeed(50)  		# 120 RPM
+#myStepper = mh.getStepper(600, 1)  	# 600 steps/rev, motor port #1 (M1 + M2)
+#myStepper.setSpeed(50)  		# 120 RPM
 
 # twitter API keys:
 API_KEY = config.API_KEY 
@@ -69,11 +87,17 @@ def move_stepper(sentiment, current_position):
     desired_position = int(sentiment * .25)
     if desired_position > current_position:
         steps = desired_position - current_position
-        myStepper.step(steps, Raspi_MotorHAT.FORWARD, Raspi_MotorHAT.SINGLE)
+        for i in range(sentiment):
+            kit.stepper1.onestep(direction=stepper.FORWARD, style=stepper.DOUBLE)
+            sleep(delay)
+        #myStepper.step(steps, Raspi_MotorHAT.FORWARD, Raspi_MotorHAT.SINGLE)
         current_position = current_position + steps
     elif current_position > desired_position:
         steps = current_position - desired_position
-        myStepper.step(steps, Raspi_MotorHAT.BACKWARD, Raspi_MotorHAT.SINGLE)
+        for i in range(sentiment):
+            kit.stepper1.onestep(direction=stepper.BACKWARD, style=stepper.DOUBLE)
+            sleep(delay)
+        #myStepper.step(steps, Raspi_MotorHAT.BACKWARD, Raspi_MotorHAT.SINGLE)
         current_position = current_position - steps
     return current_position
 
