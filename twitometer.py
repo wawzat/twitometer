@@ -198,14 +198,14 @@ class MyStreamListener(tweepy.StreamListener):
                 self.dict_tweet_rate[tag] = round(self.dict_num_tweets[tag] / elapsed_time.seconds * 60)
                 self.dict_pos_tweet_rate[tag] = int(self.dict_pos_tweets[tag] / elapsed_time.seconds * 60)
                 if tag == "trump":
-                    gauge_elapsed_time = datetime.datetime.now() - self.last_gauge_time 
-                    if gauge_elapsed_time.seconds > 5:
-                        self.last_gauge_time = datetime.datetime.now()
+                    gauge_elapsed_time = datetime.datetime.now() - self.last_gauge_time_1 
+                    if gauge_elapsed_time_1.seconds > 5:
+                        self.last_gauge_time_1 = datetime.datetime.now()
                         self.current_position_1 = move_stepper_1(self.dict_pos_tweet_rate[tag], self.current_position_1)
                 if tag == "biden":
-                    gauge_elapsed_time = datetime.datetime.now() - self.last_gauge_time 
+                    gauge_elapsed_time = datetime.datetime.now() - self.last_gauge_time_2 
                     if gauge_elapsed_time.seconds > 5:
-                        self.last_gauge_time = datetime.datetime.now()
+                        self.last_gauge_time_2 = datetime.datetime.now()
                         self.current_position_2 = move_stepper_2(self.dict_pos_tweet_rate[tag], self.current_position_2)
             for tag in self.tags:
                 if self.dict_num_tweets[tag] != 0:
