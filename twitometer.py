@@ -128,7 +128,8 @@ class MyStreamListener(tweepy.StreamListener):
     def __init__(self, tags):
         super(MyStreamListener, self).__init__()
         self.start_time = datetime.datetime.now() 
-        self.last_gauge_time = datetime.datetime.now()
+        self.last_gauge_time_1 = datetime.datetime.now()
+        self.last_gauge_time_2 = datetime.datetime.now()
         self.tags = tags
         self.dict_num_tweets = { i : 0 for i in self.tags}
         self.dict_tweet_rate = { i : 0 for i in self.tags}
@@ -200,12 +201,12 @@ class MyStreamListener(tweepy.StreamListener):
                     gauge_elapsed_time = datetime.datetime.now() - self.last_gauge_time 
                     if gauge_elapsed_time.seconds > 5:
                         self.last_gauge_time = datetime.datetime.now()
-                        self.current_position_1 = move_stepper_1(self.dict_pos_tweet_rate[tag], self.current_position)
+                        self.current_position_1 = move_stepper_1(self.dict_pos_tweet_rate[tag], self.current_position_1)
                 if tag == "biden":
                     gauge_elapsed_time = datetime.datetime.now() - self.last_gauge_time 
                     if gauge_elapsed_time.seconds > 5:
                         self.last_gauge_time = datetime.datetime.now()
-                        self.current_position_2 = move_stepper_1(self.dict_pos_tweet_rate[tag], self.current_position)
+                        self.current_position_2 = move_stepper_2(self.dict_pos_tweet_rate[tag], self.current_position_2)
             for tag in self.tags:
                 if self.dict_num_tweets[tag] != 0:
                     sentiment_pct = round(self.dict_sentiment[tag] / self.dict_num_tweets[tag], 2)
