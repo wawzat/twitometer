@@ -23,7 +23,7 @@ kit.stepper1.release()
 sleep(2)
 
 def turnOffMotors():
-    kit.stepper.release()
+    kit.stepper1.release()
 
 atexit.register(turnOffMotors)
 
