@@ -20,10 +20,12 @@ from time import sleep
 kit = MotorKit()
 
 kit.stepper1.release()
+kit.stepper2.release()
 sleep(2)
 
 def turnOffMotors():
     kit.stepper1.release()
+    kit.stepper2.release()
 
 atexit.register(turnOffMotors)
 
@@ -81,25 +83,44 @@ def get_arguments():
     return(args)
 
 
-def move_stepper(sentiment, current_position):
-    if sentiment >= 2400:
-        sentiment = 2400
-    desired_position = int(sentiment * .25)
-    if desired_position >= current_position:
-        steps = desired_position - current_position
+def move_stepper_1(sentiment_1, current_position_1):
+    if sentiment_1 >= 2400:
+        sentiment_1 = 2400
+    desired_position = int(sentiment_1 * .25)
+    if desired_position >= current_position_1:
+        steps = desired_position - current_position_1
         for i in range(steps):
             kit.stepper1.onestep(direction=stepper.FORWARD, style=stepper.DOUBLE)
             sleep(delay)
         #myStepper.step(steps, Raspi_MotorHAT.FORWARD, Raspi_MotorHAT.SINGLE)
-        current_position = current_position + steps
-    elif current_position > desired_position:
-        steps = current_position - desired_position
+        current_position_1 = current_position_1 + steps
+    elif current_position_1 > desired_position:
+        steps = current_position_1 - desired_position
         for i in range(steps):
             kit.stepper1.onestep(direction=stepper.BACKWARD, style=stepper.DOUBLE)
             sleep(delay)
-        #myStepper.step(steps, Raspi_MotorHAT.BACKWARD, Raspi_MotorHAT.SINGLE)
-        current_position = current_position - steps
-    return current_position
+        current_position_1 = current_position_1 - steps
+    return current_position_1
+
+
+def move_stepper_2(sentiment_2, current_position_2):
+    if sentiment_2 >= 2400:
+        sentiment_2 = 2400
+    desired_position = int(sentiment_2 * .25)
+    if desired_position >= current_position_2:
+        steps = desired_position - current_position_2
+        for i in range(steps):
+            kit.stepper2.onestep(direction=stepper.FORWARD, style=stepper.DOUBLE)
+            sleep(delay)
+        #myStepper.step(steps, Raspi_MotorHAT.FORWARD, Raspi_MotorHAT.SINGLE)
+        current_position_2 = current_position_2 + steps
+    elif current_position_2 > desired_position:
+        steps = current_position_2 - desired_position
+        for i in range(steps):
+            kit.stepper2.onestep(direction=stepper.BACKWARD, style=stepper.DOUBLE)
+            sleep(delay)
+        current_position_2 = current_position_2 - steps
+    return current_position_2
 
 
 # tweepy SteamListner Class
@@ -111,10 +132,12 @@ class MyStreamListener(tweepy.StreamListener):
         self.tags = tags
         self.dict_num_tweets = { i : 0 for i in self.tags}
         self.dict_tweet_rate = { i : 0 for i in self.tags}
-        self.dict_sentiment = { i : 0 for i in self.tags}
+        self.dict_sentiment_1 = { i : 0 for i in self.tags}
+        self.dict_sentiment_2 = { i : 0 for i in self.tags}
         self.dict_pos_tweets = { i : 0 for i in self.tags}
         self.dict_pos_tweet_rate = { i : 0 for i in self.tags}
-        self.current_position = 0
+        self.current_position_1 = 0
+        self.current_position_2 = 0
 
     def on_status(self, status):
         #print(status.text)
@@ -178,7 +201,12 @@ class MyStreamListener(tweepy.StreamListener):
                     gauge_elapsed_time = datetime.datetime.now() - self.last_gauge_time 
                     if gauge_elapsed_time.seconds > 5:
                         self.last_gauge_time = datetime.datetime.now()
-                        self.current_position = move_stepper(self.dict_pos_tweet_rate[tag], self.current_position)
+                        self.current_position = move_stepper_1(self.dict_pos_tweet_rate[tag], self.current_position)
+                if tag == "biden":
+                    gauge_elapsed_time = datetime.datetime.now() - self.last_gauge_time 
+                    if gauge_elapsed_time.seconds > 5:
+                        self.last_gauge_time = datetime.datetime.now()
+                        self.current_position = move_stepper_1(self.dict_pos_tweet_rate[tag], self.current_position)
             for tag in self.tags:
                 if self.dict_num_tweets[tag] != 0:
                     sentiment_pct = round(self.dict_sentiment[tag] / self.dict_num_tweets[tag], 2)
