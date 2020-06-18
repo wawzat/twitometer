@@ -132,8 +132,7 @@ class MyStreamListener(tweepy.StreamListener):
         self.tags = tags
         self.dict_num_tweets = { i : 0 for i in self.tags}
         self.dict_tweet_rate = { i : 0 for i in self.tags}
-        self.dict_sentiment_1 = { i : 0 for i in self.tags}
-        self.dict_sentiment_2 = { i : 0 for i in self.tags}
+        self.dict_sentiment = { i : 0 for i in self.tags}
         self.dict_pos_tweets = { i : 0 for i in self.tags}
         self.dict_pos_tweet_rate = { i : 0 for i in self.tags}
         self.current_position_1 = 0
