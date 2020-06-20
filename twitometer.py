@@ -132,8 +132,9 @@ class MyStreamListener(tweepy.StreamListener):
         self.dict_tpm_num_tweets = { i : 0 for i in self.tags}
         self.dict_sentiment = { i : 0 for i in self.tags}
         self.dict_tpm = { i : 0 for i in self.tags}
-        self.dict_tpm_sentiment = { i : 0 for i in self.tags}
         self.dict_pos_tweets = { i : 0 for i in self.tags}
+        self.dict_tpm_sentiment = { i : 0 for i in self.tags}
+        self.dict_tpm_pos_tweets = { i : 0 for i in self.tags}
         self.dict_pos_tweet_rate = { i : 0 for i in self.tags}
         self.current_position_1 = 0
         self.current_position_2 = 0
@@ -182,7 +183,7 @@ class MyStreamListener(tweepy.StreamListener):
                                 break
                         if self.dict_sentiment[tag] < 0:
                             self.dict_pos_tweets[tag] = self.dict_num_tweets[tag] + self.dict_sentiment[tag]
-                            self.dict_tpm_num_tweets[tag] = self.dict_tpm_num_tweets[tag] + self.dict_tpm_sentiment[tag]
+                            self.dict_tpm_pos_tweets[tag] = self.dict_tpm_num_tweets[tag] + self.dict_tpm_sentiment[tag]
                         #csv_output = csv.writer(f_output)
                         #row.append(tag)
                         #if tweet_score > 0:
@@ -207,6 +208,7 @@ class MyStreamListener(tweepy.StreamListener):
                         self.last_update_time = datetime.datetime.now()
                         self.dict_tpm_num_tweets[tag] = 0
                         self.dict_tpm_sentiment[tag] = 0
+                        self.dict_tpm_pos_tweets[tag] = 0
                     if tag == "trump":
                         gauge_elapsed_time = datetime.datetime.now() - self.last_gauge_time_1 
                         if gauge_elapsed_time.seconds > 3:
