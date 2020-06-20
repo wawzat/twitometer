@@ -194,7 +194,7 @@ class MyStreamListener(tweepy.StreamListener):
                 if tag == "trump":
                     gauge_elapsed_time = datetime.datetime.now() - self.last_gauge_time_1 
                     if gauge_elapsed_time.seconds > 3:
-                        indicator_pos_1 = .5 * self.dict_pos_tweet_rate[tag]
+                        indicator_pos_1 = int(.5 * self.dict_pos_tweet_rate[tag])
                         if indicator_pos_1 > 300:
                             indicator_pos_1 = 300
                         self.last_gauge_time_1 = datetime.datetime.now()
@@ -202,7 +202,7 @@ class MyStreamListener(tweepy.StreamListener):
                 if tag == "biden":
                     gauge_elapsed_time = datetime.datetime.now() - self.last_gauge_time_2 
                     if gauge_elapsed_time.seconds > 3:
-                        indicator_pos_2 = .5 * self.dict_pos_tweet_rate[tag]
+                        indicator_pos_2 = int(.5 * self.dict_pos_tweet_rate[tag])
                         if indicator_pos_2 > 300:
                                 indicator_pos_2 = 300
                         self.last_gauge_time_2 = datetime.datetime.now()
