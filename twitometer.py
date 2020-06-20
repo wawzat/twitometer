@@ -181,9 +181,14 @@ class MyStreamListener(tweepy.StreamListener):
                                 self.dict_tpm_sentiment[tag] -=1
                                 tweet_score -= 1
                                 break
-                        if self.dict_sentiment[tag] < 0:
-                            self.dict_pos_tweets[tag] = self.dict_num_tweets[tag] + self.dict_sentiment[tag]
+                        if self.dict_tpm_sentiment[tag] >= 0:
+                             self.dict_tpm_pos_tweets[tag] = self.dict_tpm_num_tweets[tag]
+                        elif self.dict_tpm_sentiment[tag] < 0:
                             self.dict_tpm_pos_tweets[tag] = self.dict_tpm_num_tweets[tag] + self.dict_tpm_sentiment[tag]
+                        if self.dict_sentiment[tag] >= 0:
+                             self.dict_pos_tweets[tag] = self.dict_num_tweets[tag]
+                        elif self.dict_sentiment[tag] < 0:
+                            self.dict_pos_tweets[tag] = self.dict_num_tweets[tag] + self.dict_sentiment[tag]
                         #csv_output = csv.writer(f_output)
                         #row.append(tag)
                         #if tweet_score > 0:
@@ -203,9 +208,9 @@ class MyStreamListener(tweepy.StreamListener):
                     self.dict_tweet_rate[tag] = round(self.dict_num_tweets[tag] / elapsed_time.seconds * 60)
                     self.dict_pos_tweet_rate[tag] = int(self.dict_pos_tweets[tag] / elapsed_time.seconds * 60)
                     tpm_elapsed_time = datetime.datetime.now() - self.last_update_time
-                    if tpm_elapsed_time.seconds > 30:
+                    if tpm_elapsed_time.seconds >= 30:
                         for tag in self.tags:
-                            self.dict_tpm[tag] = round(self.dict_tpm_pos_tweets[tag] / tpm_elapsed_time.seconds, 2)
+                            self.dict_tpm[tag] = int(self.dict_tpm_pos_tweets[tag] / tpm_elapsed_time.seconds, 2)
                             self.last_update_time = datetime.datetime.now()
                             self.dict_tpm_num_tweets[tag] = 0
                             self.dict_tpm_sentiment[tag] = 0
