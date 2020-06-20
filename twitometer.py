@@ -160,54 +160,55 @@ class MyStreamListener(tweepy.StreamListener):
                 tweet = status.text
             #words = tweet.split()
             for tag in self.tags:
-                if tag.upper() in tweet.upper():
-                    self.dict_num_tweets[tag] += 1
-                    for pos_word in positive_words:
-                        if pos_word.upper() in tweet.upper():
-                            self.dict_sentiment[tag] += 1
-                            tweet_score += 1
-                            break
-                    for neg_word in negative_words:
-                        if neg_word.upper() in tweet.upper():
-                            self.dict_sentiment[tag] -= 1
-                            tweet_score -= 1
-                            break
-                    if self.dict_sentiment[tag] < 0:
-                        self.dict_pos_tweets[tag] = self.dict_num_tweets[tag] + self.dict_sentiment[tag]
-                    #csv_output = csv.writer(f_output)
-                    #row.append(tag)
-                    #if tweet_score > 0:
-                        #word = pos_word
-                    #elif tweet_score < 0:
-                        #word = neg_word
-                    #else:
-                        #word = " "
-                    #row.append(word)
-                    #row.append(tweet_score)
-                    #row.append(status.author.screen_name)
-                    #row.append(status.source)
-                    #row.append(tweet)
-                    #csv_output.writerow(row)
-                    #row = []
-                    #tweet_score = 0
-                self.dict_tweet_rate[tag] = round(self.dict_num_tweets[tag] / elapsed_time.seconds * 60)
-                self.dict_pos_tweet_rate[tag] = int(self.dict_pos_tweets[tag] / elapsed_time.seconds * 60)
-                if tag == "trump":
-                    gauge_elapsed_time = datetime.datetime.now() - self.last_gauge_time_1 
-                    if gauge_elapsed_time.seconds > 3:
-                        indicator_pos_1 = int(.5 * self.dict_pos_tweet_rate[tag])
-                        if indicator_pos_1 > 300:
-                            indicator_pos_1 = 300
-                        self.last_gauge_time_1 = datetime.datetime.now()
-                        self.current_position_1 = move_stepper_1(indicator_pos_1, self.current_position_1)
-                if tag == "biden":
-                    gauge_elapsed_time = datetime.datetime.now() - self.last_gauge_time_2 
-                    if gauge_elapsed_time.seconds > 3:
-                        indicator_pos_2 = int(.5 * self.dict_pos_tweet_rate[tag])
-                        if indicator_pos_2 > 300:
-                                indicator_pos_2 = 300
-                        self.last_gauge_time_2 = datetime.datetime.now()
-                        self.current_position_2 = move_stepper_2(indicator_pos_2, self.current_position_2)
+                if not tweet.startswith('RT'):
+                    if tag.upper() in tweet.upper():
+                        self.dict_num_tweets[tag] += 1
+                        for pos_word in positive_words:
+                            if pos_word.upper() in tweet.upper():
+                                self.dict_sentiment[tag] += 1
+                                tweet_score += 1
+                                break
+                        for neg_word in negative_words:
+                            if neg_word.upper() in tweet.upper():
+                                self.dict_sentiment[tag] -= 1
+                                tweet_score -= 1
+                                break
+                        if self.dict_sentiment[tag] < 0:
+                            self.dict_pos_tweets[tag] = self.dict_num_tweets[tag] + self.dict_sentiment[tag]
+                        #csv_output = csv.writer(f_output)
+                        #row.append(tag)
+                        #if tweet_score > 0:
+                            #word = pos_word
+                        #elif tweet_score < 0:
+                            #word = neg_word
+                        #else:
+                            #word = " "
+                        #row.append(word)
+                        #row.append(tweet_score)
+                        #row.append(status.author.screen_name)
+                        #row.append(status.source)
+                        #row.append(tweet)
+                        #csv_output.writerow(row)
+                        #row = []
+                        #tweet_score = 0
+                    self.dict_tweet_rate[tag] = round(self.dict_num_tweets[tag] / elapsed_time.seconds * 60)
+                    self.dict_pos_tweet_rate[tag] = int(self.dict_pos_tweets[tag] / elapsed_time.seconds * 60)
+                    if tag == "trump":
+                        gauge_elapsed_time = datetime.datetime.now() - self.last_gauge_time_1 
+                        if gauge_elapsed_time.seconds > 3:
+                            indicator_pos_1 = int(.5 * self.dict_pos_tweet_rate[tag])
+                            if indicator_pos_1 > 400:
+                                indicator_pos_1 = 400
+                            self.last_gauge_time_1 = datetime.datetime.now()
+                            self.current_position_1 = move_stepper_1(indicator_pos_1, self.current_position_1)
+                    if tag == "biden":
+                        gauge_elapsed_time = datetime.datetime.now() - self.last_gauge_time_2 
+                        if gauge_elapsed_time.seconds > 3:
+                            indicator_pos_2 = int(.5 * self.dict_pos_tweet_rate[tag])
+                            if indicator_pos_2 > 400:
+                                    indicator_pos_2 = 400
+                            self.last_gauge_time_2 = datetime.datetime.now()
+                            self.current_position_2 = move_stepper_2(indicator_pos_2, self.current_position_2)
             for tag in self.tags:
                 if self.dict_num_tweets[tag] != 0:
                     sentiment_pct = round(self.dict_sentiment[tag] / self.dict_num_tweets[tag], 2)
