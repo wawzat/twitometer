@@ -130,8 +130,9 @@ class MyStreamListener(tweepy.StreamListener):
         self.dict_num_tweets = { i : 0 for i in self.tags}
         self.dict_tweet_rate = { i : 0 for i in self.tags}
         self.dict_tpm_num_tweets = { i : 0 for i in self.tags}
-        self.dict_tpm = { i : 0 for i in self.tags}
         self.dict_sentiment = { i : 0 for i in self.tags}
+        self.dict_tpm = { i : 0 for i in self.tags}
+        self.dict_tpm_sentiment = { i : 0 for i in self.tags}
         self.dict_pos_tweets = { i : 0 for i in self.tags}
         self.dict_pos_tweet_rate = { i : 0 for i in self.tags}
         self.current_position_1 = 0
@@ -170,11 +171,13 @@ class MyStreamListener(tweepy.StreamListener):
                         for pos_word in positive_words:
                             if pos_word.upper() in tweet.upper():
                                 self.dict_sentiment[tag] += 1
+                                self.dict_tpm_sentiment[tag] +=1
                                 tweet_score += 1
                                 break
                         for neg_word in negative_words:
                             if neg_word.upper() in tweet.upper():
                                 self.dict_sentiment[tag] -= 1
+                                self.dict_tpm_sentiment[tag] -=1
                                 tweet_score -= 1
                                 break
                         if self.dict_sentiment[tag] < 0:
@@ -201,10 +204,9 @@ class MyStreamListener(tweepy.StreamListener):
                     tpm_elapsed_time = datetime.datetime.now() - self.last_update_time
                     if tpm_elapsed_time.seconds > 30:
                         self.dict_tpm[tag] = round(self.dict_tpm_num_tweets[tag] / tpm_elapsed_time.seconds, 2)
-                        if self.dict_tpm[tag] < 0:
-                            self.dict_tpm[tag] = 0
                         self.last_update_time = datetime.datetime.now()
                         self.dict_tpm_num_tweets[tag] = 0
+                        self.dict_tpm_sentiment[tag] = 0
                     if tag == "trump":
                         gauge_elapsed_time = datetime.datetime.now() - self.last_gauge_time_1 
                         if gauge_elapsed_time.seconds > 3:
