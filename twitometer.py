@@ -275,12 +275,12 @@ def main():
         args = get_arguments()
         tags = args.keywords
         get_trends(args)
-        # Start the tweepy SteamListner as asynchronous thread.
+        # Start the tweepy SteamListner.
         myStreamListener = MyStreamListener(tags)
         myStream = tweepy.Stream(auth=api.auth, listener=myStreamListener, tweet_mode='extended')
         print(" ")
-        #myStream.filter(track=tags, is_async=True)
-        myStream.filter(track=tags)
+        myStream.filter(track=tags, is_async=True)
+        #myStream.filter(track=tags)
     except KeyboardInterrupt:
         print(" ")
         print("End by Ctrl-C")
