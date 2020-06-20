@@ -83,7 +83,7 @@ def get_arguments():
 
 
 def move_stepper_1(indicator_pos_1, current_position_1):
-    delay = .01
+    delay = .005
     if indicator_pos_1 >= current_position_1:
         steps = indicator_pos_1 - current_position_1
         for i in range(steps):
@@ -101,7 +101,7 @@ def move_stepper_1(indicator_pos_1, current_position_1):
 
 
 def move_stepper_2(indicator_pos_2, current_position_2):
-    delay = .01
+    delay = .005    
     if indicator_pos_2 >= current_position_2:
         steps = indicator_pos_2 - current_position_2
         for i in range(steps):
@@ -208,7 +208,7 @@ class MyStreamListener(tweepy.StreamListener):
                     self.dict_tweet_rate[tag] = round(self.dict_num_tweets[tag] / elapsed_time.seconds * 60)
                     self.dict_pos_tweet_rate[tag] = int(self.dict_pos_tweets[tag] / elapsed_time.seconds * 60)
                     tpm_elapsed_time = datetime.datetime.now() - self.last_update_time
-                    if tpm_elapsed_time.seconds >= 3:
+                    if tpm_elapsed_time.seconds >= 5:
                         for tag in self.tags:
                             self.dict_tpm[tag] = int(self.dict_tpm_pos_tweets[tag] / tpm_elapsed_time.seconds * 60)
                             self.last_update_time = datetime.datetime.now()
