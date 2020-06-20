@@ -129,6 +129,7 @@ class MyStreamListener(tweepy.StreamListener):
         self.tags = tags
         self.dict_num_tweets = { i : 0 for i in self.tags}
         self.dict_tweet_rate = { i : 0 for i in self.tags}
+        self.dict_tpm_num_tweets = { i : 0 for i in self.tags}
         self.dict_tpm = { i : 0 for i in self.tags}
         self.dict_sentiment = { i : 0 for i in self.tags}
         self.dict_pos_tweets = { i : 0 for i in self.tags}
@@ -140,7 +141,6 @@ class MyStreamListener(tweepy.StreamListener):
         #print(status.text)
         #csv_output_file = r"D:\Users\James\OneDrive\Documents\Raspberry Pi-Matrix5\JSL Python Code\Twitter\tweets.csv"
         #row = []
-        self.this_tweet_time = datetime.datetime.now()
         tweet_score = 0
         positive_words = [
             'amazing', 'beautiful', 'begin', 'best', 'better', 'celebrate', 'celebrating', 'creative', 'fabulous',
@@ -166,6 +166,7 @@ class MyStreamListener(tweepy.StreamListener):
                 if not tweet.startswith('RT'):
                     if tag.upper() in tweet.upper():
                         self.dict_num_tweets[tag] += 1
+                        self.dict_tpm_num_tweets[tag] += 1
                         for pos_word in positive_words:
                             if pos_word.upper() in tweet.upper():
                                 self.dict_sentiment[tag] += 1
@@ -178,6 +179,7 @@ class MyStreamListener(tweepy.StreamListener):
                                 break
                         if self.dict_sentiment[tag] < 0:
                             self.dict_pos_tweets[tag] = self.dict_num_tweets[tag] + self.dict_sentiment[tag]
+                            self.dict_tpm_num_tweets[tag] = self.dict_tpm_num_tweets[tag] + self.dict_sentiment[tag]
                         #csv_output = csv.writer(f_output)
                         #row.append(tag)
                         #if tweet_score > 0:
@@ -198,7 +200,7 @@ class MyStreamListener(tweepy.StreamListener):
                     self.dict_pos_tweet_rate[tag] = int(self.dict_pos_tweets[tag] / elapsed_time.seconds * 60)
                     tpm_elapsed_time = datetime.datetime.now() - self.last_update_time
                     if tpm_elapsed_time.seconds > 30:
-                        self.dict_tpm[tag] = round(self.dict_pos_tweets[tag] / tpm_elapsed_time.seconds, 2)
+                        self.dict_tpm[tag] = round(self.dict_tpm_num_tweets[tag] / tpm_elapsed_time.seconds, 2)
                         self.last_update_time = datetime.datetime.now()
                     if tag == "trump":
                         gauge_elapsed_time = datetime.datetime.now() - self.last_gauge_time_1 
