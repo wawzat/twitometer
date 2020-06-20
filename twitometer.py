@@ -201,7 +201,10 @@ class MyStreamListener(tweepy.StreamListener):
                     tpm_elapsed_time = datetime.datetime.now() - self.last_update_time
                     if tpm_elapsed_time.seconds > 30:
                         self.dict_tpm[tag] = round(self.dict_tpm_num_tweets[tag] / tpm_elapsed_time.seconds, 2)
+                        if self.dict_tpm[tag] < 0:
+                            self.dict_tpm[tag] = 0
                         self.last_update_time = datetime.datetime.now()
+                        self.dict_tpm_num_tweets[tag] = 0
                     if tag == "trump":
                         gauge_elapsed_time = datetime.datetime.now() - self.last_gauge_time_1 
                         if gauge_elapsed_time.seconds > 3:
