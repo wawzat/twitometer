@@ -85,7 +85,7 @@ def get_arguments():
 
 def move_stepper_1(indicator_pos_1, current_position_1):
     if indicator_pos_1 >= current_position_1:
-        steps = indicator_pos_1 - current_pos_1
+        steps = indicator_pos_1 - current_position_1
         for i in range(steps):
             kit.stepper1.onestep(direction=stepper.FORWARD, style=stepper.DOUBLE)
             sleep(delay)
