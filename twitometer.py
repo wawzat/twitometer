@@ -123,11 +123,13 @@ class MyStreamListener(tweepy.StreamListener):
     def __init__(self, tags):
         super(MyStreamListener, self).__init__()
         self.start_time = datetime.datetime.now() 
+        self.this_tweet_time = datetime.datetime.now()
         self.last_gauge_time_1 = datetime.datetime.now()
         self.last_gauge_time_2 = datetime.datetime.now()
         self.tags = tags
         self.dict_num_tweets = { i : 0 for i in self.tags}
         self.dict_tweet_rate = { i : 0 for i in self.tags}
+        self.dict_tpm = { i : 0 for i in self.tags}
         self.dict_sentiment = { i : 0 for i in self.tags}
         self.dict_pos_tweets = { i : 0 for i in self.tags}
         self.dict_pos_tweet_rate = { i : 0 for i in self.tags}
@@ -138,6 +140,7 @@ class MyStreamListener(tweepy.StreamListener):
         #print(status.text)
         #csv_output_file = r"D:\Users\James\OneDrive\Documents\Raspberry Pi-Matrix5\JSL Python Code\Twitter\tweets.csv"
         #row = []
+        self.this_tweet_time = datetime.datetime.now()
         tweet_score = 0
         positive_words = [
             'amazing', 'beautiful', 'begin', 'best', 'better', 'celebrate', 'celebrating', 'creative', 'fabulous',
@@ -153,6 +156,10 @@ class MyStreamListener(tweepy.StreamListener):
             ]
         elapsed_time = datetime.datetime.now() - self.start_time
         if elapsed_time.seconds > 1:
+            tpm_elapsed_time = datetime.datetime.now() - last_update_time
+            if tpm_elapsed_time.seconds > 30:
+                self.dict_tpm[tag] = round(self.dict_pos_tweets[tag] / tpm_elapsed_time.seconds, 2)
+                last_update_time = datetime.datetime.now()
             message = ""
             try:
                 tweet = status.extended_tweet["full_text"]
@@ -196,7 +203,7 @@ class MyStreamListener(tweepy.StreamListener):
                     if tag == "trump":
                         gauge_elapsed_time = datetime.datetime.now() - self.last_gauge_time_1 
                         if gauge_elapsed_time.seconds > 3:
-                            indicator_pos_1 = int(.5 * self.dict_pos_tweet_rate[tag])
+                            indicator_pos_1 = int(.5 * self.dict_tpm[tag])
                             if indicator_pos_1 > 400:
                                 indicator_pos_1 = 400
                             self.last_gauge_time_1 = datetime.datetime.now()
@@ -204,7 +211,7 @@ class MyStreamListener(tweepy.StreamListener):
                     if tag == "biden":
                         gauge_elapsed_time = datetime.datetime.now() - self.last_gauge_time_2 
                         if gauge_elapsed_time.seconds > 3:
-                            indicator_pos_2 = int(.5 * self.dict_pos_tweet_rate[tag])
+                            indicator_pos_2 = int(.5 * self.dict_tpm[tag])
                             if indicator_pos_2 > 400:
                                     indicator_pos_2 = 400
                             self.last_gauge_time_2 = datetime.datetime.now()
@@ -218,6 +225,7 @@ class MyStreamListener(tweepy.StreamListener):
                     message + tag + ": " + str(self.dict_num_tweets[tag])
                     + " / " + str(sentiment_pct)
                     + " / " + str(self.dict_pos_tweet_rate[tag])
+                    + " / " + str(self.dict_tpm[tag])
                     + " / " + str(self.dict_tweet_rate[tag])
                     + " | "
                    )
