@@ -123,7 +123,7 @@ class MyStreamListener(tweepy.StreamListener):
     def __init__(self, tags):
         super(MyStreamListener, self).__init__()
         self.start_time = datetime.datetime.now() 
-        self.this_tweet_time = datetime.datetime.now()
+        self.last_update_time = datetime.datetime.now()
         self.last_gauge_time_1 = datetime.datetime.now()
         self.last_gauge_time_2 = datetime.datetime.now()
         self.tags = tags
@@ -156,10 +156,10 @@ class MyStreamListener(tweepy.StreamListener):
             ]
         elapsed_time = datetime.datetime.now() - self.start_time
         if elapsed_time.seconds > 1:
-            tpm_elapsed_time = datetime.datetime.now() - last_update_time
+            tpm_elapsed_time = datetime.datetime.now() - self.last_update_time
             if tpm_elapsed_time.seconds > 30:
                 self.dict_tpm[tag] = round(self.dict_pos_tweets[tag] / tpm_elapsed_time.seconds, 2)
-                last_update_time = datetime.datetime.now()
+                self.last_update_time = datetime.datetime.now()
             message = ""
             try:
                 tweet = status.extended_tweet["full_text"]
