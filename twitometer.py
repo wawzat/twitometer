@@ -29,7 +29,6 @@ def turnOffMotors():
 
 atexit.register(turnOffMotors)
 
-delay = .01
 #import csv
 #from Raspi_X27_Stepper import Raspi_MotorHAT, Raspi_StepperMotor
 #from Raspi_X27_Stepper import Raspi_MotorHAT, Raspi_StepperMotor
@@ -84,6 +83,7 @@ def get_arguments():
 
 
 def move_stepper_1(indicator_pos_1, current_position_1):
+    delay = .01
     if indicator_pos_1 >= current_position_1:
         steps = indicator_pos_1 - current_position_1
         for i in range(steps):
@@ -101,6 +101,7 @@ def move_stepper_1(indicator_pos_1, current_position_1):
 
 
 def move_stepper_2(indicator_pos_2, current_position_2):
+    delay = .01
     if indicator_pos_2 >= current_position_2:
         steps = indicator_pos_2 - current_position_2
         for i in range(steps):
