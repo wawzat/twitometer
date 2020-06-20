@@ -204,11 +204,12 @@ class MyStreamListener(tweepy.StreamListener):
                     self.dict_pos_tweet_rate[tag] = int(self.dict_pos_tweets[tag] / elapsed_time.seconds * 60)
                     tpm_elapsed_time = datetime.datetime.now() - self.last_update_time
                     if tpm_elapsed_time.seconds > 30:
-                        self.dict_tpm[tag] = round(self.dict_tpm_num_tweets[tag] / tpm_elapsed_time.seconds, 2)
-                        self.last_update_time = datetime.datetime.now()
-                        self.dict_tpm_num_tweets[tag] = 0
-                        self.dict_tpm_sentiment[tag] = 0
-                        self.dict_tpm_pos_tweets[tag] = 0
+                        for tag in tags:
+                            self.dict_tpm[tag] = round(self.dict_tpm_pos_tweets[tag] / tpm_elapsed_time.seconds, 2)
+                            self.last_update_time = datetime.datetime.now()
+                            self.dict_tpm_num_tweets[tag] = 0
+                            self.dict_tpm_sentiment[tag] = 0
+                            self.dict_tpm_pos_tweets[tag] = 0
                     if tag == "trump":
                         gauge_elapsed_time = datetime.datetime.now() - self.last_gauge_time_1 
                         if gauge_elapsed_time.seconds > 3:
