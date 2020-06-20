@@ -215,7 +215,7 @@ class MyStreamListener(tweepy.StreamListener):
                             self.dict_tpm_num_tweets[tag] = 0
                             self.dict_tpm_sentiment[tag] = 0
                             self.dict_tpm_pos_tweets[tag] = 0
-                    if tag == "trump":
+                    if tag == "biden":
                         gauge_elapsed_time = datetime.datetime.now() - self.last_gauge_time_1 
                         if gauge_elapsed_time.seconds > 3:
                             indicator_pos_1 = int(.5 * self.dict_tpm[tag])
@@ -223,7 +223,7 @@ class MyStreamListener(tweepy.StreamListener):
                                 indicator_pos_1 = 400
                             self.last_gauge_time_1 = datetime.datetime.now()
                             self.current_position_1 = move_stepper_1(indicator_pos_1, self.current_position_1)
-                    if tag == "biden":
+                    if tag == "trump":
                         gauge_elapsed_time = datetime.datetime.now() - self.last_gauge_time_2 
                         if gauge_elapsed_time.seconds > 3:
                             indicator_pos_2 = int(.5 * self.dict_tpm[tag])
