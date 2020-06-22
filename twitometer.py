@@ -152,8 +152,8 @@ class MyStreamListener(tweepy.StreamListener):
         negative_words = [
             'against', 'afraid', 'anyone voting', 'bad', 'bs', 'cheat', 'cheeto', 'creepy', 'crying', 'deny', 'detest', 'despite',
             'devisive', 'embarrass', 'evil', 'fail', 'fake', 'feeble', 'fraud', 'fuck', 'garbage', 'hell', 'homophobe', 'hoax', 'idiot',
-            'leftist', 'liar', 'lying', 'loser', 'losing', 'misinformation', 'not', 'outrage', 'orange', 'painful', 'pedophile',
-            'racism', 'racist', 'rapist', 'rid', 'shit', 'stupid', 'sleepy', 'sucks',
+            'leftist', 'liar', 'lying', 'loser', 'losing', 'misinformation', 'notmypresident', 'outrage', 'orange', 'painful', 'pedophile',
+            'racism', 'racist', 'rapist', 'rid', 'shit', 'stupid', 'sleepy', 'sucks', 'trumpvirus'
             'upset', 'useless', 'waste', 'weak', 'wing', 'worst'
             ]
         elapsed_time = datetime.datetime.now() - self.start_time
@@ -208,10 +208,16 @@ class MyStreamListener(tweepy.StreamListener):
                     self.dict_tweet_rate[tag] = round(self.dict_num_tweets[tag] / elapsed_time.seconds * 60)
                     self.dict_pos_tweet_rate[tag] = int(self.dict_pos_tweets[tag] / elapsed_time.seconds * 60)
                     tpm_elapsed_time = datetime.datetime.now() - self.last_update_time
-                    if tpm_elapsed_time.seconds >= 5:
+                    if tpm_elapsed_time.seconds >= 30:
                         for tag in self.tags:
                             self.dict_tpm[tag] = int(self.dict_tpm_pos_tweets[tag] / tpm_elapsed_time.seconds * 60)
                             self.last_update_time = datetime.datetime.now()
+                            self.dict_tpm_num_tweets[tag] = 0
+                            self.dict_tpm_sentiment[tag] = 0
+                            self.dict_tpm_pos_tweets[tag] = 0
+                    elif tpm_elapsed_time.seconds >= 3:
+                        for tag in self.tags:
+                            self.dict_tpm[tag] = int(self.dict_tpm_pos_tweets[tag] / tpm_elapsed_time.seconds * 60)
                             self.dict_tpm_num_tweets[tag] = 0
                             self.dict_tpm_sentiment[tag] = 0
                             self.dict_tpm_pos_tweets[tag] = 0
