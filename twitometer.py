@@ -218,9 +218,6 @@ class MyStreamListener(tweepy.StreamListener):
                     elif tpm_elapsed_time.seconds >= 3:
                         for tag in self.tags:
                             self.dict_tpm[tag] = int(self.dict_tpm_pos_tweets[tag] / tpm_elapsed_time.seconds * 60)
-                            self.dict_tpm_num_tweets[tag] = 0
-                            self.dict_tpm_sentiment[tag] = 0
-                            self.dict_tpm_pos_tweets[tag] = 0
                     if tag == "biden":
                         gauge_elapsed_time = datetime.datetime.now() - self.last_gauge_time_1 
                         if gauge_elapsed_time.seconds > 3:
