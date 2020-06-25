@@ -84,15 +84,15 @@ def get_arguments():
 def update_tpm(args):
     tags = args.keywords
     for tag in tags:
-        pos_tweet_rate[tag] = pos_tweet_rate[tag] * (1 + (datetime.datetime.now() - tpm_last_update_time))
+        dict_pos_tweet_rate[tag] = dict_pos_tweet_rate[tag] * (1 + (datetime.datetime.now() - tpm_last_update_time))
     for tag in tags:
         if tag == "biden":
-            indicator_pos_1 = int(.5 * pos_tweet_rate[tag])
+            indicator_pos_1 = int(.5 * dict_pos_tweet_rate[tag])
             if indicator_pos_1 > 400:
                 indicator_pos_1 = 400
                 current_position_1 = move_stepper_1(indicator_pos_1, current_position_1)
         if tag == "trump":
-            indicator_pos_2 = int(.5 * pos_tweet_rate[tag])
+            indicator_pos_2 = int(.5 * dict_pos_tweet_rate[tag])
             if indicator_pos_2 > 400:
                     indicator_pos_2 = 400
             current_position_2 = move_stepper_2(indicator_pos_2, current_position_2)
@@ -227,7 +227,7 @@ class MyStreamListener(tweepy.StreamListener):
                         #tweet_score = 0
                     self.dict_tweet_rate[tag] = round(self.dict_num_tweets[tag] / elapsed_time.seconds * 60)
                     self.dict_pos_tweet_rate[tag] = int(self.dict_pos_tweets[tag] / elapsed_time.seconds * 60)
-                    pos_tweet_rate[tag] - self.dict_pos_tweet_rate[tag]
+                    dict_pos_tweet_rate[tag] - self.dict_pos_tweet_rate[tag]
                     tpm_elapsed_update_time = self.last_update_time
                     if tpm_elapsed_time.seconds >= 30:
                         for tag in self.tags:
