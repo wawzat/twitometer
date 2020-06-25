@@ -84,7 +84,7 @@ def get_arguments():
 def update_tpm(args):
     tags = args.keywords
     for tag in tags:
-        dict_pos_tweet_rate[tag] = dict_pos_tweet_rate[tag] * (1 + (datetime.datetime.now() - tpm_last_update_time))
+        dict_pos_tweet_rate[tag] = dict_pos_tweet_rate[tag] * (datetime.timedelta(seconds=60) + (datetime.datetime.now() - tpm_last_update_time))
     for tag in tags:
         if tag == "biden":
             indicator_pos_1 = int(.5 * dict_pos_tweet_rate[tag])
