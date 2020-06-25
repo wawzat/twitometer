@@ -227,7 +227,7 @@ class MyStreamListener(tweepy.StreamListener):
                         #tweet_score = 0
                     self.dict_tweet_rate[tag] = round(self.dict_num_tweets[tag] / elapsed_time.seconds * 60)
                     self.dict_pos_tweet_rate[tag] = int(self.dict_pos_tweets[tag] / elapsed_time.seconds * 60)
-                    dict_pos_tweet_rate[tag] - self.dict_pos_tweet_rate[tag]
+                    dict_pos_tweet_rate[tag] = self.dict_pos_tweet_rate[tag]
                     tpm_elapsed_time = datetime.datetime.now() - self.last_update_time
                     if tpm_elapsed_time.seconds >= 30:
                         for tag in self.tags:
