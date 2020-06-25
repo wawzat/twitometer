@@ -153,8 +153,10 @@ class MyStreamListener(tweepy.StreamListener):
         self.dict_pos_tweet_rate = { i : 0 for i in self.tags}
         self.current_position_1 = 0
         self.current_position_2 = 0
-        global tpm_last_update_time = datetime.datetime.now()
-        global dict_pos_tweet_rate = { i : 0 for i in self.tags}
+        global tpm_last_update_time
+        global dict_pos_tweet_rate
+        tpm_last_update_time = datetime.datetime.now()
+        dict_pos_tweet_rate = { i : 0 for i in self.tags}
 
     def on_status(self, status):
 
