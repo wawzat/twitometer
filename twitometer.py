@@ -12,22 +12,23 @@ from sys import stdout, argv
 import datetime
 from operator import itemgetter
 import argparse
-from adafruit_motor import stepper
-from adafruit_motorkit import MotorKit
+#from adafruit_motor import stepper
+#from adafruit_motorkit import MotorKit
+from smbus import SMBus
 import atexit
 from time import sleep
 
-kit = MotorKit()
+#kit = MotorKit()
 
-kit.stepper1.release()
-kit.stepper2.release()
+#kit.stepper1.release()
+#kit.stepper2.release()
 sleep(2)
 
-def turnOffMotors():
-    kit.stepper1.release()
-    kit.stepper2.release()
+#def turnOffMotors():
+    #kit.stepper1.release()
+    #kit.stepper2.release()
 
-atexit.register(turnOffMotors)
+#atexit.register(turnOffMotors)
 
 #import csv
 #from Raspi_X27_Stepper import Raspi_MotorHAT, Raspi_StepperMotor
@@ -39,6 +40,8 @@ atexit.register(turnOffMotors)
 #myStepper = mh.getStepper(600, 1)  	# 600 steps/rev, motor port #1 (M1 + M2)
 #myStepper.setSpeed(50)  		# 120 RPM
 
+addr = 0x08
+
 # twitter API keys:
 API_KEY = config.API_KEY 
 API_SECRET = config.API_SECRET 
@@ -49,6 +52,22 @@ ACCESS_TOKEN_SECRET = config.ACCESS_TOKEN_SECRET
 auth = tweepy.OAuthHandler(API_KEY, API_SECRET)
 auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
 api = tweepy.API(auth)
+
+
+# This function converts a string to an array of bytes. 
+def StringToBytes(src): 
+  converted = [] 
+  for b in src: 
+    converted.append(ord(b)) 
+    #print(converted)
+  return converted
+
+
+def writeData(value):
+    byteValue = StringToBytes(value)
+    print(byteValue)
+    bus.write_i2c_block_data(addr, 0x00, byteValue)
+    return -1 
 
 
 def get_arguments():
@@ -82,22 +101,8 @@ def get_arguments():
     return(args)
 
 
-def move_stepper_1(indicator_pos_1, current_position_1):
-    delay = .005
-    if indicator_pos_1 >= current_position_1:
-        steps = indicator_pos_1 - current_position_1
-        for i in range(steps):
-            kit.stepper1.onestep(direction=stepper.FORWARD, style=stepper.DOUBLE)
-            sleep(delay)
-        #myStepper.step(steps, Raspi_MotorHAT.FORWARD, Raspi_MotorHAT.SINGLE)
-        current_position_1 = current_position_1 + steps
-    elif current_position_1 > indicator_pos_1:
-        steps = current_position_1 - indicator_pos_1
-        for i in range(steps):
-            kit.stepper1.onestep(direction=stepper.BACKWARD, style=stepper.DOUBLE)
-            sleep(delay)
-        current_position_1 = current_position_1 - steps
-    return current_position_1
+def move_stepper_1(indicator_pos_1):
+    writeData(indicator_pos_1)
 
 
 def move_stepper_2(indicator_pos_2, current_position_2):
@@ -224,16 +229,16 @@ class MyStreamListener(tweepy.StreamListener):
                             indicator_pos_1 = int(.5 * self.dict_tpm[tag])
                             if indicator_pos_1 > 400:
                                 indicator_pos_1 = 400
-                            self.last_gauge_time_1 = datetime.datetime.now()
-                            self.current_position_1 = move_stepper_1(indicator_pos_1, self.current_position_1)
-                    if tag == "trump":
-                        gauge_elapsed_time = datetime.datetime.now() - self.last_gauge_time_2 
-                        if gauge_elapsed_time.seconds > 3:
-                            indicator_pos_2 = int(.5 * self.dict_tpm[tag])
-                            if indicator_pos_2 > 400:
-                                    indicator_pos_2 = 400
-                            self.last_gauge_time_2 = datetime.datetime.now()
-                            self.current_position_2 = move_stepper_2(indicator_pos_2, self.current_position_2)
+                            #self.last_gauge_time_1 = datetime.datetime.now()
+                            move_stepper_1(indicator_pos_1)
+                    #if tag == "trump":
+                        #gauge_elapsed_time = datetime.datetime.now() - self.last_gauge_time_2 
+                        #if gauge_elapsed_time.seconds > 3:
+                            #indicator_pos_2 = int(.5 * self.dict_tpm[tag])
+                            #if indicator_pos_2 > 400:
+                                    #indicator_pos_2 = 400
+                            #self.last_gauge_time_2 = datetime.datetime.now()
+                            #self.current_position_2 = move_stepper_2(indicator_pos_2, self.current_position_2)
             for tag in self.tags:
                 if self.dict_num_tweets[tag] != 0:
                     sentiment_pct = round(self.dict_sentiment[tag] / self.dict_num_tweets[tag], 2)
