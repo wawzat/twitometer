@@ -67,7 +67,7 @@ def StringToBytes(src):
 
 def writeData(value):
     byteValue = StringToBytes(value)
-    print(byteValue)
+    #print(byteValue)
     bus.write_i2c_block_data(addr, 0x00, byteValue)
     return -1 
 
@@ -228,9 +228,9 @@ class MyStreamListener(tweepy.StreamListener):
                     if tag == "biden":
                         gauge_elapsed_time = datetime.datetime.now() - self.last_gauge_time_1 
                         if gauge_elapsed_time.seconds > 3:
-                            indicator_pos_1 = int(.5 * self.dict_tpm[tag])
-                            if indicator_pos_1 > 400:
-                                indicator_pos_1 = 400
+                            indicator_pos_1 = int(3 * self.dict_tpm[tag])
+                            if indicator_pos_1 >= 1890:
+                                indicator_pos_1 = 1890
                             #self.last_gauge_time_1 = datetime.datetime.now()
                             move_stepper_1(str(indicator_pos_1))
                     #if tag == "trump":
