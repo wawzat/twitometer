@@ -108,22 +108,9 @@ def move_stepper_1(indicator_pos_1):
     writeData(command)
 
 
-def move_stepper_2(indicator_pos_2, current_position_2):
-    delay = .004    
-    if indicator_pos_2 >= current_position_2:
-        steps = indicator_pos_2 - current_position_2
-        for i in range(steps):
-            kit.stepper2.onestep(direction=stepper.FORWARD, style=stepper.DOUBLE)
-            sleep(delay)
-        #myStepper.step(steps, Raspi_MotorHAT.FORWARD, Raspi_MotorHAT.SINGLE)
-        current_position_2 = current_position_2 + steps
-    elif current_position_2 > indicator_pos_2:
-        steps = current_position_2 - indicator_pos_2
-        for i in range(steps):
-            kit.stepper2.onestep(direction=stepper.BACKWARD, style=stepper.DOUBLE)
-            sleep(delay)
-        current_position_2 = current_position_2 - steps
-    return current_position_2
+def move_stepper_2(indicator_pos_2):
+    command = "2" + indicator_pos_2
+    writeData(command)
 
 
 # tweepy SteamListner Class
@@ -232,18 +219,19 @@ class MyStreamListener(tweepy.StreamListener):
                             indicator_pos_1 = int(4 * self.dict_tpm[tag])
                             if indicator_pos_1 == 0:
                                 indicator_pos_1 = 1
-                            elif indicator_pos_1 >= 1890:
-                                indicator_pos_1 = 1890
+                            elif indicator_pos_1 >= 2160:
+                                indicator_pos_1 = 2160
                             #self.last_gauge_time_1 = datetime.datetime.now()
                             move_stepper_1(str(indicator_pos_1))
-                    #if tag == "trump":
-                        #gauge_elapsed_time = datetime.datetime.now() - self.last_gauge_time_2 
-                        #if gauge_elapsed_time.seconds > 3:
-                            #indicator_pos_2 = int(.5 * self.dict_tpm[tag])
-                            #if indicator_pos_2 > 400:
-                                    #indicator_pos_2 = 400
-                            #self.last_gauge_time_2 = datetime.datetime.now()
-                            #self.current_position_2 = move_stepper_2(indicator_pos_2, self.current_position_2)
+                            sleep(.1)
+                    if tag == "trump":
+                            indicator_pos_2 = int(4 * self.dict_tpm[tag])
+                            if indicator_pos_2 == 0:
+                                indicator_pos_2 = 1
+                            elif indicator_pos_2 >= 2160:
+                                indicator_pos_2 = 2160
+                            #self.last_gauge_time_1 = datetime.datetime.now()
+                            move_stepper_2(str(indicator_pos_2))
             for tag in self.tags:
                 if self.dict_num_tweets[tag] != 0:
                     sentiment_pct = round(self.dict_sentiment[tag] / self.dict_num_tweets[tag], 2)
