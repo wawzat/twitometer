@@ -104,6 +104,7 @@ def get_arguments():
 
 
 def move_stepper_1(indicator_pos_1):
+    command = "1 " + indicator_pos_1
     writeData(indicator_pos_1)
 
 
@@ -229,7 +230,9 @@ class MyStreamListener(tweepy.StreamListener):
                         gauge_elapsed_time = datetime.datetime.now() - self.last_gauge_time_1 
                         if gauge_elapsed_time.seconds > 1:
                             indicator_pos_1 = int(4 * self.dict_tpm[tag])
-                            if indicator_pos_1 >= 1890:
+                            if indicator_pos_1 == 0:
+                                indicator_pos_1 = 1
+                            elif indicator_pos_1 >= 1890:
                                 indicator_pos_1 = 1890
                             #self.last_gauge_time_1 = datetime.datetime.now()
                             move_stepper_1(str(indicator_pos_1))
