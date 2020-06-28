@@ -42,6 +42,8 @@ sleep(2)
 
 addr = 0x08
 
+bus = SMBus(1)
+
 # twitter API keys:
 API_KEY = config.API_KEY 
 API_SECRET = config.API_SECRET 
