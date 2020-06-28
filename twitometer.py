@@ -104,7 +104,7 @@ def get_arguments():
 
 
 def move_stepper_1(indicator_pos_1):
-    command = "1 " + indicator_pos_1
+    command = "1" + indicator_pos_1
     writeData(command)
 
 
