@@ -230,7 +230,7 @@ class MyStreamListener(tweepy.StreamListener):
                             if indicator_pos_1 > 400:
                                 indicator_pos_1 = 400
                             #self.last_gauge_time_1 = datetime.datetime.now()
-                            move_stepper_1(indicator_pos_1)
+                            move_stepper_1(str(indicator_pos_1))
                     #if tag == "trump":
                         #gauge_elapsed_time = datetime.datetime.now() - self.last_gauge_time_2 
                         #if gauge_elapsed_time.seconds > 3:
