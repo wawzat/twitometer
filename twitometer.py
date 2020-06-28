@@ -214,8 +214,8 @@ class MyStreamListener(tweepy.StreamListener):
                         for tag in self.tags:
                             self.dict_tpm[tag] = int(self.dict_tpm_pos_tweets[tag] / tpm_elapsed_time.seconds * 60)
                     if tag == "biden":
-                        gauge_elapsed_time = datetime.datetime.now() - self.last_gauge_time_1 
-                        if gauge_elapsed_time.seconds > 2:
+                        gauge_elapsed_time_1 = datetime.datetime.now() - self.last_gauge_time_1 
+                        if gauge_elapsed_time_1.seconds > 2:
                             indicator_pos_1 = int(4 * self.dict_tpm[tag])
                             if indicator_pos_1 == 0:
                                 indicator_pos_1 = 1
@@ -225,15 +225,16 @@ class MyStreamListener(tweepy.StreamListener):
                             move_stepper_1(str(indicator_pos_1))
                             sleep(.1)
                     if tag == "trump":
-                        gauge_elapsed_time = datetime.datetime.now() - self.last_gauge_time_2 
-                        if gauge_elapsed_time.seconds > 2:
+                        gauge_elapsed_time_2 = datetime.datetime.now() - self.last_gauge_time_2 
+                        if gauge_elapsed_time_2.seconds > 2:
                             indicator_pos_2 = int(4 * self.dict_tpm[tag])
                             if indicator_pos_2 == 0:
                                 indicator_pos_2 = 1
                             elif indicator_pos_2 >= 2160:
                                 indicator_pos_2 = 2160
-                            self.last_gauge_time_1 = datetime.datetime.now()
+                            self.last_gauge_time_2 = datetime.datetime.now()
                             move_stepper_2(str(indicator_pos_2))
+                            sleep(.1)
             for tag in self.tags:
                 if self.dict_num_tweets[tag] != 0:
                     sentiment_pct = round(self.dict_sentiment[tag] / self.dict_num_tweets[tag], 2)
