@@ -221,7 +221,7 @@ class MyStreamListener(tweepy.StreamListener):
                                 indicator_pos_1 = 1
                             elif indicator_pos_1 >= 2160:
                                 indicator_pos_1 = 2160
-                            #self.last_gauge_time_1 = datetime.datetime.now()
+                            self.last_gauge_time_1 = datetime.datetime.now()
                             move_stepper_1(str(indicator_pos_1))
                             sleep(.1)
                     if tag == "trump":
@@ -232,7 +232,7 @@ class MyStreamListener(tweepy.StreamListener):
                                 indicator_pos_2 = 1
                             elif indicator_pos_2 >= 2160:
                                 indicator_pos_2 = 2160
-                            #self.last_gauge_time_1 = datetime.datetime.now()
+                            self.last_gauge_time_1 = datetime.datetime.now()
                             move_stepper_2(str(indicator_pos_2))
             for tag in self.tags:
                 if self.dict_num_tweets[tag] != 0:
