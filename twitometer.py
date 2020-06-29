@@ -66,10 +66,16 @@ def StringToBytes(src):
 
 
 def writeData(value):
-    byteValue = StringToBytes(value)
-    #print(byteValue)
-    bus.write_i2c_block_data(addr, 0x00, byteValue)
-    return -1 
+    try:
+        byteValue = StringToBytes(value)
+        #print(byteValue)
+        bus.write_i2c_block_data(addr, 0x00, byteValue)
+        sleep(.1)
+        return -1 
+    except OSError as e:
+        print("OSError")
+        print(" ")
+        pass
 
 
 def get_arguments():
