@@ -223,10 +223,10 @@ class MyStreamListener(tweepy.StreamListener):
                         gauge_elapsed_time_1 = datetime.datetime.now() - self.last_gauge_time_1 
                         if gauge_elapsed_time_1.seconds > 1:
                             indicator_pos_1 = int(3 * self.dict_tpm[tag])
-                            if indicator_pos_1 == 0:
-                                indicator_pos_1 = 1
-                            elif indicator_pos_1 >= 2160:
-                                indicator_pos_1 = 2160
+                            if indicator_pos_1 <90:
+                                indicator_pos_1 = 90
+                            elif indicator_pos_1 >= 2070:
+                                indicator_pos_1 = 2070
                             self.last_gauge_time_1 = datetime.datetime.now()
                             move_stepper_1(str(indicator_pos_1))
                             sleep(.15)
@@ -234,10 +234,10 @@ class MyStreamListener(tweepy.StreamListener):
                         gauge_elapsed_time_2 = datetime.datetime.now() - self.last_gauge_time_2 
                         if gauge_elapsed_time_2.seconds > 1:
                             indicator_pos_2 = int(3 * self.dict_tpm[tag])
-                            if indicator_pos_2 == 0:
-                                indicator_pos_2 = 1
-                            elif indicator_pos_2 >= 2160:
-                                indicator_pos_2 = 2160
+                            if indicator_pos_2 < 90:
+                                indicator_pos_2 = 90
+                            elif indicator_pos_2 >= 2070:
+                                indicator_pos_2 = 2070
                             self.last_gauge_time_2 = datetime.datetime.now()
                             move_stepper_2(str(indicator_pos_2))
                             sleep(.15)
