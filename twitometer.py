@@ -203,7 +203,7 @@ class MyStreamListener(tweepy.StreamListener):
                         gauge_elapsed_time_1 = datetime.datetime.now() - self.last_gauge_time_1 
                         if gauge_elapsed_time_1.seconds > 1:
                             indicator_pos_1 = int(3 * self.dict_tpm[tag] + 100)
-                            if indicator_pos_1 <1:
+                            if indicator_pos_1 < 1:
                                 indicator_pos_1 = 1
                             elif indicator_pos_1 >= 2000:
                                 indicator_pos_1 = 2000
@@ -280,6 +280,7 @@ def main():
         indicator_pos_2 = 0
         move_stepper_1(str(indicator_pos_1))
         move_stepper_2(str(indicator_pos_2))
+        sleep(2)
         exit()
 
 
