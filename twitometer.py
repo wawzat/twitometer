@@ -284,7 +284,7 @@ def main():
         myStream.filter(track=tags)
         while 1:
            update_et = datetime.datetime.now() - update_time
-           print(update_et)
+           print("WHILE LOOP")
            if update_et.seconds >= 1:
                print(myStreamListener.indicator_pos_1)
                move_stepper_1(str(myStreamListener.indicator_pos_1))
