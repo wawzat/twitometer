@@ -5,8 +5,7 @@
 # Uses X27.128 Automotive Instrument Stepper Motor
 # Include your Twitter API Keys and Tokens in a file named config.py
 # To do: for - in searches are matching partial words (i.e., lie in believe)
-# To do: try / except not catching ctrl-c possibly due to tweepy threading
-# James S. Lucas - 20200702
+# James S. Lucas - 20200703
 import config
 import tweepy
 from sys import stdout, argv
