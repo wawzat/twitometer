@@ -6,6 +6,7 @@
 # Include your Twitter API Keys and Tokens in a file named config.py
 # To do: for - in searches are matching partial words (i.e., lie in believe)
 # James S. Lucas - 20200703
+from datetime import date
 import config
 import tweepy
 from sys import stdout, argv
@@ -32,6 +33,9 @@ auth = tweepy.OAuthHandler(API_KEY, API_SECRET)
 auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
 api = tweepy.API(auth)
 
+update_time = datetime.datetime.now()
+indicator_pos_1 = 0
+indicator_pos_2 = 0
 
 # This function converts a string to an array of bytes. 
 def StringToBytes(src): 
@@ -118,7 +122,8 @@ class MyStreamListener(tweepy.StreamListener):
         self.dict_pos_tweet_rate = { i : 0 for i in self.tags}
         self.current_position_1 = 0
         self.current_position_2 = 0
-
+        global int indicator_pos_1 = 0
+        global int indicator_pos_2 = 0
 
     def on_status(self, status):
         try:
@@ -190,38 +195,30 @@ class MyStreamListener(tweepy.StreamListener):
                         self.dict_tweet_rate[tag] = round(self.dict_num_tweets[tag] / elapsed_time.seconds * 60)
                         self.dict_pos_tweet_rate[tag] = int(self.dict_pos_tweets[tag] / elapsed_time.seconds * 60)
                         tpm_elapsed_time = datetime.datetime.now() - self.last_update_time
-                        if tpm_elapsed_time.seconds >= 2:
-                            for tag in self.tags:
-                                self.dict_tpm[tag] = int(self.dict_tpm_pos_tweets[tag] / tpm_elapsed_time.seconds * 60)
-                                self.last_update_time = datetime.datetime.now()
-                                self.dict_tpm_num_tweets[tag] = 0
-                                self.dict_tpm_sentiment[tag] = 0
-                                self.dict_tpm_pos_tweets[tag] = 0
+                        #if tpm_elapsed_time.seconds >= 2:
+                        for tag in self.tags:
+                            self.dict_tpm[tag] = int(self.dict_tpm_pos_tweets[tag] / tpm_elapsed_time.seconds * 60)
+                            self.last_update_time = datetime.datetime.now()
+                            self.dict_tpm_num_tweets[tag] = 0
+                            self.dict_tpm_sentiment[tag] = 0
+                            self.dict_tpm_pos_tweets[tag] = 0
                         #elif tpm_elapsed_time.seconds >= 1:
                             #for tag in self.tags:
                                 #self.dict_tpm[tag] = int(self.dict_tpm_pos_tweets[tag] / tpm_elapsed_time.seconds * 60)
                         if tag == "biden":
                             gauge_elapsed_time_1 = datetime.datetime.now() - self.last_gauge_time_1 
                             if gauge_elapsed_time_1.seconds > 1:
-                                indicator_pos_1 = int(3 * self.dict_tpm[tag] + 100)
-                                if indicator_pos_1 < 1:
-                                    indicator_pos_1 = 1
-                                elif indicator_pos_1 >= 2000:
-                                    indicator_pos_1 = 2000
+                                indicator_pos_1 = max(int(3 * self.dict_tpm[tag] + 100), 2000)
                                 self.last_gauge_time_1 = datetime.datetime.now()
-                                move_stepper_1(str(indicator_pos_1))
-                                sleep(.15)
+                                #move_stepper_1(str(indicator_pos_1))
+                                #sleep(.15)
                         if tag == "trump":
                             gauge_elapsed_time_2 = datetime.datetime.now() - self.last_gauge_time_2 
                             if gauge_elapsed_time_2.seconds > 1:
-                                indicator_pos_2 = int(3 * self.dict_tpm[tag] + 100)
-                                if indicator_pos_2 < 1:
-                                    indicator_pos_2 = 1
-                                elif indicator_pos_2 >= 2000:
-                                    indicator_pos_2 = 2000
+                                indicator_pos_2 = max(int(3 * self.dict_tpm[tag] + 100), 2000)
                                 self.last_gauge_time_2 = datetime.datetime.now()
-                                move_stepper_2(str(indicator_pos_2))
-                                sleep(.15)
+                                #move_stepper_2(str(indicator_pos_2))
+                                #sleep(.15)
                 for tag in self.tags:
                     if self.dict_num_tweets[tag] != 0:
                         sentiment_pct = round(self.dict_sentiment[tag] / self.dict_num_tweets[tag], 2)
@@ -283,6 +280,12 @@ def main():
         print(" ")
         #myStream.filter(track=tags, is_async=True)
         myStream.filter(track=tags)
+        while 1:
+           update_et = datetime.datetime.now() - update_time
+           if update_et.seconds >= 1:
+               move_stepper_1(str(indicator_pos_1))
+               move_stepper_2(str(indicator_pos_2))
+               update_time = datetime.datetime.now()
     except KeyboardInterrupt:
         print(" ")
         print("End by Ctrl-C")
