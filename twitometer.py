@@ -122,8 +122,8 @@ class MyStreamListener(tweepy.StreamListener):
         self.dict_pos_tweet_rate = { i : 0 for i in self.tags}
         self.current_position_1 = 0
         self.current_position_2 = 0
-        self.indicator_pos_1
-        self.indicator_pos_2
+        global indicator_pos_1
+        global indicator_pos_2
 
 
     def on_status(self, status):
