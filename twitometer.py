@@ -5,46 +5,23 @@
 # Uses X27.128 Automotive Instrument Stepper Motor
 # Include your Twitter API Keys and Tokens in a file named config.py
 # To do: for - in searches are matching partial words (i.e., lie in believe)
-# James S. Lucas - 20200617
+# James S. Lucas - 20200702
 import config
 import tweepy
 from sys import stdout, argv
 import datetime
 from operator import itemgetter
 import argparse
-#from adafruit_motor import stepper
-#from adafruit_motorkit import MotorKit
 from smbus import SMBus
 import atexit
 from time import sleep
 
-#kit = MotorKit()
-
-#kit.stepper1.release()
-#kit.stepper2.release()
-sleep(2)
-
-#def turnOffMotors():
-    #kit.stepper1.release()
-    #kit.stepper2.release()
-
-#atexit.register(turnOffMotors)
-
-#import csv
-#from Raspi_X27_Stepper import Raspi_MotorHAT, Raspi_StepperMotor
-#from Raspi_X27_Stepper import Raspi_MotorHAT, Raspi_StepperMotor
-
-# create a default  stepper motor object, no changes to I2C address or frequency
-#mh = Raspi_MotorHAT(0x6F)
-
-#myStepper = mh.getStepper(600, 1)  	# 600 steps/rev, motor port #1 (M1 + M2)
-#myStepper.setSpeed(50)  		# 120 RPM
-
+# Arduino I2C address
 addr = 0x08
 
 bus = SMBus(1)
 
-# twitter API keys:
+# twitter API keys stored in config.py
 API_KEY = config.API_KEY 
 API_SECRET = config.API_SECRET 
 ACCESS_TOKEN = config.ACCESS_TOKEN 
@@ -63,19 +40,6 @@ def StringToBytes(src):
     converted.append(ord(b)) 
     #print(converted)
   return converted
-
-
-def writeData(value):
-    try:
-        byteValue = StringToBytes(value)
-        #print(byteValue)
-        bus.write_i2c_block_data(addr, 0x00, byteValue)
-        sleep(.1)
-        return -1 
-    except OSError as e:
-        print("OSError")
-        print(" ")
-        pass
 
 
 def get_arguments():
@@ -109,12 +73,27 @@ def get_arguments():
     return(args)
 
 
+def writeData(value):
+    try:
+        byteValue = StringToBytes(value)
+        #print(byteValue)
+        bus.write_i2c_block_data(addr, 0x00, byteValue)
+        sleep(.1)
+        return -1 
+    except OSError as e:
+        print("OSError")
+        print(" ")
+        pass
+
+
 def move_stepper_1(indicator_pos_1):
+    # Format is XYYYY where X is motor number and YYYY is 1-4 digit indicator postion
     command = "1" + indicator_pos_1
     writeData(command)
 
 
 def move_stepper_2(indicator_pos_2):
+    # Format is XYYYY where X is motor number and YYYY is 1-4 digit indicator postion
     command = "2" + indicator_pos_2
     writeData(command)
 
@@ -139,6 +118,7 @@ class MyStreamListener(tweepy.StreamListener):
         self.dict_pos_tweet_rate = { i : 0 for i in self.tags}
         self.current_position_1 = 0
         self.current_position_2 = 0
+
 
     def on_status(self, status):
         #print(status.text)
@@ -255,6 +235,7 @@ class MyStreamListener(tweepy.StreamListener):
                     + " | "
                    )
             stdout.write("\r | " + message + "                       ")
+
 
     def on_error(self, status_code):
         # Status code 420 is too many connections in time period. 10 second rate limit increases exponentially for each 420 error
