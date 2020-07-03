@@ -33,7 +33,7 @@ auth = tweepy.OAuthHandler(API_KEY, API_SECRET)
 auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
 api = tweepy.API(auth)
 
-update_time = datetime.datetime.now()
+#update_time = datetime.datetime.now()
 #indicator_pos_1 = 0
 #indicator_pos_2 = 0
 
@@ -275,6 +275,7 @@ def main():
         args = get_arguments()
         tags = args.keywords
         get_trends(args)
+        update_time = datetime.datetime.now()
         # Start the tweepy SteamListner.
         myStreamListener = MyStreamListener(tags)
         myStream = tweepy.Stream(auth=api.auth, listener=myStreamListener, tweet_mode='extended')
