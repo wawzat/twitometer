@@ -276,6 +276,10 @@ def main():
         print(" ")
         print("End by Ctrl-C")
         myStream.disconnect()
+        indicator_pos_1 = 0
+        indicator_pos_2 = 0
+        move_stepper_1(str(indicator_pos_1))
+        move_stepper_2(str(indicator_pos_2))
         exit()
 
 
