@@ -277,11 +277,11 @@ def main():
         get_trends(args)
         update_time = datetime.datetime.now()
         # Start the tweepy SteamListner.
-        myStreamListener = MyStreamListener(tags)
-        myStream = tweepy.Stream(auth=api.auth, listener=myStreamListener, tweet_mode='extended')
+        #myStreamListener = MyStreamListener(tags)
+        #myStream = tweepy.Stream(auth=api.auth, listener=myStreamListener, tweet_mode='extended')
         print(" ")
         #myStream.filter(track=tags, is_async=True)
-        myStream.filter(track=tags)
+        #myStream.filter(track=tags)
         while 1:
            update_et = datetime.datetime.now() - update_time
            print("WHILE LOOP")
