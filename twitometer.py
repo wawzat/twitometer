@@ -184,9 +184,11 @@ class MyStreamListener(tweepy.StreamListener):
                     if tag == "biden":
                         indicator_pos_1 = max(int(3 * self.dict_tpm[tag] + 100), 2000)
                         move_stepper_1(str(indicator_pos_1))
+                        sleep(.15)
                     if tag == "trump":
                         indicator_pos_2 = max(int(3 * self.dict_tpm[tag] + 100), 2000)
                         move_stepper_2(str(indicator_pos_2))
+                        sleep(.15)
             for tag in self.tags:
                 if self.dict_num_tweets[tag] != 0:
                     sentiment_pct = round(self.dict_sentiment[tag] / self.dict_num_tweets[tag], 2)
