@@ -190,7 +190,7 @@ class MyStreamListener(tweepy.StreamListener):
                         self.dict_tweet_rate[tag] = round(self.dict_num_tweets[tag] / elapsed_time.seconds * 60)
                         self.dict_pos_tweet_rate[tag] = int(self.dict_pos_tweets[tag] / elapsed_time.seconds * 60)
                         tpm_elapsed_time = datetime.datetime.now() - self.last_update_time
-                        if tpm_elapsed_time.seconds >= 2:
+                        if tpm_elapsed_time.seconds > 0:
                             for tag in self.tags:
                                 self.dict_tpm[tag] = int(self.dict_tpm_pos_tweets[tag] / tpm_elapsed_time.seconds * 60)
                                 self.last_update_time = datetime.datetime.now()
@@ -202,7 +202,7 @@ class MyStreamListener(tweepy.StreamListener):
                                 #self.dict_tpm[tag] = int(self.dict_tpm_pos_tweets[tag] / tpm_elapsed_time.seconds * 60)
                         if tag == "biden":
                             gauge_elapsed_time_1 = datetime.datetime.now() - self.last_gauge_time_1 
-                            if gauge_elapsed_time_1.seconds > 1:
+                            if gauge_elapsed_time_1.seconds > 0:
                                 indicator_pos_1 = int(3 * self.dict_tpm[tag] + 100)
                                 if indicator_pos_1 < 1:
                                     indicator_pos_1 = 1
@@ -213,7 +213,7 @@ class MyStreamListener(tweepy.StreamListener):
                                 sleep(.15)
                         if tag == "trump":
                             gauge_elapsed_time_2 = datetime.datetime.now() - self.last_gauge_time_2 
-                            if gauge_elapsed_time_2.seconds > 1:
+                            if gauge_elapsed_time_2.seconds > 0:
                                 indicator_pos_2 = int(3 * self.dict_tpm[tag] + 100)
                                 if indicator_pos_2 < 1:
                                     indicator_pos_2 = 1
