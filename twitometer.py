@@ -104,8 +104,6 @@ class MyStreamListener(tweepy.StreamListener):
         super(MyStreamListener, self).__init__()
         self.start_time = datetime.datetime.now() 
         self.last_update_time = datetime.datetime.now()
-        self.last_gauge_time_1 = datetime.datetime.now()
-        self.last_gauge_time_2 = datetime.datetime.now()
         self.tags = tags
         self.dict_num_tweets = { i : 0 for i in self.tags}
         self.dict_tweet_rate = { i : 0 for i in self.tags}
@@ -171,57 +169,25 @@ class MyStreamListener(tweepy.StreamListener):
                                 self.dict_pos_tweets[tag] = self.dict_num_tweets[tag]
                             elif self.dict_sentiment[tag] < 0:
                                 self.dict_pos_tweets[tag] = self.dict_num_tweets[tag] + self.dict_sentiment[tag]
-                            #csv_output = csv.writer(f_output)
-                            #row.append(tag)
-                            #if tweet_score > 0:
-                                #word = pos_word
-                            #elif tweet_score < 0:
-                                #word = neg_word
-                            #else:
-                                #word = " "
-                            #row.append(word)
-                            #row.append(tweet_score)
-                            #row.append(status.author.screen_name)
-                            #row.append(status.source)
-                            #row.append(tweet)
-                            #csv_output.writerow(row)
-                            #row = []
-                            #tweet_score = 0
                         self.dict_tweet_rate[tag] = round(self.dict_num_tweets[tag] / elapsed_time.seconds * 60)
                         self.dict_pos_tweet_rate[tag] = int(self.dict_pos_tweets[tag] / elapsed_time.seconds * 60)
                         tpm_elapsed_time = datetime.datetime.now() - self.last_update_time
-                        if tpm_elapsed_time.seconds > 10:
+                        if tpm_elapsed_time.seconds > 7:
                             for tag in self.tags:
                                 self.dict_tpm[tag] = int(self.dict_tpm_pos_tweets[tag] / tpm_elapsed_time.seconds * 60)
                                 self.last_update_time = datetime.datetime.now()
                                 self.dict_tpm_num_tweets[tag] = 0
                                 self.dict_tpm_sentiment[tag] = 0
                                 self.dict_tpm_pos_tweets[tag] = 0
-                        elif tpm_elapsed_time.seconds >= 1:
+                        elif tpm_elapsed_time.seconds >= 0:
                             for tag in self.tags:
                                 self.dict_tpm[tag] = int(self.dict_tpm_pos_tweets[tag] / tpm_elapsed_time.seconds * 60)
                         if tag == "biden":
-                            gauge_elapsed_time_1 = datetime.datetime.now() - self.last_gauge_time_1 
-                            if gauge_elapsed_time_1.seconds > 0:
-                                indicator_pos_1 = int(3 * self.dict_tpm[tag] + 100)
-                                if indicator_pos_1 < 1:
-                                    indicator_pos_1 = 1
-                                elif indicator_pos_1 >= 2000:
-                                    indicator_pos_1 = 2000
-                                self.last_gauge_time_1 = datetime.datetime.now()
-                                move_stepper_1(str(indicator_pos_1))
-                                sleep(.15)
+                            indicator_pos_1 = max(int(3 * self.dict_tpm[tag] + 100), 2000)
+                            move_stepper_1(str(indicator_pos_1))
                         if tag == "trump":
-                            gauge_elapsed_time_2 = datetime.datetime.now() - self.last_gauge_time_2 
-                            if gauge_elapsed_time_2.seconds > 0:
-                                indicator_pos_2 = int(3 * self.dict_tpm[tag] + 100)
-                                if indicator_pos_2 < 1:
-                                    indicator_pos_2 = 1
-                                elif indicator_pos_2 >= 2000:
-                                    indicator_pos_2 = 2000
-                                self.last_gauge_time_2 = datetime.datetime.now()
-                                move_stepper_2(str(indicator_pos_2))
-                                sleep(.15)
+                            indicator_pos_2 = max(int(3 * self.dict_tpm[tag] + 100), 2000)
+                            move_stepper_2(str(indicator_pos_2))
                 for tag in self.tags:
                     if self.dict_num_tweets[tag] != 0:
                         sentiment_pct = round(self.dict_sentiment[tag] / self.dict_num_tweets[tag], 2)
