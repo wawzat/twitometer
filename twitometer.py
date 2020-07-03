@@ -179,7 +179,7 @@ class MyStreamListener(tweepy.StreamListener):
                                 self.dict_tpm_num_tweets[tag] = 0
                                 self.dict_tpm_sentiment[tag] = 0
                                 self.dict_tpm_pos_tweets[tag] = 0
-                        elif tpm_elapsed_time.seconds >= 0:
+                        elif tpm_elapsed_time.seconds > 0:
                             for tag in self.tags:
                                 self.dict_tpm[tag] = int(self.dict_tpm_pos_tweets[tag] / tpm_elapsed_time.seconds * 60)
                         if tag == "biden":
@@ -257,7 +257,6 @@ def main():
         indicator_pos_2 = 0
         move_stepper_1(str(indicator_pos_1))
         move_stepper_2(str(indicator_pos_2))
-        sleep(2)
         exit()
 
 
