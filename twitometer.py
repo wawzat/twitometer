@@ -122,11 +122,11 @@ class MyStreamListener(tweepy.StreamListener):
         self.dict_pos_tweet_rate = { i : 0 for i in self.tags}
         self.current_position_1 = 0
         self.current_position_2 = 0
+        self.indicator_pos_1
+        self.indicator_pos_2
 
 
     def on_status(self, status):
-        self.indicator_pos_1
-        self.indicator_pos_2
         try:
             #print(status.text)
             #csv_output_file = r"D:\Users\James\OneDrive\Documents\Raspberry Pi-Matrix5\JSL Python Code\Twitter\tweets.csv"
