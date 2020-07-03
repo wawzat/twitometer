@@ -5,6 +5,7 @@
 # Uses X27.128 Automotive Instrument Stepper Motor
 # Include your Twitter API Keys and Tokens in a file named config.py
 # To do: for - in searches are matching partial words (i.e., lie in believe)
+# To do: try / except not catching ctrl-c possibly due to tweepy threading
 # James S. Lucas - 20200702
 import config
 import tweepy
@@ -281,8 +282,8 @@ def main():
         myStreamListener = MyStreamListener(tags)
         myStream = tweepy.Stream(auth=api.auth, listener=myStreamListener, tweet_mode='extended')
         print(" ")
-        myStream.filter(track=tags, is_async=True)
-        #myStream.filter(track=tags)
+        #myStream.filter(track=tags, is_async=True)
+        myStream.filter(track=tags)
     except KeyboardInterrupt:
         print(" ")
         print("End by Ctrl-C")
