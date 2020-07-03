@@ -34,8 +34,8 @@ auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
 api = tweepy.API(auth)
 
 update_time = datetime.datetime.now()
-indicator_pos_1 = 0
-indicator_pos_2 = 0
+#indicator_pos_1 = 0
+#indicator_pos_2 = 0
 
 # This function converts a string to an array of bytes. 
 def StringToBytes(src): 
@@ -122,10 +122,11 @@ class MyStreamListener(tweepy.StreamListener):
         self.dict_pos_tweet_rate = { i : 0 for i in self.tags}
         self.current_position_1 = 0
         self.current_position_2 = 0
-        global indicator_pos_1
-        global indicator_pos_2
+
 
     def on_status(self, status):
+        self.indicator_pos_1
+        self.indicator_pos_2
         try:
             #print(status.text)
             #csv_output_file = r"D:\Users\James\OneDrive\Documents\Raspberry Pi-Matrix5\JSL Python Code\Twitter\tweets.csv"
@@ -283,8 +284,9 @@ def main():
         while 1:
            update_et = datetime.datetime.now() - update_time
            if update_et.seconds >= 1:
-               move_stepper_1(str(indicator_pos_1))
-               move_stepper_2(str(indicator_pos_2))
+               print(myStreamListener.indicator_pos_1)
+               move_stepper_1(str(myStreamListener.indicator_pos_1))
+               move_stepper_2(str(myStreamListener.indicator_pos_2))
                update_time = datetime.datetime.now()
     except KeyboardInterrupt:
         print(" ")
