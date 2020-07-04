@@ -261,7 +261,7 @@ try:
     get_trends(args)
     # Start the tweepy SteamListner.
     myStreamListener = MyStreamListener(tags)
-    with myStream = tweepy.Stream(auth=api.auth, listener=myStreamListener, tweet_mode='extended'):
+    with tweepy.Stream(auth=api.auth, listener=myStreamListener, tweet_mode='extended') as myStream:
         myStream.filter(track=tags, is_async=True)
         #myStream.filter(track=tags)
     print(" ")
