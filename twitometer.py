@@ -156,9 +156,18 @@ class MyStreamListener(tweepy.StreamListener):
                                 break
                         for neg_word in negative_words:
                             if neg_word.upper() in tweet.upper():
-                                self.dict_sentiment[tag] -= 1
-                                self.dict_tpm_sentiment[tag] -=1
-                                tweet_score -= 1
+                                if tag == "biden":
+                                    self.dict_sentiment[tag] -= 1
+                                    self.dict_tpm_sentiment[tag] -=1
+                                    tweet_score -= 1
+                                    self.dict_sentiment["trump"] +=1
+                                    self.dict_tpm_sentiment["trump"] +=1
+                                else:
+                                    self.dict_sentiment[tag] -= 1
+                                    self.dict_tpm_sentiment[tag] -=1
+                                    tweet_score -= 1
+                                    self.dict_sentiment["biden"] +=1
+                                    self.dict_tpm_sentiment["biden"] +=1
                                 break
                         if self.dict_tpm_sentiment[tag] >= 0:
                             self.dict_tpm_pos_tweets[tag] = self.dict_tpm_num_tweets[tag]
@@ -171,7 +180,7 @@ class MyStreamListener(tweepy.StreamListener):
                     self.dict_tweet_rate[tag] = round(self.dict_num_tweets[tag] / elapsed_time.seconds * 60)
                     self.dict_pos_tweet_rate[tag] = int(self.dict_pos_tweets[tag] / elapsed_time.seconds * 60)
                     tpm_elapsed_time = datetime.datetime.now() - self.last_update_time
-                    if tpm_elapsed_time.seconds > 10:
+                    if tpm_elapsed_time.seconds > 8:
                         for tag in self.tags:
                             self.dict_tpm[tag] = int(self.dict_tpm_pos_tweets[tag] / tpm_elapsed_time.seconds * 60)
                             self.last_update_time = datetime.datetime.now()
