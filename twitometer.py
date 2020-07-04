@@ -149,6 +149,7 @@ class MyStreamListener(tweepy.StreamListener):
             'upset', 'useless', 'waste', 'weak', 'wing', 'worst',
             '#incompetent', '#traitor' 
             ]            
+        sleep(1)
 
 
     def on_status(self, status):
