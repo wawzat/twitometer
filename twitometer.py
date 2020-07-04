@@ -33,6 +33,21 @@ auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
 api = tweepy.API(auth)
 
 
+def exit_function():
+    print(" ")
+    print("End by atexit")
+    myStream.disconnect()
+    indicator_pos_1 = 0
+    indicator_pos_2 = 0
+    move_stepper_1(str(indicator_pos_1))
+    move_stepper_2(str(indicator_pos_2))
+    sleep(1)
+    exit()
+
+
+atexit.register(exit_function)
+
+
 # This function converts a string to an array of bytes. 
 def StringToBytes(src): 
   converted = [] 
