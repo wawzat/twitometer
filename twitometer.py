@@ -131,18 +131,14 @@ class MyStreamListener(tweepy.StreamListener):
         self.dict_tpm_sentiment = { i : 0 for i in self.tags}
         self.dict_tpm_pos_tweets = { i : 0 for i in self.tags}
         self.dict_pos_tweet_rate = { i : 0 for i in self.tags}
-
-
-    def on_status(self, status):
-        tweet_score = 0
-        positive_words = [
+        self.positive_words = [
             'amazing', 'beautiful', 'begin', 'best', 'better', 'celebrate', 'celebrating', 'creative', 'fabulous',
             'fight', 'God bless', 'great', 'growth', 'happy', 'incredible', 'leader', 'pleased', 'positive', 'potential',
             'strong economy', 'superb', 'support biden', 'support trump',
             'voting', 'voteblue', 'votered', 'votejoebiden', 'votedonaldtrump',
             'win', 'wonderful', 'trump2020', 'biden2020'
             ]
-        negative_words = [
+        self.negative_words = [
             'against', 'afraid', 'anyone voting', 'bad', 'bs', 'cheat', 'cheeto', 'creepy', 'crying', 'deny', 'demented',
             'detest', 'despite',
             'devisive', 'embarrass', 'enough', 'evil', 'fail', 'fake', 'fascist', 'feeble', 'fraud', 'garbage', 'hell', 'horrible',
@@ -153,81 +149,84 @@ class MyStreamListener(tweepy.StreamListener):
             'upset', 'useless', 'waste', 'weak', 'wing', 'worst',
             '#incompetent', '#traitor' 
             ]            
+
+
+    def on_status(self, status):
+        tweet_score = 0
         elapsed_time = datetime.datetime.now() - self.start_time
-        if elapsed_time.seconds > 1:
-            message = ""
-            try:
-                tweet = status.extended_tweet["full_text"]
-            except AttributeError:
-                tweet = status.text
-            for tag in self.tags:
-                if not tweet.startswith('RT'):
-                    if tag.upper() in tweet.upper():
-                        self.dict_num_tweets[tag] += 1
-                        self.dict_tpm_num_tweets[tag] += 1
-                        for pos_word in positive_words:
-                            if pos_word.upper() in tweet.upper():
-                                self.dict_sentiment[tag] += 1
-                                self.dict_tpm_sentiment[tag] +=1
-                                tweet_score += 1
-                                break
-                        for neg_word in negative_words:
-                            if neg_word.upper() in tweet.upper():
-                                if tag == "biden":
-                                    self.dict_sentiment[tag] -= 1
-                                    self.dict_tpm_sentiment[tag] -=1
-                                    tweet_score -= 1
-                                    self.dict_sentiment["trump"] +=1
-                                    self.dict_tpm_sentiment["trump"] +=1
-                                else:
-                                    self.dict_sentiment[tag] -= 1
-                                    self.dict_tpm_sentiment[tag] -=1
-                                    tweet_score -= 1
-                                    self.dict_sentiment["biden"] +=1
-                                    self.dict_tpm_sentiment["biden"] +=1
-                                break
-                        if self.dict_tpm_sentiment[tag] >= 0:
-                            self.dict_tpm_pos_tweets[tag] = self.dict_tpm_num_tweets[tag]
-                        elif self.dict_tpm_sentiment[tag] < 0:
-                            self.dict_tpm_pos_tweets[tag] = self.dict_tpm_num_tweets[tag] + self.dict_tpm_sentiment[tag]
-                        if self.dict_sentiment[tag] >= 0:
-                            self.dict_pos_tweets[tag] = self.dict_num_tweets[tag]
-                        elif self.dict_sentiment[tag] < 0:
-                            self.dict_pos_tweets[tag] = self.dict_num_tweets[tag] + self.dict_sentiment[tag]
-                    self.dict_tweet_rate[tag] = round(self.dict_num_tweets[tag] / elapsed_time.seconds * 60)
-                    self.dict_pos_tweet_rate[tag] = int(self.dict_pos_tweets[tag] / elapsed_time.seconds * 60)
-                    tpm_elapsed_time = datetime.datetime.now() - self.last_update_time
-                    if tpm_elapsed_time.seconds > 8:
-                        for tag in self.tags:
-                            self.dict_tpm[tag] = int(self.dict_tpm_pos_tweets[tag] / tpm_elapsed_time.seconds * 60)
-                            self.last_update_time = datetime.datetime.now()
-                            self.dict_tpm_num_tweets[tag] = 0
-                            self.dict_tpm_sentiment[tag] = 0
-                            self.dict_tpm_pos_tweets[tag] = 0
-                    elif tpm_elapsed_time.seconds >= 1:
-                        for tag in self.tags:
-                            self.dict_tpm[tag] = int(self.dict_tpm_pos_tweets[tag] / tpm_elapsed_time.seconds * 60)
-                    if tag == "biden":
-                        indicator_pos_1 = min(int(3 * self.dict_tpm[tag] + 150), 2000)
-                        move_stepper_1(str(indicator_pos_1))
-                    if tag == "trump":
-                        indicator_pos_2 = min(int(3 * self.dict_tpm[tag] + 150), 2000)
-                        self.last_gauge_time_2 = datetime.datetime.now()
-                        move_stepper_2(str(indicator_pos_2))
-            for tag in self.tags:
-                if self.dict_num_tweets[tag] != 0:
-                    sentiment_pct = round(self.dict_sentiment[tag] / self.dict_num_tweets[tag], 2)
-                else:
-                    sentiment_pct = 0
-                message = (
-                    message + tag + ": " + str(self.dict_num_tweets[tag])
-                    + " / " + str(sentiment_pct)
-                    + " / " + str(self.dict_pos_tweet_rate[tag])
-                    + " / " + str(self.dict_tpm[tag])
-                    + " / " + str(self.dict_tweet_rate[tag])
-                    + " | "
-                )
-            stdout.write("\r | " + message + "                       ")
+        message = ""
+        try:
+            tweet = status.extended_tweet["full_text"]
+        except AttributeError:
+            tweet = status.text
+        for tag in self.tags:
+            if not tweet.startswith('RT'):
+                if tag.upper() in tweet.upper():
+                    self.dict_num_tweets[tag] += 1
+                    self.dict_tpm_num_tweets[tag] += 1
+                    for pos_word in self.positive_words:
+                        if pos_word.upper() in tweet.upper():
+                            self.dict_sentiment[tag] += 1
+                            self.dict_tpm_sentiment[tag] +=1
+                            tweet_score += 1
+                            break
+                    for neg_word in self.negative_words:
+                        if neg_word.upper() in tweet.upper():
+                            if tag == "biden":
+                                self.dict_sentiment[tag] -= 1
+                                self.dict_tpm_sentiment[tag] -=1
+                                tweet_score -= 1
+                                self.dict_sentiment["trump"] +=1
+                                self.dict_tpm_sentiment["trump"] +=1
+                            else:
+                                self.dict_sentiment[tag] -= 1
+                                self.dict_tpm_sentiment[tag] -=1
+                                tweet_score -= 1
+                                self.dict_sentiment["biden"] +=1
+                                self.dict_tpm_sentiment["biden"] +=1
+                            break
+                    if self.dict_tpm_sentiment[tag] >= 0:
+                        self.dict_tpm_pos_tweets[tag] = self.dict_tpm_num_tweets[tag]
+                    elif self.dict_tpm_sentiment[tag] < 0:
+                        self.dict_tpm_pos_tweets[tag] = self.dict_tpm_num_tweets[tag] + self.dict_tpm_sentiment[tag]
+                    if self.dict_sentiment[tag] >= 0:
+                        self.dict_pos_tweets[tag] = self.dict_num_tweets[tag]
+                    elif self.dict_sentiment[tag] < 0:
+                        self.dict_pos_tweets[tag] = self.dict_num_tweets[tag] + self.dict_sentiment[tag]
+                self.dict_tweet_rate[tag] = round(self.dict_num_tweets[tag] / elapsed_time.seconds * 60)
+                self.dict_pos_tweet_rate[tag] = int(self.dict_pos_tweets[tag] / elapsed_time.seconds * 60)
+                tpm_elapsed_time = datetime.datetime.now() - self.last_update_time
+                if tpm_elapsed_time.seconds > 8:
+                    for tag in self.tags:
+                        self.dict_tpm[tag] = int(self.dict_tpm_pos_tweets[tag] / tpm_elapsed_time.seconds * 60)
+                        self.last_update_time = datetime.datetime.now()
+                        self.dict_tpm_num_tweets[tag] = 0
+                        self.dict_tpm_sentiment[tag] = 0
+                        self.dict_tpm_pos_tweets[tag] = 0
+                elif tpm_elapsed_time.seconds >= 1:
+                    for tag in self.tags:
+                        self.dict_tpm[tag] = int(self.dict_tpm_pos_tweets[tag] / tpm_elapsed_time.seconds * 60)
+                if tag == "biden":
+                    indicator_pos_1 = min(int(3 * self.dict_tpm[tag] + 150), 2000)
+                    move_stepper_1(str(indicator_pos_1))
+                if tag == "trump":
+                    indicator_pos_2 = min(int(3 * self.dict_tpm[tag] + 150), 2000)
+                    self.last_gauge_time_2 = datetime.datetime.now()
+                    move_stepper_2(str(indicator_pos_2))
+        for tag in self.tags:
+            if self.dict_num_tweets[tag] != 0:
+                sentiment_pct = round(self.dict_sentiment[tag] / self.dict_num_tweets[tag], 2)
+            else:
+                sentiment_pct = 0
+            message = (
+                message + tag + ": " + str(self.dict_num_tweets[tag])
+                + " / " + str(sentiment_pct)
+                + " / " + str(self.dict_pos_tweet_rate[tag])
+                + " / " + str(self.dict_tpm[tag])
+                + " / " + str(self.dict_tweet_rate[tag])
+                + " | "
+            )
+        stdout.write("\r | " + message + "                       ")
 
 
     def on_error(self, status_code):
