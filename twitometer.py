@@ -120,16 +120,22 @@ class MyStreamListener(tweepy.StreamListener):
         tweet_score = 0
         positive_words = [
             'amazing', 'beautiful', 'begin', 'best', 'better', 'celebrate', 'celebrating', 'creative', 'fabulous',
-            'fight', 'great', 'happy', 'incredible', 'leader', 'pleased', 'positive', 'potential', 'ready',
-            'superb', 'support biden', 'support trump', 'voting', 'win', 'wonderful', 'trump2020', 'biden2020'
+            'fight', 'God bless', 'great', 'growth', 'happy', 'incredible', 'leader', 'pleased', 'positive', 'potential',
+            'strong economy', 'superb', 'support biden', 'support trump',
+            'voting', 'voteblue', 'votered', 'votejoebiden', 'votedonaldtrump',
+            'win', 'wonderful', 'trump2020', 'biden2020'
             ]
         negative_words = [
-            'against', 'afraid', 'anyone voting', 'bad', 'bs', 'cheat', 'cheeto', 'creepy', 'crying', 'deny', 'detest', 'despite',
-            'devisive', 'embarrass', 'evil', 'fail', 'fake', 'feeble', 'fraud', 'fuck', 'garbage', 'hell', 'homophobe', 'hoax', 'idiot',
-            'leftist', 'liar', 'lying', 'loser', 'losing', 'misinformation', 'notmypresident', 'outrage', 'orange', 'painful', 'pedophile',
-            'racism', 'racist', 'rapist', 'rid', 'shit', 'stupid', 'sleepy', 'sucks', 'trumpvirus'
-            'upset', 'useless', 'waste', 'weak', 'wing', 'worst'
-            ]
+            'against', 'afraid', 'anyone voting', 'bad', 'bs', 'cheat', 'cheeto', 'creepy', 'crying', 'deny', 'demented',
+            'detest', 'despite',
+            'devisive', 'embarrass', 'enough', 'evil', 'fail', 'fake', 'fascist', 'feeble', 'fraud', 'garbage', 'hell', 'horrible',
+            'homophobe', 'hoax', 'idiot', 'incompetent', 'insane',
+            'leftist', 'liar', 'lying', 'loser', 'losing', 'misinformation', 'neverbiden', 'nevertrump',
+            'outrage', 'orange', 'painful', 'pedophile', 'problem',
+            'racism', 'racist', 'rapist', 'rid', 'senile', 'stupid', 'sleepy', 'sucks', 'traitor', 'traitortrump',
+            'upset', 'useless', 'waste', 'weak', 'wing', 'worst',
+            '#incompetent', '#traitor' 
+            ]            
         elapsed_time = datetime.datetime.now() - self.start_time
         if elapsed_time.seconds > 1:
             message = ""
