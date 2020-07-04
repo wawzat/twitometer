@@ -44,7 +44,7 @@ def exit_function():
     move_stepper_2(str(indicator_pos_2))
     #system("stty echo")
     sleep(1)
-    #exit()
+    exit()
 
 
 atexit.register(exit_function)
@@ -261,10 +261,10 @@ try:
     get_trends(args)
     # Start the tweepy SteamListner.
     myStreamListener = MyStreamListener(tags)
-    myStream = tweepy.Stream(auth=api.auth, listener=myStreamListener, tweet_mode='extended')
+    with myStream = tweepy.Stream(auth=api.auth, listener=myStreamListener, tweet_mode='extended'):
+        myStream.filter(track=tags, is_async=True)
+        #myStream.filter(track=tags)
     print(" ")
-    myStream.filter(track=tags, is_async=True)
-    #myStream.filter(track=tags)
 except KeyboardInterrupt:
     print(" ")
     print("End by Ctrl-C")
