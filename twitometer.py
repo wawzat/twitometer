@@ -252,28 +252,24 @@ def get_trends(args):
         print("| " + trends_names + " |")
 
 
-def main():
-    try:
-        args = get_arguments()
-        tags = args.keywords
-        get_trends(args)
-        # Start the tweepy SteamListner.
-        myStreamListener = MyStreamListener(tags)
-        myStream = tweepy.Stream(auth=api.auth, listener=myStreamListener, tweet_mode='extended')
-        print(" ")
-        myStream.filter(track=tags, is_async=True)
-        #myStream.filter(track=tags)
-    except KeyboardInterrupt:
-        print(" ")
-        print("End by Ctrl-C")
-        myStream.disconnect()
-        indicator_pos_1 = 0
-        indicator_pos_2 = 0
-        move_stepper_1(str(indicator_pos_1))
-        move_stepper_2(str(indicator_pos_2))
-        sleep(1)
-        exit()
-
-
-if __name__ == "__main__":
-    main()
+# Main
+try:
+    args = get_arguments()
+    tags = args.keywords
+    get_trends(args)
+    # Start the tweepy SteamListner.
+    myStreamListener = MyStreamListener(tags)
+    myStream = tweepy.Stream(auth=api.auth, listener=myStreamListener, tweet_mode='extended')
+    print(" ")
+    myStream.filter(track=tags, is_async=True)
+    #myStream.filter(track=tags)
+except KeyboardInterrupt:
+    print(" ")
+    print("End by Ctrl-C")
+    myStream.disconnect()
+    indicator_pos_1 = 0
+    indicator_pos_2 = 0
+    move_stepper_1(str(indicator_pos_1))
+    move_stepper_2(str(indicator_pos_2))
+    sleep(1)
+    exit()
