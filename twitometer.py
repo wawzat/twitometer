@@ -9,6 +9,7 @@
 import config
 import tweepy
 from sys import stdout, argv
+from os import system
 import datetime
 from operator import itemgetter
 import argparse
@@ -41,6 +42,7 @@ def exit_function():
     indicator_pos_2 = 0
     move_stepper_1(str(indicator_pos_1))
     move_stepper_2(str(indicator_pos_2))
+    system("stty echo")
     sleep(1)
     exit()
 
