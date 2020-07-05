@@ -198,7 +198,7 @@ class MyStreamListener(tweepy.StreamListener):
                     indicator_pos_2 = min(int(3 * self.dict_tpm[tag] + 125), 2000)
                     self.last_gauge_time_2 = datetime.datetime.now()
                     move_stepper_2(str(indicator_pos_2))
-        if tpm_elapsed_time > 1:
+        if tpm_elapsed_time.seconds > 1:
             for tag in self.tags:
                 message = (
                     message + tag + ": " + str(self.dict_num_tweets[tag])
