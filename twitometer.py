@@ -219,7 +219,7 @@ class MyStreamListener(tweepy.StreamListener):
                 sentiment_pct = round(self.dict_sentiment[tag] / self.dict_num_tweets[tag], 2)
             else:
                 sentiment_pct = 0
-            if tpm_elapsed_time.seconds > 1:
+            if (tpm_elapsed_time.seconds %2):
                 message = (
                     message + tag + ": " + str(self.dict_num_tweets[tag])
                     + " / " + str(sentiment_pct)
