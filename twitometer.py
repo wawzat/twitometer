@@ -154,6 +154,7 @@ class MyStreamListener(tweepy.StreamListener):
 
     def on_status(self, status):
         tweet_score = 0
+        tpm_elapsed_time = datetime.datetime.now() - self.last_update_time
         elapsed_time = datetime.datetime.now() - self.start_time
         message = ""
         try:
@@ -212,22 +213,22 @@ class MyStreamListener(tweepy.StreamListener):
                     move_stepper_1(str(indicator_pos_1))
                 if tag == "trump":
                     indicator_pos_2 = min(int(3 * self.dict_tpm[tag] + 150), 2000)
-                    self.last_gauge_time_2 = datetime.datetime.now()
                     move_stepper_2(str(indicator_pos_2))
         for tag in self.tags:
             if self.dict_num_tweets[tag] != 0:
                 sentiment_pct = round(self.dict_sentiment[tag] / self.dict_num_tweets[tag], 2)
             else:
                 sentiment_pct = 0
-            message = (
-                message + tag + ": " + str(self.dict_num_tweets[tag])
-                + " / " + str(sentiment_pct)
-                + " / " + str(self.dict_pos_tweet_rate[tag])
-                + " / " + str(self.dict_tpm[tag])
-                + " / " + str(self.dict_tweet_rate[tag])
-                + " | "
-            )
-        stdout.write("\r | " + message + "                       ")
+            if tpm_elapsed_time.seconds > 1:
+                message = (
+                    message + tag + ": " + str(self.dict_num_tweets[tag])
+                    + " / " + str(sentiment_pct)
+                    + " / " + str(self.dict_pos_tweet_rate[tag])
+                    + " / " + str(self.dict_tpm[tag])
+                    + " / " + str(self.dict_tweet_rate[tag])
+                    + " | "
+                )
+            stdout.write("\r | " + message + "                       ")
 
 
     def on_error(self, status_code):
