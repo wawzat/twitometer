@@ -196,7 +196,6 @@ class MyStreamListener(tweepy.StreamListener):
                     move_stepper_1(str(indicator_pos_1))
                 if tag == "trump":
                     indicator_pos_2 = min(int(3 * self.dict_tpm[tag] + 125), 2000)
-                    self.last_gauge_time_2 = datetime.datetime.now()
                     move_stepper_2(str(indicator_pos_2))
         if tpm_elapsed_time.seconds > 1:
             for tag in self.tags:
