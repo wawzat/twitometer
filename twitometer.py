@@ -150,7 +150,7 @@ class MyStreamListener(tweepy.StreamListener):
 
     def on_status(self, status):
         tweet_score = 0
-        elapsed_time = datetime.datetime.now() - self.start_time
+        tpm_elapsed_time = datetime.datetime.now() - self.last_update_time
         message = ""
         try:
             tweet = status.extended_tweet["full_text"]
@@ -181,7 +181,6 @@ class MyStreamListener(tweepy.StreamListener):
                         self.dict_pos_tweets[tag] = self.dict_tpm_num_tweets[tag]
                     elif self.dict_sentiment[tag] < 0:
                         self.dict_pos_tweets[tag] = self.dict_tpm_num_tweets[tag] + self.dict_sentiment[tag]
-                tpm_elapsed_time = datetime.datetime.now() - self.last_update_time
                 if tpm_elapsed_time.seconds > 8:
                     for tag in self.tags:
                         self.dict_tpm[tag] = int(self.dict_pos_tweets[tag] / tpm_elapsed_time.seconds * 60)
