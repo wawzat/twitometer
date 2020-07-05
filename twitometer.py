@@ -205,7 +205,7 @@ class MyStreamListener(tweepy.StreamListener):
                         self.dict_tpm_num_tweets[tag] = 0
                         self.dict_tpm_sentiment[tag] = 0
                         self.dict_tpm_pos_tweets[tag] = 0
-                elif tpm_elapsed_time.microseconds >= 500000:
+                elif tpm_elapsed_time.seconds >= 1:
                     for tag in self.tags:
                         self.dict_tpm[tag] = int(self.dict_tpm_pos_tweets[tag] / tpm_elapsed_time.microseconds * 60000000)
                 if tag == "biden":
