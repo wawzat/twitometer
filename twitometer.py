@@ -224,12 +224,10 @@ class MyStreamListener(tweepy.StreamListener):
                 elif tpm_elapsed_time.seconds >= 1:
                     for tag in self.tags:
                         self.dict_tpm[tag] = int(self.dict_tpm_pos_tweets[tag] / tpm_elapsed_time.seconds * 60 )
-                if tag == "biden":
-                    self.indicator_pos_1 = min(int(3 * self.dict_tpm[tag] + 150), 2000)
-                    #self.write_time_1 = move_stepper_1(str(indicator_pos_1), self.write_time_1)
-                if tag == "trump":
-                    self.indicator_pos_2 = min(int(3 * self.dict_tpm[tag] + 150), 2000)
-                    #self.write_time_2 = move_stepper_2(str(indicator_pos_2), self.write_time_2)
+                        if tag == "biden":
+                            self.indicator_pos_1 = min(int(3 * self.dict_tpm[tag] + 150), 2000)
+                        elif tag == "trump":
+                            self.indicator_pos_2 = min(int(3 * self.dict_tpm[tag] + 150), 2000)
                 self.write_time = move_stepper(str(self.indicator_pos_1), str(self.indicator_pos_2), self.write_time)
         for tag in self.tags:
             if self.dict_num_tweets[tag] != 0:
