@@ -41,10 +41,11 @@ def exit_function():
     myStream.disconnect()
     indicator_pos_1 = 0
     indicator_pos_2 = 0
-    move_stepper_1(str(indicator_pos_1))
-    move_stepper_2(str(indicator_pos_2))
+    write_time = datetime.datetime.now()
+    sleep(.3)
+    move_stepper(str(indicator_pos_1), str(indicator_pos_2), write_time)
     #system("stty echo")
-    sleep(1)
+    sleep(.5)
     exit()
 
 
@@ -115,16 +116,6 @@ def move_stepper(indicator_pos_1, indicator_pos_2, write_time):
         write_time = datetime.datetime.now()
 
     return write_time
-
-
-#def move_stepper_2(indicator_pos_2, write_time_2):
-    # Format is XYYYY where X is motor number and YYYY is 1-4 digit indicator postion
-    #elapsed_time = datetime.datetime.now() - write_time_2
-    #if elapsed_time.total_seconds() > .2:
-        #command = "2" + indicator_pos_2
-        #writeData(command)
-        #write_time_2 = datetime.datetime.now()
-    #return write_time_2
 
 
 # tweepy SteamListner Class
