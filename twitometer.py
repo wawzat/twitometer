@@ -106,7 +106,7 @@ def writeData(value):
 def move_stepper_1(indicator_pos_1, write_time):
     # Format is XYYYY where X is motor number and YYYY is 1-4 digit indicator postion
     elapsed_time = datetime.datetime.now() - write_time
-    if elapsed_time.total_seconds() > .03:
+    if elapsed_time.total_seconds() > .04:
         command = "1" + indicator_pos_1
         writeData(command)
         write_time = datetime.datetime.now()
@@ -116,7 +116,7 @@ def move_stepper_1(indicator_pos_1, write_time):
 def move_stepper_2(indicator_pos_2, write_time):
     # Format is XYYYY where X is motor number and YYYY is 1-4 digit indicator postion
     elapsed_time = datetime.datetime.now() - write_time
-    if elapsed_time.total_seconds() > .03:
+    if elapsed_time.total_seconds() > .04:
         command = "2" + indicator_pos_2
         writeData(command)
         write_time = datetime.datetime.now()
