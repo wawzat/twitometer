@@ -94,7 +94,7 @@ def get_arguments():
 def writeData(value, write_time):
     try:
         elapsed_time = datetime.datetime.now() - write_time
-        if elapsed_time.total_seconds > .03:
+        if elapsed_time.total_seconds() > .03:
             byteValue = StringToBytes(value)
             #print(byteValue)
             bus.write_i2c_block_data(addr, 0x00, byteValue)
