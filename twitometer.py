@@ -103,24 +103,24 @@ def writeData(value):
         pass
 
 
-def move_stepper_1(indicator_pos_1, write_time):
+def move_stepper_1(indicator_pos_1, write_time_1):
     # Format is XYYYY where X is motor number and YYYY is 1-4 digit indicator postion
-    elapsed_time = datetime.datetime.now() - write_time
+    elapsed_time = datetime.datetime.now() - write_time_1
     if elapsed_time.total_seconds() > .1:
         command = "1" + indicator_pos_1
         writeData(command)
-        write_time = datetime.datetime.now()
-    return write_time
+        write_time_1 = datetime.datetime.now()
+    return write_time_1
 
 
-def move_stepper_2(indicator_pos_2, write_time):
+def move_stepper_2(indicator_pos_2, write_time_2):
     # Format is XYYYY where X is motor number and YYYY is 1-4 digit indicator postion
-    elapsed_time = datetime.datetime.now() - write_time
+    elapsed_time = datetime.datetime.now() - write_time_2
     if elapsed_time.total_seconds() > .1:
         command = "2" + indicator_pos_2
         writeData(command)
-        write_time = datetime.datetime.now()
-    return write_time
+        write_time_2 = datetime.datetime.now()
+    return write_time_2
 
 
 # tweepy SteamListner Class
@@ -139,7 +139,8 @@ class MyStreamListener(tweepy.StreamListener):
         self.dict_tpm_sentiment = { i : 0 for i in self.tags}
         self.dict_tpm_pos_tweets = { i : 0 for i in self.tags}
         self.dict_pos_tweet_rate = { i : 0 for i in self.tags}
-        self.write_time = datetime.datetime.now()
+        self.write_time_1 = datetime.datetime.now()
+        self.write_time_2 = datetime.datetime.now()
         self.positive_words = [
             'amazing', 'beautiful', 'begin', 'best', 'better', 'celebrate', 'celebrating', 'creative', 'fabulous',
             'fight', 'God bless', 'great', 'growth', 'happy', 'incredible', 'leader', 'pleased', 'positive', 'potential',
@@ -219,10 +220,10 @@ class MyStreamListener(tweepy.StreamListener):
                         self.dict_tpm[tag] = int(self.dict_tpm_pos_tweets[tag] / tpm_elapsed_time.seconds * 60 )
                 if tag == "biden":
                     indicator_pos_1 = min(int(3 * self.dict_tpm[tag] + 150), 2000)
-                    self.write_time = move_stepper_1(str(indicator_pos_1), self.write_time)
+                    self.write_time_1 = move_stepper_1(str(indicator_pos_1), self.write_time_1)
                 if tag == "trump":
                     indicator_pos_2 = min(int(3 * self.dict_tpm[tag] + 150), 2000)
-                    self.write_time = move_stepper_2(str(indicator_pos_2), self.write_time)
+                    self.write_time_2 = move_stepper_2(str(indicator_pos_2), self.write_time_2)
         for tag in self.tags:
             if self.dict_num_tweets[tag] != 0:
                 sentiment_pct = round(self.dict_sentiment[tag] / self.dict_num_tweets[tag], 2)
