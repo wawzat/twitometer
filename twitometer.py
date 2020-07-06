@@ -6,6 +6,7 @@
 # Include your Twitter API Keys and Tokens in a file named config.py
 # To do: for - in searches are matching partial words (i.e., lie in believe)
 # James S. Lucas - 20200705
+from datetime import date
 import config
 import tweepy
 from sys import stdout, argv
@@ -90,13 +91,16 @@ def get_arguments():
     return(args)
 
 
-def writeData(value):
+def writeData(value, write_time):
     try:
-        byteValue = StringToBytes(value)
-        #print(byteValue)
-        bus.write_i2c_block_data(addr, 0x00, byteValue)
-        sleep(.02)
-        return -1 
+        elapsed_time = datetime.datetime.now() - write_time
+        if elapsed_time.total_seconds > .03:
+            byteValue = StringToBytes(value)
+            #print(byteValue)
+            bus.write_i2c_block_data(addr, 0x00, byteValue)
+            write_time = datetime.datetime.now()
+            #sleep(.02)
+            return write_time 
     except OSError as e:
         print("I2C Communiation Error")
         print(" ")
@@ -106,13 +110,15 @@ def writeData(value):
 def move_stepper_1(indicator_pos_1):
     # Format is XYYYY where X is motor number and YYYY is 1-4 digit indicator postion
     command = "1" + indicator_pos_1
-    writeData(command)
+    write_time = writeData(command, write_time)
+    return write_time
 
 
 def move_stepper_2(indicator_pos_2):
     # Format is XYYYY where X is motor number and YYYY is 1-4 digit indicator postion
     command = "2" + indicator_pos_2
-    writeData(command)
+    write_time = writeData(command, write_time)
+    return write_time
 
 
 # tweepy SteamListner Class
@@ -131,6 +137,7 @@ class MyStreamListener(tweepy.StreamListener):
         self.dict_tpm_sentiment = { i : 0 for i in self.tags}
         self.dict_tpm_pos_tweets = { i : 0 for i in self.tags}
         self.dict_pos_tweet_rate = { i : 0 for i in self.tags}
+        self.write_time = datetime.datetime.now()
         self.positive_words = [
             'amazing', 'beautiful', 'begin', 'best', 'better', 'celebrate', 'celebrating', 'creative', 'fabulous',
             'fight', 'God bless', 'great', 'growth', 'happy', 'incredible', 'leader', 'pleased', 'positive', 'potential',
@@ -210,10 +217,10 @@ class MyStreamListener(tweepy.StreamListener):
                         self.dict_tpm[tag] = int(self.dict_tpm_pos_tweets[tag] / tpm_elapsed_time.seconds * 60 )
                 if tag == "biden":
                     indicator_pos_1 = min(int(3 * self.dict_tpm[tag] + 150), 2000)
-                    move_stepper_1(str(indicator_pos_1))
+                    self.write_time = move_stepper_1(str(indicator_pos_1))
                 if tag == "trump":
                     indicator_pos_2 = min(int(3 * self.dict_tpm[tag] + 150), 2000)
-                    move_stepper_2(str(indicator_pos_2))
+                    self.write_time = move_stepper_2(str(indicator_pos_2))
         for tag in self.tags:
             if self.dict_num_tweets[tag] != 0:
                 sentiment_pct = round(self.dict_sentiment[tag] / self.dict_num_tweets[tag], 2)
