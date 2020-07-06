@@ -95,7 +95,7 @@ def writeData(value):
         byteValue = StringToBytes(value)
         #print(byteValue)
         bus.write_i2c_block_data(addr, 0x00, byteValue)
-        sleep(.01)
+        sleep(.02)
         return -1 
     except OSError as e:
         print("I2C Communiation Error")
