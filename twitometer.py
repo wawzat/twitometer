@@ -98,7 +98,7 @@ def writeData(value):
         sleep(.1)
         return -1 
     except OSError as e:
-        print("Connection Broken")
+        print("I2C Communiation Error")
         print(" ")
         pass
 
