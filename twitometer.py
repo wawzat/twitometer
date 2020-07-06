@@ -5,7 +5,7 @@
 # Uses X27.128 Automotive Instrument Stepper Motor
 # Include your Twitter API Keys and Tokens in a file named config.py
 # To do: for - in searches are matching partial words (i.e., lie in believe)
-# James S. Lucas - 20200703
+# James S. Lucas - 20200705
 import config
 import tweepy
 from sys import stdout, argv
@@ -95,7 +95,7 @@ def writeData(value):
         byteValue = StringToBytes(value)
         #print(byteValue)
         bus.write_i2c_block_data(addr, 0x00, byteValue)
-        sleep(.1)
+        sleep(.01)
         return -1 
     except OSError as e:
         print("I2C Communiation Error")
