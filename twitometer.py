@@ -236,8 +236,8 @@ class MyStreamListener(tweepy.StreamListener):
                     + " / " + str(self.dict_tweet_rate[tag])
                     + " | "
                 )
-                #stdout.write("\r | " + message + "                       ")
-                print(" | " + message)
+                stdout.write("\r | " + message + "                       ")
+                #print(" | " + message)
 
 
     def on_error(self, status_code):
