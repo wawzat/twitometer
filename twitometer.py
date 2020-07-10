@@ -110,11 +110,11 @@ def move_stepper(indicator_pos_1, indicator_pos_2, write_time):
     if elapsed_time.total_seconds() > .2:
         command = "1" + indicator_pos_1
         writeData(command)
-        print("B: " + str(indicator_pos_2))
+        #print("B: " + str(indicator_pos_2))
         sleep(.0005)
         command = "2" + indicator_pos_2
         writeData(command)
-        print("T: " + str(indicator_pos_2))
+        #print("T: " + str(indicator_pos_2))
         write_time = datetime.datetime.now()
 
     return write_time
@@ -236,7 +236,8 @@ class MyStreamListener(tweepy.StreamListener):
                     + " / " + str(self.dict_tweet_rate[tag])
                     + " | "
                 )
-                stdout.write("\r | " + message + "                       ")
+                #stdout.write("\r | " + message + "                       ")
+                stdout.write(" | " + message + "                       ")
 
 
     def on_error(self, status_code):
