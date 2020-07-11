@@ -1,16 +1,14 @@
-# Retrives top 50 trends from twitter and tweets / tweets per minute for given keywords.
+# Retrives top trends from twitter and tweets / tweets per minute for given keywords.
 # Performs rudimentary sentiment scoring
 # Stepper motor gauge
-# Uses Adafruit DC & Stepper Motor Bonnet for Raspberry Pi Product ID: 4280
-# Uses X27.128 Automotive Instrument Stepper Motor
+# Uses X27.128 Automotive Instrument Stepper Motor with Arduino and AX1201728SG quad driver.
 # Include your Twitter API Keys and Tokens in a file named config.py
 # To do: for - in searches are matching partial words (i.e., lie in believe)
-# James S. Lucas - 20200705
+# James S. Lucas - 20200711
 from datetime import date
 import config
 import tweepy
 from sys import stdout, argv
-#from os import system
 import datetime
 from operator import itemgetter
 import argparse
@@ -36,6 +34,8 @@ api = tweepy.API(auth)
 
 
 def exit_function():
+    '''Function disconnects stream and resets motor positions to zero. 
+    Called by exception handler'''
     print(" ")
     print("End by atexit")
     myStream.disconnect()
@@ -50,15 +50,6 @@ def exit_function():
 
 
 atexit.register(exit_function)
-
-
-# This function converts a string to an array of bytes. 
-def StringToBytes(src): 
-  converted = [] 
-  for b in src: 
-    converted.append(ord(b)) 
-    #print(converted)
-  return converted
 
 
 def get_arguments():
@@ -92,7 +83,17 @@ def get_arguments():
     return(args)
 
 
+def StringToBytes(src): 
+    '''Function converts a string to an array of bytes'''
+    converted = [] 
+    for b in src: 
+        converted.append(ord(b)) 
+        #print(converted)
+    return converted
+
+
 def writeData(value):
+    '''Function writes the command string to the Arduino'''
     try:
         byteValue = StringToBytes(value)
         #print(byteValue)
@@ -105,6 +106,7 @@ def writeData(value):
 
 
 def move_stepper(indicator_pos_1, indicator_pos_2, write_time):
+    '''Function prepares the command string and sends to WriteData()'''
     # Format is XYYYY where X is motor number and YYYY is 1-4 digit indicator postion
     elapsed_time = datetime.datetime.now() - write_time
     if elapsed_time.total_seconds() > .2:
@@ -116,7 +118,6 @@ def move_stepper(indicator_pos_1, indicator_pos_2, write_time):
         writeData(command)
         #print("T: " + str(indicator_pos_2))
         write_time = datetime.datetime.now()
-
     return write_time
 
 
@@ -162,6 +163,7 @@ class MyStreamListener(tweepy.StreamListener):
 
 
     def on_status(self, status):
+        '''Function executes when Tweet received'''
         tweet_score = 0
         tpm_elapsed_time = datetime.datetime.now() - self.last_update_time
         elapsed_time = datetime.datetime.now() - self.start_time
@@ -249,6 +251,7 @@ class MyStreamListener(tweepy.StreamListener):
 
 
 def get_trends(args):
+    '''Function runs once at start, gets and prints top trends'''
     WOEID_dict = {'World': 1, 'NYC': 2459115, 'LA': 2442047, 'USA': 23424977}
     locations = args.locations
     for location in locations:
