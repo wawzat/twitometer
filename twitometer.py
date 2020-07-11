@@ -15,6 +15,7 @@ import argparse
 from smbus import SMBus
 import atexit
 from time import sleep
+import statistics
 
 # Arduino I2C address
 addr = 0x08
@@ -141,6 +142,8 @@ class MyStreamListener(tweepy.StreamListener):
         #self.write_time_2 = datetime.datetime.now()
         self.indicator_pos_1 = 0
         self.indicator_pos_2 = 0
+        self.indicator_pos_1_list = []
+        self.indicator_pos_2_list = []
         self.positive_words = [
             'amazing', 'beautiful', 'begin', 'best', 'better', 'celebrate', 'celebrating', 'creative', 'fabulous',
             'fight', 'God bless', 'great', 'growth', 'happy', 'incredible', 'leader', 'pleased', 'positive', 'potential',
@@ -216,14 +219,22 @@ class MyStreamListener(tweepy.StreamListener):
                         self.dict_tpm_num_tweets[tag] = 0
                         self.dict_tpm_sentiment[tag] = 0
                         self.dict_tpm_pos_tweets[tag] = 0
-                elif tpm_elapsed_time.seconds >= 1:
+                if tpm_elapsed_time.seconds >= 1:
                     for tag in self.tags:
                         self.dict_tpm[tag] = int(self.dict_tpm_pos_tweets[tag] / tpm_elapsed_time.seconds * 60 )
                         if tag == "biden":
                             self.indicator_pos_1 = min(int(4 * self.dict_tpm[tag] + 150), 3240)
+                            if len(self.indicator_pos_1_list) >= 10:
+                                self.indicator_pos_1_list.pop(0)
+                            self.indicator_pos_1_list.append(self.indicator_pos_1)
                         elif tag == "trump":
                             self.indicator_pos_2 = min(int(4 * self.dict_tpm[tag] + 150), 3240)
-                self.write_time = move_stepper(str(self.indicator_pos_1), str(self.indicator_pos_2), self.write_time)
+                            if len(self.indicator_pos_2_list) >= 10:
+                                self.indicator_pos_2_list.pop(0)
+                            self.indicator_pos_2_list.append(self.indicator_pos_2)
+                position1 = statistics.mean(self.indicator_pos_1_list)
+                position2 = statistics.mean(self.indicator_pos_2_list)
+                self.write_time = move_stepper(str(position1), str(position2), self.write_time)
         for tag in self.tags:
             if self.dict_num_tweets[tag] != 0:
                 sentiment_pct = round(self.dict_sentiment[tag] / self.dict_num_tweets[tag], 2)
