@@ -224,12 +224,12 @@ class MyStreamListener(tweepy.StreamListener):
                         self.dict_tpm[tag] = int(self.dict_tpm_pos_tweets[tag] / tpm_elapsed_time.seconds * 60 )
                         if tag == "biden":
                             self.indicator_pos_1 = min(int(4 * self.dict_tpm[tag] + 150), 3240)
-                            if len(self.indicator_pos_1_list) >= 6:
+                            if len(self.indicator_pos_1_list) >= 20:
                                 self.indicator_pos_1_list.pop(0)
                             self.indicator_pos_1_list.append(self.indicator_pos_1)
                         elif tag == "trump":
                             self.indicator_pos_2 = min(int(4 * self.dict_tpm[tag] + 150), 3240)
-                            if len(self.indicator_pos_2_list) >= 10:
+                            if len(self.indicator_pos_2_list) >= 20:
                                 self.indicator_pos_2_list.pop(0)
                             self.indicator_pos_2_list.append(self.indicator_pos_2)
                 position1 = statistics.mean(self.indicator_pos_1_list)
