@@ -4,7 +4,7 @@
 # Uses X27.128 Automotive Instrument Stepper Motor with Arduino and AX1201728SG quad driver.
 # Include your Twitter API Keys and Tokens in a file named config.py
 # To do: for - in searches are matching partial words (i.e., lie in believe)
-# James S. Lucas - 20200711
+# James S. Lucas - 20200712
 from datetime import date
 import config
 import tweepy
@@ -16,6 +16,14 @@ from smbus import SMBus
 import atexit
 from time import sleep
 import statistics
+import re
+from luma.led_matrix.device import max7219
+ from luma.core.interface.serial import spi, noop
+ from luma.core.render import canvas
+ from luma.core.virtual import viewport
+ from luma.core.legacy import text, show_message
+ from luma.core.legacy.font import proportional, CP437_FONT, TINY_FONT, SINCLAIR_FONT, LCD_FONT
+
 
 # Arduino I2C address
 addr = 0x08
@@ -82,6 +90,13 @@ def get_arguments():
                     help=argparse.SUPPRESS)
     args = parser.parse_args()
     return(args)
+
+
+def write_matrix(msg):
+    serial = spi(port=0, device=0, gpio=noop())
+    device = max7219(serial, cascaded=4, block_orientation=90,
+        rotate=2, blocks_arranged_in_reverse_order=True)
+    show_message(device, msg, fill='white', font=proportional(CP437_FONT))
 
 
 def StringToBytes(src): 
@@ -219,6 +234,7 @@ class MyStreamListener(tweepy.StreamListener):
                         self.dict_tpm_num_tweets[tag] = 0
                         self.dict_tpm_sentiment[tag] = 0
                         self.dict_tpm_pos_tweets[tag] = 0
+                        write_matrix(tweet)
                 if tpm_elapsed_time.seconds >= 1:
                     for tag in self.tags:
                         self.dict_tpm[tag] = int(self.dict_tpm_pos_tweets[tag] / tpm_elapsed_time.seconds * 60 )
