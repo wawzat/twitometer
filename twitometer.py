@@ -16,13 +16,13 @@ from smbus import SMBus
 import atexit
 from time import sleep
 import statistics
-import re
+#import re
 from luma.led_matrix.device import max7219
- from luma.core.interface.serial import spi, noop
- from luma.core.render import canvas
- from luma.core.virtual import viewport
- from luma.core.legacy import text, show_message
- from luma.core.legacy.font import proportional, CP437_FONT, TINY_FONT, SINCLAIR_FONT, LCD_FONT
+from luma.core.interface.serial import spi, noop
+from luma.core.render import canvas
+from luma.core.virtual import viewport
+from luma.core.legacy import text, show_message
+from luma.core.legacy.font import proportional, CP437_FONT, TINY_FONT, SINCLAIR_FONT, LCD_FONT
 
 
 # Arduino I2C address
