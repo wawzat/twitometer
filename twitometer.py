@@ -234,7 +234,7 @@ class MyStreamListener(tweepy.StreamListener):
                         self.dict_tpm_num_tweets[tag] = 0
                         self.dict_tpm_sentiment[tag] = 0
                         self.dict_tpm_pos_tweets[tag] = 0
-                        write_matrix(tweet)
+                        #write_matrix(tweet)
                 if tpm_elapsed_time.seconds >= 1:
                     for tag in self.tags:
                         self.dict_tpm[tag] = int(self.dict_tpm_pos_tweets[tag] / tpm_elapsed_time.seconds * 60 )
