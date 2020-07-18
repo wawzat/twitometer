@@ -100,7 +100,7 @@ def write_matrix(msg):
     try:
         test_msg = "Test Message"
         byteValue = StringToBytes(test_msg)
-        print(" ")
+        #print(" ")
         #print(byteValue)
         #Truncate byteValue to 32 bits
         #byteValue_trunc = byteValue[0:31]
