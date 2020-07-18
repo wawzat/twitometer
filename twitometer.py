@@ -25,8 +25,11 @@ from luma.core.legacy import text, show_message
 from luma.core.legacy.font import proportional, CP437_FONT, TINY_FONT, SINCLAIR_FONT, LCD_FONT
 
 
-# Arduino I2C address
-addr = 0x08
+# Stepper Arduino I2C address
+addr_stepper = 0x08
+
+# LED Matrix Arduino I2C address
+addr_led = 0x06
 
 bus = SMBus(1)
 
@@ -93,11 +96,16 @@ def get_arguments():
 
 
 def write_matrix(msg):
-    serial = spi(port=0, device=0, gpio=noop())
-    device = max7219(serial, cascaded=4, block_orientation=90,
-        rotate=2, blocks_arranged_in_reverse_order=True)
-    show_message(device, msg, fill='white', font=proportional(CP437_FONT))
-
+    '''Function writes the command string to the LED Arduino'''
+    try:
+        byteValue = StringToBytes(msg)
+        #print(byteValue)
+        bus.write_i2c_block_data(addr_led, 0x00, byteValue)
+        #sleep(.02)
+    except OSError as e:
+        print("I2C Communication Error")
+        print(" ")
+        pass
 
 def StringToBytes(src): 
     '''Function converts a string to an array of bytes'''
@@ -109,11 +117,11 @@ def StringToBytes(src):
 
 
 def writeData(value):
-    '''Function writes the command string to the Arduino'''
+    '''Function writes the command string to the  Stepper Arduino'''
     try:
         byteValue = StringToBytes(value)
         #print(byteValue)
-        bus.write_i2c_block_data(addr, 0x00, byteValue)
+        bus.write_i2c_block_data(addr_stepper, 0x00, byteValue)
         #sleep(.02)
     except OSError as e:
         print("I2C Communication Error")
@@ -234,7 +242,7 @@ class MyStreamListener(tweepy.StreamListener):
                         self.dict_tpm_num_tweets[tag] = 0
                         self.dict_tpm_sentiment[tag] = 0
                         self.dict_tpm_pos_tweets[tag] = 0
-                        #write_matrix(tweet)
+                        write_matrix(tweet)
                 if tpm_elapsed_time.seconds >= 1:
                     for tag in self.tags:
                         self.dict_tpm[tag] = int(self.dict_tpm_pos_tweets[tag] / tpm_elapsed_time.seconds * 60 )
