@@ -98,12 +98,13 @@ def get_arguments():
 def write_matrix(msg):
     '''Function writes the command string to the LED Arduino'''
     try:
-        byteValue = StringToBytes(msg)
+        test_msg = "Test Message"
+        byteValue = StringToBytes(test_msg)
         print(" ")
         #print(byteValue)
         #Truncate byteValue to 32 bits
-        byteValue_trunc = byteValue[0:31]
-        bus.write_i2c_block_data(addr_led, 0x00, byteValue_trunc)
+        #byteValue_trunc = byteValue[0:31]
+        bus.write_i2c_block_data(addr_led, 0x00, byteValue)
         #sleep(.02)
     except OSError as e:
         print("I2C Communication Error")
