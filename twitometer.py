@@ -99,6 +99,8 @@ def write_matrix(msg):
     '''Function writes the command string to the LED Arduino'''
     try:
         byteValue = StringToBytes(msg)
+        print(" ")
+        print(byteValue)
         #print(byteValue)
         #Truncate byteValue to 32 bits
         byteValue & 0xFFFFFFFF
