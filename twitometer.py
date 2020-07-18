@@ -103,8 +103,8 @@ def write_matrix(msg):
         print(byteValue)
         #print(byteValue)
         #Truncate byteValue to 32 bits
-        byteValue & 0xFFFFFFFF
-        bus.write_i2c_block_data(addr_led, 0x00, byteValue)
+        byteValue_trunc = byteValue[0:31]
+        bus.write_i2c_block_data(addr_led, 0x00, byteValue_trunc)
         #sleep(.02)
     except OSError as e:
         print("I2C Communication Error")
