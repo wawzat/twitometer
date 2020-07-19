@@ -95,22 +95,6 @@ def get_arguments():
     return(args)
 
 
-def write_matrix(msg):
-    '''Function writes the command string to the LED Arduino'''
-    try:
-        #test_msg = "Test Message"
-        byteValue = StringToBytes(msg)
-        #print(" ")
-        #print(byteValue)
-        #Truncate byteValue to 32 bits
-        byteValue_trunc = byteValue[0:31]
-        bus.write_i2c_block_data(addr_led, 0x00, byteValue_trunc)
-        #sleep(.02)
-    except OSError as e:
-        print("I2C Communication Error")
-        print(" ")
-        pass
-
 def StringToBytes(src): 
     '''Function converts a string to an array of bytes'''
     converted = [] 
@@ -127,6 +111,25 @@ def writeData(value):
         #print(byteValue)
         bus.write_i2c_block_data(addr_stepper, 0x00, byteValue)
         #sleep(.02)
+    except OSError as e:
+        print("I2C Communication Error")
+        print(" ")
+        pass
+
+
+def write_matrix(msg):
+    '''Function writes the command string to the LED Arduino'''
+    try:
+        #test_msg = "Test Message"
+        byteValue = StringToBytes(msg)
+        #print(" ")
+        #print(byteValue)
+        #Truncate byteValue to 32 bits
+        byteValue_trunc = byteValue[0:31]
+        bus.write_i2c_block_data(addr_led, 0x00, byteValue_trunc)
+        led_write_time = datetime.datetime.now()
+        #sleep(.02)
+    return led_write_time
     except OSError as e:
         print("I2C Communication Error")
         print(" ")
@@ -165,8 +168,8 @@ class MyStreamListener(tweepy.StreamListener):
         self.dict_tpm_sentiment = { i : 0 for i in self.tags}
         self.dict_tpm_pos_tweets = { i : 0 for i in self.tags}
         self.dict_pos_tweet_rate = { i : 0 for i in self.tags}
-        self.write_time = datetime.datetime.now()
-        #self.write_time_2 = datetime.datetime.now()
+        self.stepper_write_time = datetime.datetime.now()
+        self.led_write_time = datetime.datetime.now()
         self.indicator_pos_1 = 0
         self.indicator_pos_2 = 0
         self.indicator_pos_1_list = []
@@ -246,7 +249,6 @@ class MyStreamListener(tweepy.StreamListener):
                         self.dict_tpm_num_tweets[tag] = 0
                         self.dict_tpm_sentiment[tag] = 0
                         self.dict_tpm_pos_tweets[tag] = 0
-                        write_matrix(tweet)
                 if tpm_elapsed_time.seconds >= 1:
                     for tag in self.tags:
                         self.dict_tpm[tag] = int(self.dict_tpm_pos_tweets[tag] / tpm_elapsed_time.seconds * 60 )
@@ -255,6 +257,9 @@ class MyStreamListener(tweepy.StreamListener):
                             if len(self.indicator_pos_1_list) >= 40:
                                 self.indicator_pos_1_list.pop(0)
                             self.indicator_pos_1_list.append(self.indicator_pos_1)
+                            led_elapsed_time = datetime.datetime.now() - self.led_write_time
+                            if led_elapsed_time >= 30:
+                                self.led_write_time = write_matrix(tweet)
                         elif tag == "trump":
                             self.indicator_pos_2 = min(int(4 * self.dict_tpm[tag] + 150), 3240)
                             if len(self.indicator_pos_2_list) >= 40:
@@ -262,7 +267,7 @@ class MyStreamListener(tweepy.StreamListener):
                             self.indicator_pos_2_list.append(self.indicator_pos_2)
                 position1 = statistics.mean(self.indicator_pos_1_list)
                 position2 = statistics.mean(self.indicator_pos_2_list)
-                self.write_time = move_stepper(str(position1), str(position2), self.write_time)
+                self.stepper_write_time = move_stepper(str(position1), str(position2), self.stepper_write_time)
         for tag in self.tags:
             if self.dict_num_tweets[tag] != 0:
                 sentiment_pct = round(self.dict_sentiment[tag] / self.dict_num_tweets[tag], 2)
