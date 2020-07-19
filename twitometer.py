@@ -120,13 +120,31 @@ def writeData(value):
 def write_matrix(msg):
     '''Function writes the command string to the LED Arduino'''
     try:
-        #test_msg = "Test Message"
         byteValue = StringToBytes(msg)
+        num_chars = len(byteValue)
+        num_whole_blocks, chars_in_last_block = divmod(num_chars, 30)
+        if chars_in_last_block > 0:
+            num_blocks = num_whole_blocks + 1
+        else:
+             num_blocks = num_whole_blocks
+        for b in num_blocks:
+            if b != num_blocks:
+                rem_chars = num_chars - (b * 30)
+                strt_range = (b - 1) * 30
+                end_range = b * 30 - 1
+                msg = str(rem_chars) + byteValue[strt_range : end_range]
+                bus.write_i2c_block_data(addr_led, 0x00, msg)
+            else:
+                rem_chars = 0
+                strt_range = b * 30 + 1
+                end_range = num_chars - 1
+                msg = str(rem_chars) + byteValue[strt_range : end_range]
+                bus.write_i2c_block_data(addr_led, 0x00, msg)
+        #test_msg = "Test Message"
         #print(" ")
         #print(byteValue)
         #Truncate byteValue to 32 bits
-        byteValue_trunc = byteValue[0:31]
-        bus.write_i2c_block_data(addr_led, 0x00, byteValue_trunc)
+        #byteValue_trunc = byteValue[0:31]
         led_write_time = datetime.datetime.now()
         #sleep(.02)
         return led_write_time
