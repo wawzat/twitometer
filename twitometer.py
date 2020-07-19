@@ -258,7 +258,7 @@ class MyStreamListener(tweepy.StreamListener):
                                 self.indicator_pos_1_list.pop(0)
                             self.indicator_pos_1_list.append(self.indicator_pos_1)
                             led_elapsed_time = datetime.datetime.now() - self.led_write_time
-                            if led_elapsed_time >= 30:
+                            if led_elapsed_time.seconds >= 30:
                                 self.led_write_time = write_matrix(tweet)
                         elif tag == "trump":
                             self.indicator_pos_2 = min(int(4 * self.dict_tpm[tag] + 150), 3240)
