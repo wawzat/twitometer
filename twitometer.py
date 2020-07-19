@@ -4,7 +4,7 @@
 # Uses X27.128 Automotive Instrument Stepper Motor with Arduino and AX1201728SG quad driver.
 # Include your Twitter API Keys and Tokens in a file named config.py
 # To do: for - in searches are matching partial words (i.e., lie in believe)
-# James S. Lucas - 20200712
+# James S. Lucas - 20200719
 from datetime import date
 import config
 import tweepy
