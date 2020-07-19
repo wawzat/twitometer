@@ -129,7 +129,7 @@ def write_matrix(msg):
         bus.write_i2c_block_data(addr_led, 0x00, byteValue_trunc)
         led_write_time = datetime.datetime.now()
         #sleep(.02)
-    return led_write_time
+        return led_write_time
     except OSError as e:
         print("I2C Communication Error")
         print(" ")
