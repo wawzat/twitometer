@@ -128,7 +128,7 @@ def write_matrix(msg):
         else:
              num_blocks = num_whole_blocks
         for b in range(num_blocks):
-            if b != num_blocks:
+            if b != (num_blocks - 1):
                 rem_chars = num_chars - ((b + 1) * 30)
                 strt_range = b * 30
                 end_range = strt_range + 29
