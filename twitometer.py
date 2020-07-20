@@ -112,12 +112,12 @@ def writeData(value):
         bus.write_i2c_block_data(addr_stepper, 0x00, byteValue)
         #sleep(.02)
     except OSError as e:
-        print("I2C Communication Error")
+        print("Stepper I2C Communication Error")
         print(" ")
         pass
 
 
-def write_matrix(msg):
+def write_matrix(msg, led_write_time):
     '''Function writes the command string to the LED Arduino'''
     try:
         byteValue = StringToBytes(msg)
@@ -151,8 +151,8 @@ def write_matrix(msg):
         sleep(.25)
         return led_write_time
     except OSError as e:
-        led_write_time = datetime.datetime.now()
-        print("I2C Communication Error")
+        #led_write_time = datetime.datetime.now()
+        print("LED Matrix I2C Communication Error")
         print(" ")
         return led_write_time
         pass
@@ -281,7 +281,7 @@ class MyStreamListener(tweepy.StreamListener):
                             self.indicator_pos_1_list.append(self.indicator_pos_1)
                             led_elapsed_time = datetime.datetime.now() - self.led_write_time
                             if led_elapsed_time.seconds >= 30:
-                                self.led_write_time = write_matrix(tweet)
+                                self.led_write_time = write_matrix(tweet, self.led_write_time)
                         elif tag == "trump":
                             self.indicator_pos_2 = min(int(4 * self.dict_tpm[tag] + 150), 3240)
                             if len(self.indicator_pos_2_list) >= 40:
