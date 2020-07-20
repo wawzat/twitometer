@@ -120,6 +120,7 @@ def writeData(value):
 def write_matrix(msg):
     '''Function writes the command string to the LED Arduino'''
     try:
+        led_write_time = datetime.datetime.now()
         byteValue = StringToBytes(msg)
         num_chars = len(byteValue)
         num_whole_blocks, chars_in_last_block = divmod(num_chars, 30)
@@ -147,7 +148,6 @@ def write_matrix(msg):
         #print(byteValue)
         #Truncate byteValue to 32 bits
         #byteValue_trunc = byteValue[0:31]
-        led_write_time = datetime.datetime.now()
         sleep(.25)
         return led_write_time
     except OSError as e:
