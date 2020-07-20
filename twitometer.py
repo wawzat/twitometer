@@ -132,13 +132,15 @@ def write_matrix(msg):
                 rem_chars = num_chars - (b * 30)
                 strt_range = (b - 1) * 30
                 end_range = b * 30 - 1
-                msg = str(rem_chars) + byteValue[strt_range : end_range]
+                msg = byteValue[strt_range : end_range]
+                msg.insert(0, ord(rem_chars))
                 bus.write_i2c_block_data(addr_led, 0x00, msg)
             else:
                 rem_chars = 0
                 strt_range = b * 30 + 1
                 end_range = num_chars - 1
-                msg = str(rem_chars) + byteValue[strt_range : end_range]
+                msg = byteValue[strt_range : end_range]
+                msg.insert(0, ord(rem_chars))
                 bus.write_i2c_block_data(addr_led, 0x00, msg)
         #test_msg = "Test Message"
         #print(" ")
