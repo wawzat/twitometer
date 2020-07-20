@@ -151,8 +151,10 @@ def write_matrix(msg):
         sleep(.25)
         return led_write_time
     except OSError as e:
+        led_write_time = datetime.datetime.now()
         print("I2C Communication Error")
         print(" ")
+        return led_write_time
         pass
 
 
