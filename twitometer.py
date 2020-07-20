@@ -148,7 +148,7 @@ def write_matrix(msg):
         #Truncate byteValue to 32 bits
         #byteValue_trunc = byteValue[0:31]
         led_write_time = datetime.datetime.now()
-        #sleep(.02)
+        sleep(.25)
         return led_write_time
     except OSError as e:
         print("I2C Communication Error")
