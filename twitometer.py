@@ -131,7 +131,7 @@ def write_matrix(msg, led_write_time):
             if b != (num_blocks - 1):
                 rem_chars = num_chars - ((b + 1) * 30)
                 strt_range = b * 30
-                end_range = strt_range + 29
+                end_range = strt_range + 30
                 msg = byteValue[strt_range : end_range]
                 msg.insert(0, ord("1"))
                 bus.write_i2c_block_data(addr_led, 0x00, msg)
