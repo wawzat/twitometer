@@ -281,16 +281,18 @@ class MyStreamListener(tweepy.StreamListener):
                             if len(self.indicator_pos_1_list) >= 40:
                                 self.indicator_pos_1_list.pop(0)
                             self.indicator_pos_1_list.append(self.indicator_pos_1)
+                            led_elapsed_time = datetime.datetime.now() - self.led_write_time
+                            if led_elapsed_time.seconds >= 40:
+                                self.led_write_time = write_matrix(tweet_1, "1", self.led_write_time)
                         elif tag == "trump":
                             tweet_2 = tweet
                             self.indicator_pos_2 = min(int(4 * self.dict_tpm[tag] + 150), 3240)
                             if len(self.indicator_pos_2_list) >= 40:
                                 self.indicator_pos_2_list.pop(0)
                             self.indicator_pos_2_list.append(self.indicator_pos_2)
-                        led_elapsed_time = datetime.datetime.now() - self.led_write_time
-                        if led_elapsed_time.seconds >= 40:
-                            self.led_write_time = write_matrix(tweet_1, "1", self.led_write_time)
-                            self.led_write_time = write_matrix(tweet_2, "2", self.led_write_time)
+                            led_elapsed_time = datetime.datetime.now() - self.led_write_time
+                            if led_elapsed_time.seconds >= 40:
+                                self.led_write_time = write_matrix(tweet_2, "2", self.led_write_time)
                 position1 = statistics.mean(self.indicator_pos_1_list)
                 position2 = statistics.mean(self.indicator_pos_2_list)
                 self.stepper_write_time = move_stepper(str(position1), str(position2), self.stepper_write_time)
