@@ -117,7 +117,7 @@ def writeData(value):
         pass
 
 
-def write_matrix(msg, led_write_time):
+def write_matrix(msg, display_num, led_write_time):
     '''Function writes the command string to the LED Arduino'''
     try:
         byteValue = StringToBytes(msg)
@@ -140,6 +140,7 @@ def write_matrix(msg, led_write_time):
                 strt_range = b * 30
                 end_range = num_chars
                 msg = byteValue[strt_range : end_range]
+                msg.append(ord(display_num))
                 print(str(strt_range) + "/" + str(end_range) + "/" + str(len(msg)))
                 bus.write_i2c_block_data(addr_led, 0x02, msg)
                 led_write_time = datetime.datetime.now()
@@ -275,18 +276,21 @@ class MyStreamListener(tweepy.StreamListener):
                     for tag in self.tags:
                         self.dict_tpm[tag] = int(self.dict_tpm_pos_tweets[tag] / tpm_elapsed_time.seconds * 60 )
                         if tag == "biden":
+                            tweet_1 = tweet
                             self.indicator_pos_1 = min(int(4 * self.dict_tpm[tag] + 150), 3240)
                             if len(self.indicator_pos_1_list) >= 40:
                                 self.indicator_pos_1_list.pop(0)
                             self.indicator_pos_1_list.append(self.indicator_pos_1)
-                            led_elapsed_time = datetime.datetime.now() - self.led_write_time
-                            if led_elapsed_time.seconds >= 40:
-                                self.led_write_time = write_matrix(tweet, self.led_write_time)
                         elif tag == "trump":
+                            tweet_2 = tweet
                             self.indicator_pos_2 = min(int(4 * self.dict_tpm[tag] + 150), 3240)
                             if len(self.indicator_pos_2_list) >= 40:
                                 self.indicator_pos_2_list.pop(0)
                             self.indicator_pos_2_list.append(self.indicator_pos_2)
+                        led_elapsed_time = datetime.datetime.now() - self.led_write_time
+                        if led_elapsed_time.seconds >= 40:
+                            self.led_write_time = write_matrix(tweet_1, 1, self.led_write_time)
+                            self.led_write_time = write_matrix(tweet_2, 2, self.led_write_time)
                 position1 = statistics.mean(self.indicator_pos_1_list)
                 position2 = statistics.mean(self.indicator_pos_2_list)
                 self.stepper_write_time = move_stepper(str(position1), str(position2), self.stepper_write_time)
