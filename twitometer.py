@@ -243,6 +243,7 @@ class MyStreamListener(tweepy.StreamListener):
                     for neg_word in self.negative_words:
                         if neg_word.upper() in tweet.upper():
                             if tag == "biden":
+                                tweet_1 = tweet
                                 self.dict_sentiment[tag] -= 1
                                 self.dict_tpm_sentiment[tag] -=1
                                 tweet_score -= 1
@@ -252,6 +253,7 @@ class MyStreamListener(tweepy.StreamListener):
                                 if led_elapsed_time_1.seconds >= 40:
                                     self.led_write_time_1 = write_matrix(tweet_1, "0", self.led_write_time_1)
                             else:
+                                tweet_2 = tweet
                                 self.dict_sentiment[tag] -= 1
                                 self.dict_tpm_sentiment[tag] -=1
                                 tweet_score -= 1
@@ -283,13 +285,11 @@ class MyStreamListener(tweepy.StreamListener):
                     for tag in self.tags:
                         self.dict_tpm[tag] = int(self.dict_tpm_pos_tweets[tag] / tpm_elapsed_time.seconds * 60 )
                         if tag == "biden":
-                            tweet_1 = tweet
                             self.indicator_pos_1 = min(int(4 * self.dict_tpm[tag] + 150), 3240)
                             if len(self.indicator_pos_1_list) >= 40:
                                 self.indicator_pos_1_list.pop(0)
                             self.indicator_pos_1_list.append(self.indicator_pos_1)
                         elif tag == "trump":
-                            tweet_2 = tweet
                             self.indicator_pos_2 = min(int(4 * self.dict_tpm[tag] + 150), 3240)
                             if len(self.indicator_pos_2_list) >= 40:
                                 self.indicator_pos_2_list.pop(0)
