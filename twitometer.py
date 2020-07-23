@@ -134,7 +134,7 @@ def write_matrix(msg, led_write_time):
                 end_range = strt_range + 30
                 msg = byteValue[strt_range : end_range]
                 bus.write_i2c_block_data(addr_led, 0x01, msg)
-                sleep(.2)
+                sleep(.1)
             else:
                 #rem_chars = 0
                 strt_range = b * 30
@@ -280,7 +280,7 @@ class MyStreamListener(tweepy.StreamListener):
                                 self.indicator_pos_1_list.pop(0)
                             self.indicator_pos_1_list.append(self.indicator_pos_1)
                             led_elapsed_time = datetime.datetime.now() - self.led_write_time
-                            if led_elapsed_time.seconds >= 30:
+                            if led_elapsed_time.seconds >= 40:
                                 self.led_write_time = write_matrix(tweet, self.led_write_time)
                         elif tag == "trump":
                             self.indicator_pos_2 = min(int(4 * self.dict_tpm[tag] + 150), 3240)
