@@ -289,8 +289,8 @@ class MyStreamListener(tweepy.StreamListener):
                             self.indicator_pos_2_list.append(self.indicator_pos_2)
                         led_elapsed_time = datetime.datetime.now() - self.led_write_time
                         if led_elapsed_time.seconds >= 40:
-                            self.led_write_time = write_matrix(tweet_1, 1, self.led_write_time)
-                            self.led_write_time = write_matrix(tweet_2, 2, self.led_write_time)
+                            self.led_write_time = write_matrix(tweet_1, "1", self.led_write_time)
+                            self.led_write_time = write_matrix(tweet_2, "2", self.led_write_time)
                 position1 = statistics.mean(self.indicator_pos_1_list)
                 position2 = statistics.mean(self.indicator_pos_2_list)
                 self.stepper_write_time = move_stepper(str(position1), str(position2), self.stepper_write_time)
