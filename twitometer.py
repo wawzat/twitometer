@@ -145,6 +145,7 @@ def write_matrix(msg, display_num, led_write_time):
                 print(str(strt_range) + "/" + str(end_range) + "/" + str(len(msg)))
                 bus.write_i2c_block_data(addr_led, 0x02, msg)
                 led_write_time = datetime.datetime.now()
+                sleep(.1)
         #test_msg = "Test Message"
         #print(" ")
         #print(byteValue)
@@ -251,7 +252,7 @@ class MyStreamListener(tweepy.StreamListener):
                                 self.dict_sentiment["trump"] +=1
                                 self.dict_tpm_sentiment["trump"] +=1
                                 led_elapsed_time_1 = datetime.datetime.now() - self.led_write_time_1
-                                if led_elapsed_time_1.seconds >= (38 + randint(1, 5)) :
+                                if led_elapsed_time_1.seconds >= (32 + randint(1, 10)) :
                                     self.led_write_time_1 = write_matrix(tweet_1, "0", self.led_write_time_1)
                             else:
                                 tweet_2 = tweet
@@ -261,7 +262,7 @@ class MyStreamListener(tweepy.StreamListener):
                                 self.dict_sentiment["biden"] +=1
                                 self.dict_tpm_sentiment["biden"] +=1
                                 led_elapsed_time_2 = datetime.datetime.now() - self.led_write_time_2
-                                if led_elapsed_time_2.seconds >= (38 + randint(1, 5)):
+                                if led_elapsed_time_2.seconds >= (33 + randint(1, 10)):
                                     self.led_write_time_2 = write_matrix(tweet_2, "1", self.led_write_time_2)
                             break
                     if self.dict_tpm_sentiment[tag] >= 0:
