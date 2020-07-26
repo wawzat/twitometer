@@ -167,12 +167,12 @@ def move_stepper(indicator_pos_1, indicator_pos_2, write_time):
     elapsed_time = datetime.datetime.now() - write_time
     if elapsed_time.total_seconds() > .2:
         #command = "1" + indicator_pos_1
-        motor_num =  ord("1")
+        motor_num = 0x01 
         position = indicator_pos_1
         writeData(motor_num, position)
         #print("B: " + str(indicator_pos_2))
         sleep(.0005)
-        motor_num = ord("2")
+        motor_num = 0x02
         position = indicator_pos_2
         writeData(motor_num, position)
         #print("T: " + str(indicator_pos_2))
