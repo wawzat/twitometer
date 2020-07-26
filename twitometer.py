@@ -105,12 +105,12 @@ def StringToBytes(src):
     return converted
 
 
-def writeData(value):
+def writeData(motor_num, value):
     '''Function writes the command string to the  Stepper Arduino'''
     try:
         byteValue = StringToBytes(value)
         #print(byteValue)
-        bus.write_i2c_block_data(addr_stepper, 0x00, byteValue)
+        bus.write_i2c_block_data(addr_stepper, motor_num, byteValue)
         #sleep(.02)
     except OSError as e:
         print("Stepper I2C Communication Error")
@@ -166,12 +166,15 @@ def move_stepper(indicator_pos_1, indicator_pos_2, write_time):
     # Format is XYYYY where X is motor number and YYYY is 1-4 digit indicator postion
     elapsed_time = datetime.datetime.now() - write_time
     if elapsed_time.total_seconds() > .2:
-        command = "1" + indicator_pos_1
-        writeData(command)
+        #command = "1" + indicator_pos_1
+        motor_num =  ord("1")
+        position = indicator_pos_1
+        writeData(motor_num, position)
         #print("B: " + str(indicator_pos_2))
         sleep(.0005)
-        command = "2" + indicator_pos_2
-        writeData(command)
+        motor_num = ord("2")
+        position = indicator_pos_2
+        writeData(motor_num, position)
         #print("T: " + str(indicator_pos_2))
         write_time = datetime.datetime.now()
     return write_time
