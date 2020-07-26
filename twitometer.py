@@ -110,7 +110,7 @@ def writeData(motor_num, value):
     try:
         byteValue = StringToBytes(value)
         #print(byteValue)
-        bus.write_i2c_block_data(addr_stepper, 0x01, byteValue)
+        bus.write_i2c_block_data(addr_stepper, motor_num, byteValue)
         #sleep(.02)
     except OSError as e:
         print("Stepper I2C Communication Error")
