@@ -301,7 +301,7 @@ class MyStreamListener(tweepy.StreamListener):
                             self.indicator_pos_2_list.append(self.indicator_pos_2)
                 position1 = statistics.mean(self.indicator_pos_1_list)
                 position2 = statistics.mean(self.indicator_pos_2_list)
-                #self.stepper_write_time = move_stepper(str(position1), str(position2), self.stepper_write_time)
+                self.stepper_write_time = move_stepper(str(position1), str(position2), self.stepper_write_time)
         for tag in self.tags:
             if self.dict_num_tweets[tag] != 0:
                 sentiment_pct = round(self.dict_sentiment[tag] / self.dict_num_tweets[tag], 2)
