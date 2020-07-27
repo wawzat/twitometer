@@ -114,7 +114,7 @@ def writeData(motor_num, value):
         #sleep(.02)
     except OSError as e:
         print("Stepper I2C Communication Error")
-        print(" ")
+        print(e)
         pass
 
 
