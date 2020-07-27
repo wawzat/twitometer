@@ -255,7 +255,7 @@ class MyStreamListener(tweepy.StreamListener):
                                 self.dict_sentiment["trump"] +=1
                                 self.dict_tpm_sentiment["trump"] +=1
                                 led_elapsed_time_1 = datetime.datetime.now() - self.led_write_time_1
-                                if led_elapsed_time_1.seconds >= (32 + randint(1, 10)) :
+                                if led_elapsed_time_1.seconds >= (45 + randint(1, 10)) :
                                     self.led_write_time_1 = write_matrix(tweet_1, "1", self.led_write_time_1)
                             else:
                                 tweet_2 = tweet
@@ -265,7 +265,7 @@ class MyStreamListener(tweepy.StreamListener):
                                 self.dict_sentiment["biden"] +=1
                                 self.dict_tpm_sentiment["biden"] +=1
                                 led_elapsed_time_2 = datetime.datetime.now() - self.led_write_time_2
-                                if led_elapsed_time_2.seconds >= (33 + randint(1, 10)):
+                                if led_elapsed_time_2.seconds >= (46 + randint(1, 10)):
                                     self.led_write_time_2 = write_matrix(tweet_2, "0", self.led_write_time_2)
                             break
                     if self.dict_tpm_sentiment[tag] >= 0:
