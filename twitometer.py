@@ -109,7 +109,7 @@ def writeData(motor_num, value):
     '''Function writes the command string to the  Stepper Arduino'''
     try:
         byteValue = StringToBytes(value)
-        print(byteValue)
+        #print(byteValue)
         bus.write_i2c_block_data(addr_stepper, motor_num, byteValue)
         #sleep(.02)
     except OSError as e:
