@@ -109,7 +109,7 @@ def writeData(motor_num, value):
     '''Function writes the command string to the  Stepper Arduino'''
     try:
         byteValue = StringToBytes(value)
-        #print(byteValue)
+        print(byteValue)
         bus.write_i2c_block_data(addr_stepper, motor_num, byteValue)
         #sleep(.02)
     except OSError as e:
@@ -166,7 +166,7 @@ def move_stepper(indicator_pos_1, indicator_pos_2, write_time):
     # Format is XYYYY where X is motor number and YYYY is 1-4 digit indicator postion
     elapsed_time = datetime.datetime.now() - write_time
     if elapsed_time.total_seconds() > .2:
-        #command = "1" + indicator_pos_1
+        #command = indicator_pos_1
         motor_num = 0x01 
         position = indicator_pos_1
         writeData(motor_num, position)
