@@ -299,8 +299,8 @@ class MyStreamListener(tweepy.StreamListener):
                             if len(self.indicator_pos_2_list) >= 40:
                                 self.indicator_pos_2_list.pop(0)
                             self.indicator_pos_2_list.append(self.indicator_pos_2)
-                position1 = statistics.mean(self.indicator_pos_1_list)
-                position2 = statistics.mean(self.indicator_pos_2_list)
+                position1 = int(statistics.mean(self.indicator_pos_1_list))
+                position2 = int(statistics.mean(self.indicator_pos_2_list))
                 self.stepper_write_time = move_stepper(str(position1), str(position2), self.stepper_write_time)
         for tag in self.tags:
             if self.dict_num_tweets[tag] != 0:
