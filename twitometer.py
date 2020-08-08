@@ -70,12 +70,13 @@ def exit_function():
     write_time = datetime.datetime.now()
     sleep(.3)
     write_time = move_stepper(str(indicator_pos_1), str(indicator_pos_2), write_time)
+    sleep(.8)
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(pwr_pin, GPIO.OUT)
     GPIO.output(pwr_pin, GPIO.LOW)
     GPIO.cleanup()
-   #system("stty echo")
     sleep(.5)
+   #system("stty echo")
     exit()
 
 
@@ -117,7 +118,7 @@ def i2c_error_tracker():
     global last_i2c_error_time
     global num_i2c_errors
     global pwr_pin
-    duration_since_last_error = last_i2c_error_time - datetime.datetime.now()
+    duration_since_last_error = datetime.datetime.now() - last_i2c_error_time
     last_i2c_error_time = datetime.datetime.now()
     if duration_since_last_error.totalseconds() < 1:
         num_i2c_errors += 1
