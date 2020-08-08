@@ -54,6 +54,10 @@ auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
 api = tweepy.API(auth)
 
 
+num_i2c_errors = 0
+last_i2c_error_time = datetime.datetime.now()
+
+
 def exit_function():
     '''Function disconnects stream and resets motor positions to zero. 
     Called by exception handler'''
@@ -65,6 +69,7 @@ def exit_function():
     write_time = datetime.datetime.now()
     sleep(.3)
     write_time = move_stepper(str(indicator_pos_1), str(indicator_pos_2), write_time)
+    GPIO.setmode(GPIO.BCM)
     GPIO.output(pwr_pin, GPIO.LOW)
     GPIO.cleanup()
    #system("stty echo")
@@ -104,6 +109,27 @@ def get_arguments():
                     help=argparse.SUPPRESS)
     args = parser.parse_args()
     return(args)
+
+
+def i2c_error_tracker():
+    global last_i2c_error_time
+    global num_i2c_errors
+    global pwr_pin
+    duration_since_last_error = last_i2c_error_time - datetime.datetime.now()
+    if duration_since_last_error.totalseconds() < 1:
+        last_i2c_error_time = datetime.datetime.now()
+        num_i2c_errors += 1
+    elif duration_since_last_error.total_seconds() > 2:
+        last_i2c_error_time = datetime.datetime.now()
+        num_i2c_errors = 0
+    if num_12c_errors > 2:
+        last_i2c_error_time = datetime.datetime.now()
+        num_i2c_errors = 0
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setup(pwr_pin, GPIO.OUT)
+        GPIO.output(pwr_pin, GPIO.LOW)
+        sleep(2)
+        GPIO.output(pwr_pin, GPIO.HIGH)
 
 
 def StringToBytes(src): 
@@ -167,6 +193,7 @@ def write_matrix(msg, display_num, led_write_time):
         #led_write_time = datetime.datetime.now()
         print("LED Matrix I2C Communication Error")
         print(" ")
+        i2c_error_tracker()
         return led_write_time
         pass
 
