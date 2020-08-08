@@ -63,6 +63,7 @@ def exit_function():
     Called by exception handler'''
     print(" ")
     print("End by atexit")
+    global pwr_pin
     myStream.disconnect()
     indicator_pos_1 = 0
     indicator_pos_2 = 0
@@ -70,6 +71,7 @@ def exit_function():
     sleep(.3)
     write_time = move_stepper(str(indicator_pos_1), str(indicator_pos_2), write_time)
     GPIO.setmode(GPIO.BCM)
+    GPIO.setup(pwr_pin, GPIO.OUT)
     GPIO.output(pwr_pin, GPIO.LOW)
     GPIO.cleanup()
    #system("stty echo")
@@ -116,14 +118,13 @@ def i2c_error_tracker():
     global num_i2c_errors
     global pwr_pin
     duration_since_last_error = last_i2c_error_time - datetime.datetime.now()
+    last_i2c_error_time = datetime.datetime.now()
     if duration_since_last_error.totalseconds() < 1:
-        last_i2c_error_time = datetime.datetime.now()
         num_i2c_errors += 1
+        print(str(num_i2c_errors))
     elif duration_since_last_error.total_seconds() > 2:
-        last_i2c_error_time = datetime.datetime.now()
         num_i2c_errors = 0
     if num_12c_errors > 2:
-        last_i2c_error_time = datetime.datetime.now()
         num_i2c_errors = 0
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(pwr_pin, GPIO.OUT)
