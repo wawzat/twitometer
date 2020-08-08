@@ -64,7 +64,7 @@ def exit_function():
     indicator_pos_2 = 0
     write_time = datetime.datetime.now()
     sleep(.3)
-    move_stepper(str(indicator_pos_1), str(indicator_pos_2), write_time)
+    write_time = move_stepper(str(indicator_pos_1), str(indicator_pos_2), write_time)
     GPIO.output(pwr_pin, GPIO.LOW)
     GPIO.cleanup()
    #system("stty echo")
@@ -267,7 +267,7 @@ class MyStreamListener(tweepy.StreamListener):
                                 led_elapsed_time_1 = datetime.datetime.now() - self.led_write_time_1
                                 if led_elapsed_time_1.seconds >= (45 + randint(1, 10)) :
                                     self.led_write_time_1 = write_matrix(tweet_1, "1", self.led_write_time_1)
-                            else:
+                            elif tag == "trump":
                                 tweet_2 = tweet
                                 self.dict_sentiment[tag] -= 1
                                 self.dict_tpm_sentiment[tag] -=1
@@ -374,8 +374,7 @@ except KeyboardInterrupt:
     myStream.disconnect()
     indicator_pos_1 = 0
     indicator_pos_2 = 0
-    move_stepper_1(str(indicator_pos_1))
-    move_stepper_2(str(indicator_pos_2))
+    write_time = move_stepper(str(indicator_pos_1), str(indicator_pos_2), write_time)
     GPIO.output(pwr_pin, GPIO.LOW)
     GPIO.cleanup()
     sleep(1)
