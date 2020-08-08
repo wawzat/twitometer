@@ -4,7 +4,8 @@
 # Uses X27.128 Automotive Instrument Stepper Motor with Arduino and AX1201728SG quad driver.
 # Include your Twitter API Keys and Tokens in a file named config.py
 # To do: for - in searches are matching partial words (i.e., lie in believe)
-# James S. Lucas - 20200719
+# James S. Lucas - 20200808
+import RPi.GPIO as GPIO
 from datetime import date
 import config
 import tweepy
@@ -24,6 +25,13 @@ from luma.core.render import canvas
 from luma.core.virtual import viewport
 from luma.core.legacy import text, show_message
 from luma.core.legacy.font import proportional, CP437_FONT, TINY_FONT, SINCLAIR_FONT, LCD_FONT
+
+
+pwr_pin = 27
+
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(pwr_pin, GPIO.OUT)
+GPIO.output(pwr_pin, GPIO.LOW)
 
 
 # Stepper Arduino I2C address
@@ -57,7 +65,9 @@ def exit_function():
     write_time = datetime.datetime.now()
     sleep(.3)
     move_stepper(str(indicator_pos_1), str(indicator_pos_2), write_time)
-    #system("stty echo")
+    GPIO.output(pwr_pin, GPIO.LOW)
+    GPIO.cleanup()
+   #system("stty echo")
     sleep(.5)
     exit()
 
@@ -347,6 +357,8 @@ def get_trends(args):
 
 # Main
 try:
+    GPIO.output(pwr_pin, GPIO.HIGH)
+    sleep(2)
     args = get_arguments()
     tags = args.keywords
     get_trends(args)
@@ -364,5 +376,7 @@ except KeyboardInterrupt:
     indicator_pos_2 = 0
     move_stepper_1(str(indicator_pos_1))
     move_stepper_2(str(indicator_pos_2))
+    GPIO.output(pwr_pin, GPIO.LOW)
+    GPIO.cleanup()
     sleep(1)
     exit()
