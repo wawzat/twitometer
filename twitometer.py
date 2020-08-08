@@ -120,7 +120,7 @@ def i2c_error_tracker():
     global pwr_pin
     duration_since_last_error = datetime.datetime.now() - last_i2c_error_time
     last_i2c_error_time = datetime.datetime.now()
-    if duration_since_last_error.totalseconds() < 1:
+    if duration_since_last_error.total_seconds() < 1:
         num_i2c_errors += 1
         print(str(num_i2c_errors))
     elif duration_since_last_error.total_seconds() > 2:
