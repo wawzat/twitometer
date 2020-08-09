@@ -174,7 +174,7 @@ def write_matrix(msg, display_num, led_write_time):
                 end_range = strt_range + 30
                 msg = byteValue[strt_range : end_range]
                 bus.write_i2c_block_data(addr_led, 0x01, msg)
-                sleep(.06)
+                sleep(.02)
             else:
                 #rem_chars = 0
                 strt_range = b * 30
@@ -184,7 +184,7 @@ def write_matrix(msg, display_num, led_write_time):
                 print(str(strt_range) + "/" + str(end_range) + "/" + str(len(msg)))
                 bus.write_i2c_block_data(addr_led, 0x02, msg)
                 led_write_time = datetime.datetime.now()
-                sleep(.06)
+                sleep(.02)
         #test_msg = "Test Message"
         #print(" ")
         #print(byteValue)
@@ -210,7 +210,7 @@ def move_stepper(indicator_pos_1, indicator_pos_2, write_time):
         position = indicator_pos_1
         writeData(motor_num, position)
         #print("B: " + str(indicator_pos_2))
-        sleep(.0004)
+        sleep(.0002)
         motor_num = 0x02
         position = indicator_pos_2
         writeData(motor_num, position)
