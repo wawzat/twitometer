@@ -19,9 +19,9 @@ MD_Parola myDisplay = MD_Parola(HARDWARE_TYPE, CS_PIN, MAX_DEVICES);
 // Define the I2C address of this device for receiving data from Raspberry Pi
 #define addr 0x06
 
-char msg[511];
-char msg_0[511];
-char msg_1[511];
+char msg[290];
+char msg_0[290];
+char msg_1[290];
 int char_pos = 0;
 int block_count = 0;
 int block_flag = 0;
@@ -92,11 +92,12 @@ void receiveEvent(int howMany) {
     char_pos = 0;
     Serial.println(display_num);
     Serial.println(msg);
-    myDisplay.displayClear();
     if (display_num == 0) {
-      myDisplay.displayZoneText(display_num, msg_0, PA_CENTER, 30, 0, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
+     myDisplay.displayClear(0);
+     myDisplay.displayZoneText(display_num, msg_0, PA_CENTER, 30, 0, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
     }
     if (display_num == 1) {
+      myDisplay.displayClear(1);
       myDisplay.displayZoneText(display_num, msg_1, PA_CENTER, 30, 0, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
     }
     msg[0] = '\0';

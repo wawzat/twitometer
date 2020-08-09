@@ -132,7 +132,7 @@ def i2c_error_tracker():
         GPIO.output(pwr_pin, GPIO.LOW)
         sleep(2)
         GPIO.output(pwr_pin, GPIO.HIGH)
-        sleep(2)
+        sleep(4)
 
 
 def StringToBytes(src): 
