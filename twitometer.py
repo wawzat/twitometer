@@ -406,6 +406,7 @@ except KeyboardInterrupt:
     indicator_pos_2 = 0
     write_time = datetime.datetime.now()
     write_time = move_stepper(str(indicator_pos_1), str(indicator_pos_2), write_time)
+    sleep(2)
     GPIO.output(pwr_pin, GPIO.LOW)
     GPIO.cleanup()
     sleep(1)
