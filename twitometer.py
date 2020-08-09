@@ -299,7 +299,8 @@ class MyStreamListener(tweepy.StreamListener):
                                 self.dict_sentiment["trump"] +=1
                                 self.dict_tpm_sentiment["trump"] +=1
                                 led_elapsed_time_1 = datetime.datetime.now() - self.led_write_time_1
-                                if led_elapsed_time_1.seconds >= (55 + randint(1, 10)) :
+                                led_elapsed_time_2 = datetime.datetime.now() - self.led_write_time_2
+                                if led_elapsed_time_1.seconds >= (55 + randint(1, 10)) and led_elapsed_time_2.seconds >= 2:
                                     self.led_write_time_1 = write_matrix(tweet_1, "1", self.led_write_time_1)
                             elif tag == "trump":
                                 tweet_2 = tweet.replace('|', ' ')
@@ -309,8 +310,9 @@ class MyStreamListener(tweepy.StreamListener):
                                 tweet_score -= 1
                                 self.dict_sentiment["biden"] +=1
                                 self.dict_tpm_sentiment["biden"] +=1
+                                led_elapsed_time_1 = datetime.datetime.now() - self.led_write_time_1
                                 led_elapsed_time_2 = datetime.datetime.now() - self.led_write_time_2
-                                if led_elapsed_time_2.seconds >= (57 + randint(1, 10)):
+                                if led_elapsed_time_2.seconds >= (55 + randint(1, 10)) and led_elapsed_time_1.seconds >= 2:
                                     self.led_write_time_2 = write_matrix(tweet_2, "0", self.led_write_time_2)
                             break
                     if self.dict_tpm_sentiment[tag] >= 0:
