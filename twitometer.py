@@ -197,6 +197,7 @@ def write_matrix(msg, display_num, led_write_time):
         #led_write_time = datetime.datetime.now()
         print("LED Matrix I2C Communication Error")
         print(" ")
+        i2c_error_tracker()
         return led_write_time
         pass
 
