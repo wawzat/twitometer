@@ -6,7 +6,8 @@
 # To do: for - in searches are matching partial words (i.e., lie in believe)
 # James S. Lucas - 20200808
 import RPi.GPIO as GPIO
-from datetime import date
+#from datetime import date
+#import re
 import config
 import tweepy
 from sys import stdout, argv
@@ -289,7 +290,9 @@ class MyStreamListener(tweepy.StreamListener):
                     for neg_word in self.negative_words:
                         if neg_word.upper() in tweet.upper():
                             if tag == "biden":
-                                tweet_1 = tweet
+                                #tweet_1 = string.join(" ", re.split("(?:\r\n|\n|\r)", tweet))
+                                tweet_1 = tweet.replace('|', ' ')
+                                tweet_1 = tweet.replace('\n', ' ')
                                 self.dict_sentiment[tag] -= 1
                                 self.dict_tpm_sentiment[tag] -=1
                                 tweet_score -= 1
@@ -299,7 +302,8 @@ class MyStreamListener(tweepy.StreamListener):
                                 if led_elapsed_time_1.seconds >= (45 + randint(1, 10)) :
                                     self.led_write_time_1 = write_matrix(tweet_1, "1", self.led_write_time_1)
                             elif tag == "trump":
-                                tweet_2 = tweet
+                                tweet_2 = tweet.replace('|', ' ')
+                                tweet_2 = tweet.replace('\n', ' ')
                                 self.dict_sentiment[tag] -= 1
                                 self.dict_tpm_sentiment[tag] -=1
                                 tweet_score -= 1
