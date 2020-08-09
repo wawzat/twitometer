@@ -175,7 +175,7 @@ def write_matrix(msg, display_num, led_write_time):
                 end_range = strt_range + 30
                 msg = byteValue[strt_range : end_range]
                 bus.write_i2c_block_data(addr_led, 0x01, msg)
-                sleep(.005)
+                sleep(.0005)
             else:
                 #rem_chars = 0
                 strt_range = b * 30
@@ -185,7 +185,7 @@ def write_matrix(msg, display_num, led_write_time):
                 print(str(strt_range) + "/" + str(end_range) + "/" + str(len(msg)))
                 bus.write_i2c_block_data(addr_led, 0x02, msg)
                 led_write_time = datetime.datetime.now()
-                sleep(.005)
+                sleep(.0005)
         #test_msg = "Test Message"
         #print(" ")
         #print(byteValue)
@@ -343,14 +343,14 @@ class MyStreamListener(tweepy.StreamListener):
                 position2 = int(statistics.mean(self.indicator_pos_2_list))
                 self.stepper_write_time = move_stepper(str(position1), str(position2), self.stepper_write_time)
         for tag in self.tags:
-            if self.dict_num_tweets[tag] != 0:
-                sentiment_pct = round(self.dict_sentiment[tag] / self.dict_num_tweets[tag], 2)
-            else:
-                sentiment_pct = 0
+            #if self.dict_num_tweets[tag] != 0:
+                #sentiment_pct = round(self.dict_sentiment[tag] / self.dict_num_tweets[tag], 2)
+            #else:
+                #sentiment_pct = 0
             if (tpm_elapsed_time.seconds %2 == 0):
                 message = (
                     message + tag + ": " + str(self.dict_num_tweets[tag])
-                    + " / " + str(sentiment_pct)
+                    #+ " / " + str(sentiment_pct)
                     + " / " + str(self.dict_pos_tweet_rate[tag])
                     + " / " + str(self.dict_tpm[tag])
                     + " / " + str(self.dict_tweet_rate[tag])
