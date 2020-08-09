@@ -125,7 +125,7 @@ def i2c_error_tracker():
         print(str(num_i2c_errors))
     elif duration_since_last_error.total_seconds() > 2:
         num_i2c_errors = 0
-    if num_12c_errors > 2:
+    if num_i2c_errors > 2:
         num_i2c_errors = 0
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(pwr_pin, GPIO.OUT)
