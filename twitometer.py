@@ -396,8 +396,8 @@ try:
     # Start the tweepy SteamListner.
     myStreamListener = MyStreamListener(tags)
     myStream = tweepy.Stream(auth=api.auth, listener=myStreamListener, tweet_mode='extended')
-    #myStream.filter(track=tags, is_async=True)
-    myStream.filter(track=tags)
+    myStream.filter(track=tags, is_async=True)
+    #myStream.filter(track=tags)
     print(" ")
 except KeyboardInterrupt:
     print(" ")
