@@ -69,7 +69,7 @@ def exit_function():
     indicator_pos_1 = 0
     indicator_pos_2 = 0
     write_time = datetime.datetime.now()
-    sleep(.3)
+    sleep(1)
     write_time = move_stepper(str(indicator_pos_1), str(indicator_pos_2), write_time)
     sleep(4)
     GPIO.setmode(GPIO.BCM)
