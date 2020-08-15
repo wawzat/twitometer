@@ -75,8 +75,8 @@ def exit_function():
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(pwr_pin, GPIO.OUT)
     GPIO.output(pwr_pin, GPIO.LOW)
-    sleep(4)
     GPIO.cleanup()
+    sleep(4)
    #system("stty echo")
     exit()
 
