@@ -72,11 +72,12 @@ def exit_function():
     sleep(1)
     write_time = move_stepper(str(indicator_pos_1), str(indicator_pos_2), write_time)
     sleep(4)
-    GPIO.setmode(GPIO.BCM)
-    GPIO.setup(pwr_pin, GPIO.OUT)
+    #GPIO.setmode(GPIO.BCM)
+    #GPIO.setup(pwr_pin, GPIO.OUT)
     GPIO.output(pwr_pin, GPIO.LOW)
+    sleep(1)
     GPIO.cleanup()
-    sleep(4)
+    sleep(1)
    #system("stty echo")
     exit()
 
@@ -128,12 +129,13 @@ def i2c_error_tracker():
         num_i2c_errors = 0
     if num_i2c_errors > 2:
         num_i2c_errors = 0
-        GPIO.setmode(GPIO.BCM)
-        GPIO.setup(pwr_pin, GPIO.OUT)
+        #GPIO.setmode(GPIO.BCM)
+        #GPIO.setup(pwr_pin, GPIO.OUT)
         GPIO.output(pwr_pin, GPIO.LOW)
         sleep(2)
         GPIO.output(pwr_pin, GPIO.HIGH)
         sleep(4)
+    return
 
 
 def StringToBytes(src): 
@@ -268,7 +270,6 @@ class MyStreamListener(tweepy.StreamListener):
 
     def on_status(self, status):
         '''Function executes when Tweet received'''
-        tweet_score = 0
         tpm_elapsed_time = datetime.datetime.now() - self.last_update_time
         elapsed_time = datetime.datetime.now() - self.start_time
         message = ""
@@ -285,7 +286,6 @@ class MyStreamListener(tweepy.StreamListener):
                         if pos_word.upper() in tweet.upper():
                             self.dict_sentiment[tag] += 1
                             self.dict_tpm_sentiment[tag] +=1
-                            tweet_score += 1
                             break
                     for neg_word in self.negative_words:
                         if neg_word.upper() in tweet.upper():
@@ -295,7 +295,6 @@ class MyStreamListener(tweepy.StreamListener):
                                 tweet_1 = tweet.replace('\n', ' ')
                                 self.dict_sentiment[tag] -= 1
                                 self.dict_tpm_sentiment[tag] -=1
-                                tweet_score -= 1
                                 self.dict_sentiment["trump"] +=1
                                 self.dict_tpm_sentiment["trump"] +=1
                                 led_elapsed_time_1 = datetime.datetime.now() - self.led_write_time_1
@@ -307,7 +306,6 @@ class MyStreamListener(tweepy.StreamListener):
                                 tweet_2 = tweet.replace('\n', ' ')
                                 self.dict_sentiment[tag] -= 1
                                 self.dict_tpm_sentiment[tag] -=1
-                                tweet_score -= 1
                                 self.dict_sentiment["biden"] +=1
                                 self.dict_tpm_sentiment["biden"] +=1
                                 led_elapsed_time_1 = datetime.datetime.now() - self.led_write_time_1
@@ -413,8 +411,9 @@ except KeyboardInterrupt:
     indicator_pos_2 = 0
     write_time = datetime.datetime.now()
     write_time = move_stepper(str(indicator_pos_1), str(indicator_pos_2), write_time)
-    sleep(2)
+    sleep(3)
     GPIO.output(pwr_pin, GPIO.LOW)
+    sleep(.5)
     GPIO.cleanup()
     sleep(1)
     exit()
