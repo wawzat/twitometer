@@ -393,7 +393,7 @@ def get_trends(args):
 # Main
 try:
     GPIO.output(pwr_pin, GPIO.HIGH)
-    sleep(2)
+    sleep(4)
     args = get_arguments()
     tags = args.keywords
     get_trends(args)
