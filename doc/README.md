@@ -24,4 +24,4 @@ Basic de-amateurization
  
 
 Schematic Diagram 
-![fritzing](/fritzing.jpg)
+![fritzing](./fritzing.jpg)
