@@ -21,7 +21,7 @@
  ## Parts List
 1. 1 x Raspberry Pi Model 3B+ w/ SD Card
 2. 1 x USB power supply for Raspberry Pi
-3. 2 x Arduino Pro Mini 5V/15Mhz
+3. 2 x Arduino Pro Mini 5V/16Mhz
 4. 1 x SparkFun DC/DC Converter Breakout (BOB-09370)
 5. 1 x 1/2 Watt  1.3K ohm Carbon Comp Resistor
 6. 1 x 1/2/4 SOP28 SSOP28 TSSOP28 to DIP28 0.7" Header Spacing SMD Adapter PCB Board
