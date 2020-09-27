@@ -19,4 +19,4 @@
  
 
 ## Schematic Diagram  
-[fritzing](../master/doc/fritzing.png)
+[fritzing](/doc/fritzing.png)
