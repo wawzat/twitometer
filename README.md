@@ -26,7 +26,7 @@
 5. 1 x 1/2 Watt  1.3K ohm Carbon Comp Resistor
 6. 1 x 1/2/4 SOP28 SSOP28 TSSOP28 to DIP28 0.7" Header Spacing SMD Adapter PCB Board
 7. 1 x AX AX1201728SG SOP-28 Quad Microstepping Controller IC
-8. 2 x X27 168 Stepper Motors
+8. 2 x X27-168 Stepper Motors
 9. 2x uxcell Instrument Cluster Pointer Needle Set for HAVAL H2 (use small dia heat shrink on motor stems for friction fit)
 10. 1 x DAOKI MAX7219 Dot led Matrix MCU 8x32 LED Display Module for Arduino, Blue
 11. 1 x DAOKI MAX7219 Dot led Matrix MCU 8x32 LED Display Module for Arduino, Red
