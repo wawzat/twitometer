@@ -4,10 +4,10 @@
 1. Raspberry Pi establishes a connection to Twitter Streaming API via Tweepy.  
 2. Tweets are retrieved that include text that match a series of words ("Biden" "Trump").  
 3. There are two Arduinos connected to the Pi. One for the LED Matrix displays and one for the two stepper motor gauges.
-4. "Tweets per minute" is calculated and sent to the Stepper Arduino via I2C.  
+4. "Tweets per minute" is calculated and sent as bytes to the "stepper" Arduino via I2C.  
 5. The Arduino then outputs a pulse for each microstep to a microstepping controller which is connected to two X27-168 instrumentation steppers which drive the gauge needles.  
-6. Periodically the text of a tweet corresponding to a keyword (Biden or Trump) is sent to the display Arduino via I2C.  
-7. The display Arduino sends the text over I2C to one of two corresponding MAX7219 8x32 LED matrices (blue for Biden, red for Trump).  
+6. Periodically the text of a tweet corresponding to a keyword (Biden or Trump) is sent to the "display" Arduino via I2C.  
+7. The display Arduino sends the text as bytes over I2C to one of two corresponding MAX7219 8x32 LED matrices (blue for Biden, red for Trump).  
 8. The corresponding tweet scrolls across each display.  
 
 ## Future improvements   
