@@ -43,4 +43,4 @@
 22. 1 x BB830 Solderless Breadboard
 
 ## Schematic Diagram  
-[fritzing](/images/fritzing.PNG)
+[fritzing](images/fritzing.PNG)
