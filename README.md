@@ -11,11 +11,11 @@
 8. The corresponding tweet scrolls across each display.  
 
 ## Future improvements   
-1. Attempt to classify tweets as "positive" or "negative" by comparison to lists of "positive" or "negative" words doesn't work very well.   
+1. Attempt to classify tweets as "positive" or "negative" by comparison to lists of "positive" or "negative" words doesn't work very well. As a result, due to the nature of Twitter, the gauges might be best thought of as negative attention meters.   
 2. Left over unused variables and code fragments need to be cleaned up.  
 3. I2C communications would benefit from more robust error checking and flow control. Periodic I2C errors exist.  
 4. Scrolling text sometimes appears to be garbled or truncated.  
-5. If too many I2C errors occur in succession, the PI brute force reboots the Arduinos by cycling the power.  
+5. If too many I2C errors occur in succession, the Pi brute force reboots the Arduinos by cycling the power.  
 6. Basic de-amateurization.  
 
  ## Parts List
