@@ -7,7 +7,7 @@
 4. "Tweets per minute" is calculated and sent as bytes to the "stepper" Arduino via I2C.  
 5. The Arduino then outputs a pulse for each microstep to a microstepping controller which is connected to two X27-168 instrumentation steppers which drive the gauge needles.  
 6. Periodically the text of a tweet corresponding to a keyword (Biden or Trump) is sent to the "display" Arduino via I2C.  
-7. The display Arduino sends the text as bytes over I2C to one of two corresponding MAX7219 8x32 LED matrices (blue for Biden, red for Trump).  
+7. The display Arduino sends the text over I2C to one of two corresponding MAX7219 8x32 LED matrices (blue for Biden, red for Trump).  
 8. The corresponding tweet scrolls across each display.  
 
 ## Future improvements   
