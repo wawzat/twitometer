@@ -11,17 +11,12 @@ The corresponding tweet scrolls across each display.
 
 Future improvements   
 Naive attempt to classify tweets as "positive" or "negative" by comparison to lists of "positive" or "negative" words doesn't work very well.   
- 
 Left over unused variables and code fragments need to be cleaned up.  
- 
 I2C communications might benefit from more robust error checking and flow control. Periodic I2C errors still exist.  
- 
 Periodically scrolling text appears to be garbled or truncated.  
- 
 If too many I2C errors occur in succession, the PI brute force reboots the Arduinos by cycling the power.  
- 
 Basic de-amateurization.  
  
 
 Schematic Diagram  
-![fritzing](doc/fritzing.jpg)
+[fritzing](doc/fritzing.jpg)
