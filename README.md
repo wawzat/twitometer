@@ -39,8 +39,8 @@
 18. 1 x Adafruit Pi T-Cobbler Plus w/ ribbon cable
 19. Spiral wire wrap
 20. Coobl Dupont Jumper Wire Male Pin Connectors 2.54mm
-21. 1 x BB400 Solderless Breadboard
+21. 1 x BB400 Solderless Breadboard 
 22. 1 x BB830 Solderless Breadboard
 
 ## Schematic Diagram  
-[fritzing](images/fritzing.PNG)
+[fritzing](./images/fritzing.PNG)
