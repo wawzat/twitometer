@@ -9,7 +9,7 @@ Periodically  the text of a tweet corresponding to a keyword (Trump or Biden) is
 The second Arduino sends the text over I2C one of two corresponding MAX7219 8x32 LED matrices (blue for Biden, red for Trump).  
 The corresponding tweet scrolls across each display.  
 
-Future improvements
+Future improvements  
 Naive attempt to classify tweets as "positive" or "negative" by comparison to lists of "positive" or "negative" words doesn't work very well. 
  
 Left over unused variables and code fragments need to be cleaned up. 
