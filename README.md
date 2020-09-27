@@ -1,5 +1,5 @@
 # Twitometer  
-![Twitometer](./images/20200927_072237_RT.PNG)
+![Twitometer](./images/twitometer.png)
 
 ## Operation  
 1. Raspberry Pi establishes a connection to Twitter Streaming API via Tweepy.  
