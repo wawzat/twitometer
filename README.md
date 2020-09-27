@@ -3,11 +3,12 @@
 ## Operation  
 1. Raspberry Pi establishes a connection to Twitter Streaming API via Tweepy.  
 2. Tweets are retrieved that include text that match a series of words ("Biden" "Trump").  
-3. "Tweets per minute" is calculated and sent to one of two Arduino's via I2C.  
-4. The Arduino outputs a pulse for each microstep to a microstepping controller which is connected to an X27-168 instrumentation stepper which drives the gauge needle.  
-5. Periodically the text of a tweet corresponding to a keyword (Biden or Trump) is sent to the second Arduino via I2C.  
-6. The second Arduino sends the text over I2C to one of two corresponding MAX7219 8x32 LED matrices (blue for Biden, red for Trump).  
-7. The corresponding tweet scrolls across each display.  
+3. There are two Arduinos connected to the Pi. One for the LED Matrix displays and one for the two stepper motor gauges.
+4. "Tweets per minute" is calculated and sent to the Stepper Arduino via I2C.  
+5. The Arduino then outputs a pulse for each microstep to a microstepping controller which is connected to two X27-168 instrumentation steppers which drive the gauge needles.  
+6. Periodically the text of a tweet corresponding to a keyword (Biden or Trump) is sent to the display Arduino via I2C.  
+7. The display Arduino sends the text over I2C to one of two corresponding MAX7219 8x32 LED matrices (blue for Biden, red for Trump).  
+8. The corresponding tweet scrolls across each display.  
 
 ## Future improvements   
 1. Attempt to classify tweets as "positive" or "negative" by comparison to lists of "positive" or "negative" words doesn't work very well.   
@@ -18,7 +19,7 @@
 6. Basic de-amateurization.  
 
  ## Parts List
-1. 1 x Raspberry Pi Model 3B+
+1. 1 x Raspberry Pi Model 3B+ w/ SD Card
 2. 1 x USB power supply for Raspberry Pi
 3. 2 x Arduino Pro Mini 5V/15Mhz
 4. 1 x SparkFun DC/DC Converter Breakout (BOB-09370)
