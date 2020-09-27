@@ -23,5 +23,5 @@ If too many I2C errors occur in succession, the PI brute force reboots the Ardui
 Basic de-amateurization 
  
 
-Schematic Diagram
-![Schematic](doc/fritzing.png)
+Schematic Diagram 
+![Schematic](doc/fritzing.jpg)
