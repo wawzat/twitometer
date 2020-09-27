@@ -19,4 +19,4 @@ Basic de-amateurization.
  
 
 Schematic Diagram  
-[fritzing](doc/fritzing.jpg)
+[fritzing](../doc/fritzing.jpg)
