@@ -18,5 +18,29 @@
 6. Basic de-amateurization.  
  
 
+ ## Parts List
+1. 1 x Raspberry Pi Model 3B+
+2. 1 x USB power supply for Raspberry Pi
+3. 2 x Arduino Pro Mini 5V/15Mhz
+4. 1 x SparkFun DC/DC Converter Breakout (BOB-09370)
+5. 1 x 1/2 Watt  1.3K ohm Carbon Comp Resistor
+6. 1 x 1/2/4 SOP28 SSOP28 TSSOP28 to DIP28 0.7" Header Spacing SMD Adapter PCB Board
+7. 1 x AX AX1201728SG SOP-28 Microstepping Controller IC
+8. 2 x X27 168 Stepper Motors
+9. 2x uxcell Instrument Cluster Pointer Needle Set for HAVAL H2 (use small dia heat shrink on motor stems for friction fit)
+10. 1 x DAOKI MAX7219 Dot led Matrix MCU 8x32 LED Display Module for Arduino, Blue
+11. 1 x DAOKI MAX7219 Dot led Matrix MCU 8x32 LED Display Module for Arduino, Red
+12. 1 x Red LED
+13. 1 x 150 ohm resistor
+14. 1 x Blue LED
+15. 1 x 100 ohm resistor
+16. Misc shrink tubing
+17. Misc jumper wires
+18. 1 x Adafruit Pi T-Cobbler Plus w/ ribbon cable
+19. Spiral wire wrap
+20. Coobl Dupont Jumper Wire Male Pin Connectors 2.54mm
+21. 1 x BB400 Solderless Breadboard
+22. 1 x BB830 Solderless Breadboard
+
 ## Schematic Diagram  
 [fritzing](/doc/fritzing.png)
