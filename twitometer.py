@@ -177,7 +177,7 @@ def write_matrix(msg, display_num, led_write_time):
                 strt_range = b * 30
                 end_range = strt_range + 30
                 msg = byteValue[strt_range : end_range]
-                bus.write_i2c_block_data(addr_led, 0x01, msg)
+                bus.write_i2c_block_data(addr_led, 0x1, msg)
                 sleep(.0005)
             else:
                 #rem_chars = 0
@@ -186,7 +186,7 @@ def write_matrix(msg, display_num, led_write_time):
                 msg = byteValue[strt_range : end_range]
                 msg.append(ord(display_num))
                 print(str(strt_range) + "/" + str(end_range) + "/" + str(len(msg)))
-                bus.write_i2c_block_data(addr_led, 0x02, msg)
+                bus.write_i2c_block_data(addr_led, 0x3, msg)
                 led_write_time = datetime.datetime.now()
                 sleep(.0005)
         #test_msg = "Test Message"

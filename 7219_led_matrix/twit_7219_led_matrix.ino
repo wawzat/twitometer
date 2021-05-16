@@ -78,7 +78,7 @@ void receiveEvent(int howMany) {
       //break;
     //}
   }
-  if (block_flag == 2) {
+  if (block_flag == 3) {
     char display_num_char = msg[char_pos - 1];
     int display_num = display_num_char - '0';
     msg[char_pos - 1] = '\0';
@@ -93,12 +93,12 @@ void receiveEvent(int howMany) {
     Serial.println(display_num);
     Serial.println(msg);
     if (display_num == 0) {
-     myDisplay.displayClear(0);
-     myDisplay.displayZoneText(display_num, msg_0, PA_CENTER, 30, 0, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
+      myDisplay.displayClear(0);
+      myDisplay.displayZoneText(display_num, msg_0, PA_LEFT, 30, 0, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
     }
     if (display_num == 1) {
       myDisplay.displayClear(1);
-      myDisplay.displayZoneText(display_num, msg_1, PA_CENTER, 30, 0, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
+      myDisplay.displayZoneText(display_num, msg_1, PA_LEFT, 30, 0, PA_SCROLL_LEFT, PA_SCROLL_LEFT);
     }
     msg[0] = '\0';
   }
